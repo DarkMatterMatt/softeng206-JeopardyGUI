@@ -15,12 +15,11 @@ public class HeaderView {
         _scoreLabel.getStyleClass().add("score");
         _container.getStyleClass().add("header");
         _container.getChildren().add(_scoreLabel);
-        draw();
-    }
+        _scoreLabel.setText("$" + _model.getScore());
 
-    public void draw() {
-        String s = "$" + _model.getScore();
-        _scoreLabel.setText(s);
+        _model.getScoreProperty().addListener((observable, oldVal, newVal) -> {
+            _scoreLabel.setText("$" + newVal);
+        });
     }
 
     public Pane getView() {

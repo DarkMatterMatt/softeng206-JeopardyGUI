@@ -1,5 +1,8 @@
 package se206.a2;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -7,9 +10,9 @@ import java.util.List;
 public class GameModel implements Serializable {
     private final transient GameModelDataSource _dataSource;
     private final transient GameModelPersistence _persistence;
+    private final IntegerProperty _score = new SimpleIntegerProperty();
     private List<Category> _categories;
     private Question _currentQuestion;
-    private int _score;
 
     public GameModel(GameModelDataSource dataSource, GameModelPersistence persistence) {
         _dataSource = dataSource;
@@ -22,7 +25,7 @@ public class GameModel implements Serializable {
             throw new IllegalStateException("Cannot answer question. No question is active.");
         }
         boolean correct = _currentQuestion.checkAnswer(answer);
-        _score += (correct ? 1 : -1) * _currentQuestion.getValue();
+        _score.set(_score.get() + (correct ? 1 : -1) * _currentQuestion.getValue());
         _currentQuestion = null;
         return correct;
     }
@@ -60,6 +63,10 @@ public class GameModel implements Serializable {
     }
 
     public int getScore() {
+        return _score.get();
+    }
+
+    public IntegerProperty getScoreProperty() {
         return _score;
     }
 
@@ -73,7 +80,7 @@ public class GameModel implements Serializable {
             if (old != null) {
                 _categories = old._categories;
                 _currentQuestion = old._currentQuestion;
-                _score = old._score;
+                _score.set(old._score.get());
                 return;
             }
         }
@@ -83,7 +90,7 @@ public class GameModel implements Serializable {
     public void reset() {
         _categories = _dataSource.loadCategories();
         _currentQuestion = null;
-        _score = 0;
+        _score.set(0);
     }
 
     private void save() {

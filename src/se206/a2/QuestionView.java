@@ -14,6 +14,11 @@ public class QuestionView {
         _elem.setText("$" + question.getValue());
         _elem.prefWidthProperty().bind(categoryView.getView().widthProperty());
         _elem.setOnAction(ev -> categoryView.askQuestion(question));
+
+        _question.getStatusProperty().addListener((observable, oldVal, newVal) -> {
+            _elem.setDisable(true);
+            System.out.println("Question disabled, " + newVal);
+        });
     }
 
     public Button getView() {
