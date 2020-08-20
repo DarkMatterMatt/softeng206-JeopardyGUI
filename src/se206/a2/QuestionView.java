@@ -3,23 +3,17 @@ package se206.a2;
 import javafx.scene.control.Button;
 
 public class QuestionView {
-    private final String _categoryName;
     private final CategoryView _categoryView;
     private final Button _elem = new Button();
-    private final GameModel _model;
-    private final int _value;
+    private final Question _question;
 
-    public QuestionView(CategoryView categoryView, GameModel model, String categoryName, int value) {
-        _categoryName = categoryName;
+    public QuestionView(CategoryView categoryView, Question question) {
         _categoryView = categoryView;
-        _model = model;
-        _value = value;
-
-        Question question = _model.getQuestion(categoryName, value);
+        _question = question;
 
         _elem.setText("$" + question.getValue());
         _elem.prefWidthProperty().bind(categoryView.getView().widthProperty());
-        _elem.setOnAction(ev -> categoryView.askQuestion(value));
+        _elem.setOnAction(ev -> categoryView.askQuestion(question));
     }
 
     public Button getView() {

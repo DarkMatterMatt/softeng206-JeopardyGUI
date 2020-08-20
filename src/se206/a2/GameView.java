@@ -16,13 +16,13 @@ public class GameView {
         _container.getChildren().addAll(_headerView.getView(), _questionsContainer);
 
         for (Category category : _model.getCategories()) {
-            CategoryView view = new CategoryView(this, _model, category.getName());
+            CategoryView view = new CategoryView(this, category);
             _questionsContainer.getChildren().add(view.getView());
         }
     }
 
-    public void askQuestion(String category, int value) {
-        System.out.println("askQuestion: " + category + ": " + value);
+    public void askQuestion(Category category, Question question) {
+        System.out.println("askQuestion: " + category.getName() + ": " + question.getValue());
     }
 
     public VBox getView() {
