@@ -1,0 +1,29 @@
+/**
+ * Colors
+ * YellowGold: #ffb400
+ * Grey: #262626
+ * White: #ffffff
+ * Aqua: #33e6ed
+ * Black: #000000
+ * OffWhite: #fcfcf4
+ */
+
+.root {
+    -fx-font-family: "sans-serif";
+    -fx-font-size: 20;
+}
+
+.label {
+    -fx-border-color: red;
+    -fx-alignment: center;
+    -fx-padding: 8;
+}
+
+.button {
+    -fx-border-color: green;
+}
+
+.label.score {
+    -fx-font-size: 30;
+    -fx-font-weight: bold;
+}
