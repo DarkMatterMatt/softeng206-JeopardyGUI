@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 public class HeaderView {
     private final VBox _container = new VBox();
 
-    public HeaderView(GameView parent, GameModel model) {
+    public HeaderView(GameModel model) {
         Label titleLabel = new Label("Jeopardy!");
         titleLabel.getStyleClass().add("title");
 
@@ -19,9 +19,7 @@ public class HeaderView {
         _container.getStyleClass().add("header");
         _container.getChildren().addAll(taskbar.getView(), titleLabel, scoreLabel);
 
-        model.getScoreProperty().addListener((observable, oldVal, newVal) -> {
-            scoreLabel.setText("Winnings: $" + newVal);
-        });
+        model.getScoreProperty().addListener((observable, oldVal, newVal) -> scoreLabel.setText("Winnings: $" + newVal));
     }
 
     public Pane getView() {

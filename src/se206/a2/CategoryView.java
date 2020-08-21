@@ -4,15 +4,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class CategoryView {
-    private final Category _category;
     private final VBox _container = new VBox();
-    private final GameView _gameView;
 
-    public CategoryView(GameView gameView, Category category) {
-        _gameView = gameView;
-        _category = category;
-
-        String capitalizedName = _category.getName().substring(0, 1).toUpperCase() + _category.getName().substring(1);
+    public CategoryView(GameModel model, Category category) {
+        String capitalizedName = category.getName().substring(0, 1).toUpperCase() + category.getName().substring(1);
         Label nameLabel = new Label(capitalizedName);
         nameLabel.getStyleClass().add("name");
 
@@ -30,13 +25,9 @@ public class CategoryView {
             int bottomWidth = lb.getXAtY(currentHeight);
             currentHeight += 8; // spacing
 
-            QuestionView view = new QuestionView(this, question, questionHeight, topWidth, bottomWidth);
+            QuestionView view = new QuestionView(model, question, questionHeight, topWidth, bottomWidth);
             _container.getChildren().add(view.getView());
         }
-    }
-
-    public void askQuestion(Question question) {
-        _gameView.askQuestion(_category, question);
     }
 
     public VBox getView() {

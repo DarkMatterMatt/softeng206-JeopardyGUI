@@ -26,7 +26,7 @@ public class GameModel implements Serializable {
         load();
     }
 
-    public boolean answerQuestion(String answer) {
+    public void answerQuestion(String answer) {
         if (_currentQuestion == null) {
             throw new IllegalStateException("Cannot answer question. No question is active.");
         }
@@ -34,17 +34,11 @@ public class GameModel implements Serializable {
         _score.set(_score.get() + (correct ? 1 : -1) * _currentQuestion.getValue());
         _currentQuestion = null;
         save();
-        return correct;
     }
 
-    public Question askQuestion(String category, int value) {
-        Question question = getQuestion(category, value);
-        if (question == null) {
-            throw new IllegalArgumentException("No such question exists.");
-        }
+    public void askQuestion(Question question) {
         _currentQuestion = question;
         save();
-        return question;
     }
 
     public List<Category> getCategories() {
@@ -62,16 +56,16 @@ public class GameModel implements Serializable {
         return _currentQuestion;
     }
 
+    public BooleanProperty getNeedsResetProperty() {
+        return _needsBigUglyReset;
+    }
+
     public Question getQuestion(String categoryName, int value) {
         Category category = getCategory(categoryName);
         if (category == null) {
             return null;
         }
         return category.getQuestion(value);
-    }
-
-    public BooleanProperty getNeedsResetProperty() {
-        return _needsBigUglyReset;
     }
 
     public int getScore() {

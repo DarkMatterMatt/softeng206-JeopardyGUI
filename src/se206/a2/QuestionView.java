@@ -8,7 +8,7 @@ import javafx.scene.shape.Polygon;
 public class QuestionView {
     private final StackPane _container = new StackPane();
 
-    public QuestionView(CategoryView categoryView, Question question, int height, int topWidth, int bottomWidth) {
+    public QuestionView(GameModel model, Question question, int height, int topWidth, int bottomWidth) {
         int bottomLeftX = (topWidth - bottomWidth) / 2;
 
         Polygon background = new Polygon(0, 0,
@@ -22,12 +22,10 @@ public class QuestionView {
 
         _container.getStyleClass().addAll("question", "btn");
         _container.getChildren().addAll(background, valueLabel);
-        _container.setOnMouseClicked(ev -> categoryView.askQuestion(question));
+        _container.setOnMouseClicked(ev -> model.askQuestion(question));
 
         updateStatus(question.getStatus());
-        question.getStatusProperty().addListener((observable, oldVal, newVal) -> {
-            updateStatus(newVal);
-        });
+        question.getStatusProperty().addListener((observable, oldVal, newVal) -> updateStatus(newVal));
     }
 
     public void updateStatus(Question.Status status) {
