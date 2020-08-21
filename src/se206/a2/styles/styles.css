@@ -87,3 +87,32 @@
 .question.incorrect .background {
     -fx-fill: #231d1d;
 }
+
+.answer-container {
+    -fx-padding: 24;
+}
+
+.answer {
+    -fx-background-color: #1e1e1e;
+    -fx-alignment: top-center;
+}
+
+.answer .category {
+    -fx-padding: 8 16 8 16;
+    -fx-text-fill: #ffb400;
+    -fx-font-weight: bold;
+}
+
+.answer .question {
+    -fx-padding: 8 16 8 16;
+    -fx-text-fill: #fcfcf4;
+}
+
+.answer .input-container {
+    -fx-background-color: #272727;
+}
+
+.answer .submit-container {
+    -fx-background-color: #ffb400;
+    -fx-alignment: center;
+}
