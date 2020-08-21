@@ -2,6 +2,7 @@ package se206.a2;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -20,7 +21,8 @@ public class Main extends Application {
         Scene scene = new Scene(view.getView());
         scene.getStylesheets().add(stylesheet);
 
-        primaryStage.setTitle("Jeopardy");
+        primaryStage.setTitle("Jeopardy!");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
         primaryStage.setScene(scene);
         primaryStage.show();
     }

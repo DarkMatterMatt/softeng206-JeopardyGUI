@@ -8,7 +8,7 @@ public class HeaderView {
     private final VBox _container = new VBox();
 
     public HeaderView(GameView parent, GameModel model) {
-        Label titleLabel = new Label("Jeopardy");
+        Label titleLabel = new Label("Jeopardy!");
         titleLabel.getStyleClass().add("title");
 
         Label scoreLabel = new Label("Winnings: $" + model.getScore());
