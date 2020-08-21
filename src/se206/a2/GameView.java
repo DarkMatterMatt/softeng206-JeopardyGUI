@@ -9,7 +9,24 @@ public class GameView {
 
     public GameView(GameModel model) {
         _model = model;
+        createViews();
 
+        // listen for when the model is reset, we need to recreate our views for the new data
+        model.getNeedsResetProperty().addListener((observable, oldVal, newVal) -> {
+            if (newVal) {
+                // only recreate views when reset triggered becomes true
+                _container.getChildren().clear();
+                createViews();
+            }
+        });
+    }
+
+    public void askQuestion(Category category, Question question) {
+        _model.askQuestion(category.getName(), question.getValue());
+        _model.answerQuestion("kiwi");
+    }
+
+    private void createViews() {
         TilePane categoriesContainer = new TilePane();
         categoriesContainer.getStyleClass().add("categories");
 
@@ -22,11 +39,6 @@ public class GameView {
             CategoryView view = new CategoryView(this, category);
             categoriesContainer.getChildren().add(view.getView());
         }
-    }
-
-    public void askQuestion(Category category, Question question) {
-        _model.askQuestion(category.getName(), question.getValue());
-        _model.answerQuestion("kiwi");
     }
 
     public VBox getView() {

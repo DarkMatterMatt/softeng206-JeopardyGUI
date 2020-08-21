@@ -1,6 +1,8 @@
 package se206.a2;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.List;
 
 public class GameModel implements Serializable {
     private final transient GameModelDataSource _dataSource;
+    private final transient BooleanProperty _needsBigUglyReset = new SimpleBooleanProperty();
     private final transient GameModelPersistence _persistence;
     private List<Category> _categories;
     private Question _currentQuestion;
@@ -67,6 +70,10 @@ public class GameModel implements Serializable {
         return category.getQuestion(value);
     }
 
+    public BooleanProperty getNeedsResetProperty() {
+        return _needsBigUglyReset;
+    }
+
     public int getScore() {
         return _score.get();
     }
@@ -101,6 +108,8 @@ public class GameModel implements Serializable {
         _categories = _dataSource.loadCategories();
         _currentQuestion = null;
         _score.set(0);
+        _needsBigUglyReset.setValue(true);
+        _needsBigUglyReset.setValue(false);
     }
 
     private void save() {
