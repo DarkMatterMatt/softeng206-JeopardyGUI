@@ -18,13 +18,13 @@ public class Main extends Application {
         GameModel model = new GameModel(dataSource, modelPersistence);
         GameView view = new GameView(model);
 
-        String stylesheet = getClass().getResource("styles.css").toExternalForm();
+        String stylesheet = getClass().getResource("styles/styles.css").toExternalForm();
         Scene scene = new Scene(view.getView());
         scene.getStylesheets().add(stylesheet);
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Jeopardy!");
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("assets/icon.png")));
         primaryStage.setScene(scene);
         primaryStage.show();
 

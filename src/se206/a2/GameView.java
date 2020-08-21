@@ -25,7 +25,6 @@ public class GameView {
     }
 
     public void askQuestion(Category category, Question question) {
-        System.out.println("askQuestion: " + category.getName() + ": " + question.getValue());
         _model.askQuestion(category.getName(), question.getValue());
         _model.answerQuestion("kiwi");
     }
