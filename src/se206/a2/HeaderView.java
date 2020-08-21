@@ -14,8 +14,10 @@ public class HeaderView {
         Label scoreLabel = new Label("Winnings: $" + model.getScore());
         scoreLabel.getStyleClass().add("score");
 
+        TaskbarView taskbar = new TaskbarView(model);
+
         _container.getStyleClass().add("header");
-        _container.getChildren().addAll(titleLabel, scoreLabel);
+        _container.getChildren().addAll(taskbar.getView(), titleLabel, scoreLabel);
 
         model.getScoreProperty().addListener((observable, oldVal, newVal) -> {
             scoreLabel.setText("Winnings: $" + newVal);

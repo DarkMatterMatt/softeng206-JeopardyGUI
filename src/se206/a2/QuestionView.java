@@ -20,7 +20,7 @@ public class QuestionView {
         Label valueLabel = new Label("$" + question.getValue());
         valueLabel.getStyleClass().add("value");
 
-        _container.getStyleClass().add("question");
+        _container.getStyleClass().addAll("question", "btn");
         _container.getChildren().addAll(background, valueLabel);
         _container.setOnMouseClicked(ev -> categoryView.askQuestion(question));
 

@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -21,9 +22,12 @@ public class Main extends Application {
         Scene scene = new Scene(view.getView());
         scene.getStylesheets().add(stylesheet);
 
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Jeopardy!");
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        DragAndResizeHelper.addResizeListener(primaryStage);
     }
 }

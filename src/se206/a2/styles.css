@@ -14,6 +14,10 @@
     -fx-background-color: #121212;
 }
 
+.btn {
+    -fx-cursor: hand;
+}
+
 .label, .header {
     -fx-alignment: center;
 }
@@ -25,7 +29,13 @@
 .header {
     -fx-background-color: #ffb400;
     -fx-text-fill: #262626;
-    -fx-padding: 36;
+}
+
+.header .taskbar {
+    -fx-padding: 8 8 0 0;
+    -fx-alignment: top-right;
+    -fx-pref-height: 32;
+    -fx-min-height: 32;
 }
 
 .header .title {
@@ -35,6 +45,7 @@
 
 .header .score {
     -fx-font-size: 36;
+    -fx-padding: 0 0 36 0;
 }
 
 .categories {
