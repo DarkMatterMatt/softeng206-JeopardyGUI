@@ -35,7 +35,7 @@ public class GameModelDataSource {
                     String[] split = line.split(",");
                     try {
                         int value = Integer.parseInt(split[0]);
-                        category.addQuestion(new Question(value, split[1], split[2]));
+                        category.addQuestion(new Question(category, value, split[1], split[2]));
                     }
                     catch (NumberFormatException e) {
                         //

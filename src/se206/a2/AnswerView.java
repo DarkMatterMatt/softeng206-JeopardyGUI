@@ -9,7 +9,7 @@ public class AnswerView {
     public AnswerView(GameModel model) {
         Question question = model.getCurrentQuestion();
 
-        Label categoryLabel = new Label("Playing Animals for $" + question.getValue());
+        Label categoryLabel = new Label("Playing " + question.getCategory().getName() + " for $" + question.getValue());
         categoryLabel.getStyleClass().add("category");
 
         Label questionLabel = new Label(question.getQuestion());

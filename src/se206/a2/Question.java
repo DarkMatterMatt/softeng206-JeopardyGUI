@@ -10,16 +10,18 @@ import java.io.Serializable;
 
 public class Question implements Comparable<Question>, Serializable {
     private final String _answer;
+    private final Category _category;
     private final String _question;
     private final int _value;
     private transient ObjectProperty<Status> _status;
 
-    public Question(int value, String question, String answer) {
-        this(value, question, answer, Status.UNATTEMPTED);
+    public Question(Category category, int value, String question, String answer) {
+        this(category, value, question, answer, Status.UNATTEMPTED);
     }
 
-    public Question(int value, String question, String answer, Status status) {
+    public Question(Category category, int value, String question, String answer, Status status) {
         _answer = answer.trim();
+        _category = category;
         _question = question.trim();
         _value = value;
         _status = new SimpleObjectProperty<>(status);
@@ -34,6 +36,10 @@ public class Question implements Comparable<Question>, Serializable {
     @Override
     public int compareTo(Question o) {
         return o._value - _value;
+    }
+
+    public Category getCategory() {
+        return _category;
     }
 
     public String getQuestion() {
