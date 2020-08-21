@@ -4,9 +4,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class CategoryView {
+    private final Category _category;
     private final VBox _container = new VBox();
     private final GameView _gameView;
-    private final Category _category;
 
     public CategoryView(GameView gameView, Category category) {
         _gameView = gameView;
@@ -15,6 +15,9 @@ public class CategoryView {
         String capitalizedName = _category.getName().substring(0, 1).toUpperCase() + _category.getName().substring(1);
         Label nameLabel = new Label(capitalizedName);
         nameLabel.minWidthProperty().bind(_container.widthProperty());
+        nameLabel.getStyleClass().add("name");
+
+        _container.getStyleClass().add("category");
         _container.getChildren().add(nameLabel);
 
         for (Question question : category.getQuestions()) {

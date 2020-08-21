@@ -8,22 +8,59 @@
  * OffWhite: #fcfcf4
  */
 
+/* general styles by component type */
+
 .root {
     -fx-font-family: "sans-serif";
-    -fx-font-size: 20;
+    -fx-font-size: 24;
+    -fx-background-color: #121212;
 }
 
 .label {
-    -fx-border-color: red;
     -fx-alignment: center;
-    -fx-padding: 8;
 }
 
-.button {
-    -fx-border-color: green;
+/* custom styles that target specific components */
+
+.header {
+    -fx-background-color: #ffb400;
+    -fx-text-fill: #262626;
+    -fx-padding: 36;
 }
 
-.label.score {
-    -fx-font-size: 30;
+.header .title {
+    -fx-font-size: 72;
     -fx-font-weight: bold;
+}
+
+.header .score {
+    -fx-font-size: 36;
+}
+
+.categories {
+    -fx-padding: 24;
+    -fx-hgap: 24;
+    -fx-vgap: 24;
+}
+
+.category {
+    -fx-background-color: #1E1E1E;
+}
+
+.category .name {
+    -fx-padding: 24;
+    -fx-text-fill: #ffb400;
+    -fx-font-weight: bold;
+}
+
+.category .question {
+    -fx-background-color: #272727;
+    -fx-text-fill: #fcfcf4;
+    -fx-border-color: #272727;
+    -fx-border-width: 3;
+}
+
+.category .question:hover {
+    -fx-background-color: #2d2d2d;
+    -fx-border-color: #ffb400;
 }

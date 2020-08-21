@@ -1,24 +1,29 @@
 package se206.a2;
 
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class HeaderView {
-    private final Pane _container = new Pane();
-    private final GameModel _model;
-    private final Label _scoreLabel = new Label();
+    private final VBox _container = new VBox();
 
     public HeaderView(GameView parent, GameModel model) {
-        _model = model;
+        ReadOnlyDoubleProperty parentWidth = parent.getView().widthProperty();
 
-        _scoreLabel.prefWidthProperty().bind(parent.getView().widthProperty());
-        _scoreLabel.getStyleClass().add("score");
+        Label titleLabel = new Label("Jeopardy");
+        titleLabel.prefWidthProperty().bind(parentWidth);
+        titleLabel.getStyleClass().add("title");
+
+        Label scoreLabel = new Label("Winnings: $" + model.getScore());
+        scoreLabel.prefWidthProperty().bind(parentWidth);
+        scoreLabel.getStyleClass().add("score");
+
         _container.getStyleClass().add("header");
-        _container.getChildren().add(_scoreLabel);
-        _scoreLabel.setText("$" + _model.getScore());
+        _container.getChildren().addAll(titleLabel, scoreLabel);
 
-        _model.getScoreProperty().addListener((observable, oldVal, newVal) -> {
-            _scoreLabel.setText("$" + newVal);
+        model.getScoreProperty().addListener((observable, oldVal, newVal) -> {
+            scoreLabel.setText("Winnings: $" + newVal);
         });
     }
 
