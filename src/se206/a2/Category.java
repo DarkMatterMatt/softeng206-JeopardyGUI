@@ -49,4 +49,8 @@ public class Category implements Comparable<Category>, Serializable {
     public boolean hasUnattemptedQuestions() {
         return _questions.stream().anyMatch(q -> q.getStatus() == Question.Status.UNATTEMPTED);
     }
+
+    public int size() {
+        return _questions.size();
+    }
 }

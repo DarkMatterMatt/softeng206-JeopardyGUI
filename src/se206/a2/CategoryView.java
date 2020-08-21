@@ -14,14 +14,23 @@ public class CategoryView {
 
         String capitalizedName = _category.getName().substring(0, 1).toUpperCase() + _category.getName().substring(1);
         Label nameLabel = new Label(capitalizedName);
-        nameLabel.minWidthProperty().bind(_container.widthProperty());
         nameLabel.getStyleClass().add("name");
 
+        _container.setSpacing(8);
         _container.getStyleClass().add("category");
         _container.getChildren().add(nameLabel);
 
+        int currentHeight = 0;
+        int questionHeight = 50;
+        LadderBuilder lb = new LadderBuilder(questionHeight * category.size(), 160, 200);
+
         for (Question question : category.getQuestions()) {
-            QuestionView view = new QuestionView(this, question);
+            int topWidth = lb.getXAtY(currentHeight);
+            currentHeight += questionHeight;
+            int bottomWidth = lb.getXAtY(currentHeight);
+            currentHeight += 8; // spacing
+
+            QuestionView view = new QuestionView(this, question, questionHeight, topWidth, bottomWidth);
             _container.getChildren().add(view.getView());
         }
     }

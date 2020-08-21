@@ -8,19 +8,19 @@
  * OffWhite: #fcfcf4
  */
 
-/* general styles by component type */
-
 .root {
     -fx-font-family: "sans-serif";
     -fx-font-size: 24;
     -fx-background-color: #121212;
 }
 
-.label {
+.label, .header {
     -fx-alignment: center;
 }
 
-/* custom styles that target specific components */
+.categories, .category {
+    -fx-alignment: top-center;
+}
 
 .header {
     -fx-background-color: #ffb400;
@@ -45,22 +45,27 @@
 
 .category {
     -fx-background-color: #1E1E1E;
+    -fx-padding: 8;
 }
 
 .category .name {
-    -fx-padding: 24;
+    -fx-padding: 8 16 8 16;
     -fx-text-fill: #ffb400;
     -fx-font-weight: bold;
 }
 
-.category .question {
-    -fx-background-color: #272727;
+.question .value {
     -fx-text-fill: #fcfcf4;
-    -fx-border-color: #272727;
-    -fx-border-width: 3;
 }
 
-.category .question:hover {
-    -fx-background-color: #2d2d2d;
-    -fx-border-color: #ffb400;
+.question .background {
+    -fx-fill: #272727;
+    -fx-stroke: #272727;
+    -fx-stroke-type: inside;
+    -fx-stroke-width: 2;
+}
+
+.question:hover .background {
+    -fx-fill: #2d2d2d;
+    -fx-stroke: #ffb400;
 }

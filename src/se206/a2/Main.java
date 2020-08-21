@@ -17,7 +17,7 @@ public class Main extends Application {
         GameView view = new GameView(model);
 
         String stylesheet = getClass().getResource("styles.css").toExternalForm();
-        Scene scene = new Scene(view.getView(), 800, 700);
+        Scene scene = new Scene(view.getView());
         scene.getStylesheets().add(stylesheet);
 
         primaryStage.setTitle("Jeopardy");

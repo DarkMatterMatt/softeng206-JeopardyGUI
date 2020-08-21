@@ -16,6 +16,7 @@ public class GameView {
         HeaderView headerView = new HeaderView(this, _model);
 
         _container.getChildren().addAll(headerView.getView(), categoriesContainer);
+        _container.getStyleClass().add("game");
 
         for (Category category : _model.getCategories()) {
             CategoryView view = new CategoryView(this, category);
