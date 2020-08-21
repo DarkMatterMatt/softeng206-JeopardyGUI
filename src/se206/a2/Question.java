@@ -3,13 +3,16 @@ package se206.a2;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Question implements Comparable<Question>, Serializable {
     private final String _answer;
     private final String _question;
-    private final ObjectProperty<Status> _status = new SimpleObjectProperty<>();
     private final int _value;
+    private transient ObjectProperty<Status> _status;
 
     public Question(int value, String question, String answer) {
         this(value, question, answer, Status.UNATTEMPTED);
@@ -19,7 +22,7 @@ public class Question implements Comparable<Question>, Serializable {
         _answer = answer.trim();
         _question = question.trim();
         _value = value;
-        _status.set(status);
+        _status = new SimpleObjectProperty<>(status);
     }
 
     public boolean checkAnswer(String answer) {
@@ -47,6 +50,16 @@ public class Question implements Comparable<Question>, Serializable {
 
     public int getValue() {
         return _value;
+    }
+
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+        s.defaultReadObject();
+        _status = new SimpleObjectProperty<>((Status) s.readObject());
+    }
+
+    private void writeObject(ObjectOutputStream s) throws IOException {
+        s.defaultWriteObject();
+        s.writeObject(_status.get());
     }
 
     public enum Status {

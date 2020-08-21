@@ -3,6 +3,9 @@ package se206.a2;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -10,9 +13,9 @@ import java.util.List;
 public class GameModel implements Serializable {
     private final transient GameModelDataSource _dataSource;
     private final transient GameModelPersistence _persistence;
-    private final IntegerProperty _score = new SimpleIntegerProperty();
     private List<Category> _categories;
     private Question _currentQuestion;
+    private transient IntegerProperty _score = new SimpleIntegerProperty();
 
     public GameModel(GameModelDataSource dataSource, GameModelPersistence persistence) {
         _dataSource = dataSource;
@@ -27,6 +30,7 @@ public class GameModel implements Serializable {
         boolean correct = _currentQuestion.checkAnswer(answer);
         _score.set(_score.get() + (correct ? 1 : -1) * _currentQuestion.getValue());
         _currentQuestion = null;
+        save();
         return correct;
     }
 
@@ -36,6 +40,7 @@ public class GameModel implements Serializable {
             throw new IllegalArgumentException("No such question exists.");
         }
         _currentQuestion = question;
+        save();
         return question;
     }
 
@@ -87,6 +92,11 @@ public class GameModel implements Serializable {
         reset();
     }
 
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+        s.defaultReadObject();
+        _score = new SimpleIntegerProperty(s.readInt());
+    }
+
     public void reset() {
         _categories = _dataSource.loadCategories();
         _currentQuestion = null;
@@ -97,5 +107,10 @@ public class GameModel implements Serializable {
         if (_persistence != null) {
             _persistence.save(this);
         }
+    }
+
+    private void writeObject(ObjectOutputStream s) throws IOException {
+        s.defaultWriteObject();
+        s.writeInt(_score.intValue());
     }
 }

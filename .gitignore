@@ -1,3 +1,6 @@
+# Jeopardy save file
+.save
+
 # Compiled class file
 *.class
 out/

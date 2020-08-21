@@ -1,10 +1,6 @@
 package se206.a2;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class GameModelPersistence {
     private final String _saveFile;
@@ -25,12 +21,12 @@ public class GameModelPersistence {
 
             return model;
         }
-        catch (IOException ex) {
+        catch (FileNotFoundException e) {
             System.out.println("No save file found");
             return null;
         }
-        catch (ClassNotFoundException ex) {
-            System.out.println("Failed deserializing GameModel, ClassNotFoundException");
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -54,7 +50,7 @@ public class GameModelPersistence {
             return true;
         }
         catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
