@@ -44,7 +44,7 @@
 }
 
 .category {
-    -fx-background-color: #1E1E1E;
+    -fx-background-color: #1e1e1e;
     -fx-padding: 8;
 }
 
@@ -60,7 +60,6 @@
 
 .question .background {
     -fx-fill: #272727;
-    -fx-stroke: #272727;
     -fx-stroke-type: inside;
     -fx-stroke-width: 2;
 }
@@ -68,4 +67,12 @@
 .question:hover .background {
     -fx-fill: #2d2d2d;
     -fx-stroke: #ffb400;
+}
+
+.question.correct .background {
+    -fx-fill: #1e221c;
+}
+
+.question.incorrect .background {
+    -fx-fill: #231d1d;
 }

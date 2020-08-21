@@ -24,10 +24,27 @@ public class QuestionView {
         _container.getChildren().addAll(background, valueLabel);
         _container.setOnMouseClicked(ev -> categoryView.askQuestion(question));
 
+        updateStatus(question.getStatus());
         question.getStatusProperty().addListener((observable, oldVal, newVal) -> {
-            _container.setDisable(true);
-            System.out.println("Question disabled, " + newVal);
+            updateStatus(newVal);
         });
+    }
+
+    public void updateStatus(Question.Status status) {
+        switch (status) {
+            case UNATTEMPTED:
+                _container.getStyleClass().removeAll("correct", "incorrect");
+                _container.setDisable(false);
+                break;
+            case CORRECT:
+                _container.getStyleClass().add("correct");
+                _container.setDisable(true);
+                break;
+            case INCORRECT:
+                _container.getStyleClass().add("incorrect");
+                _container.setDisable(true);
+                break;
+        }
     }
 
     public Pane getView() {
