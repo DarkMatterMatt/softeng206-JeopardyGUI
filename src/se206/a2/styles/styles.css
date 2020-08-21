@@ -90,26 +90,39 @@
 
 .answer-container {
     -fx-padding: 24;
+    -fx-border-color: green;
 }
 
 .answer {
     -fx-background-color: #1e1e1e;
     -fx-alignment: top-center;
+    -fx-padding: 48;
+    -fx-border-color: red;
 }
 
 .answer .category {
-    -fx-padding: 8 16 8 16;
+    -fx-padding: 24;
     -fx-text-fill: #ffb400;
     -fx-font-weight: bold;
 }
 
 .answer .question {
-    -fx-padding: 8 16 8 16;
+    -fx-padding: 24;
     -fx-text-fill: #fcfcf4;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
 }
 
 .answer .input-container {
+    -fx-padding: 24;
+    -fx-max-width: 480;
+}
+
+.answer .input-container .text-input {
     -fx-background-color: #272727;
+    -fx-text-fill: #fcfcf4;
+    -fx-highlight-text-fill: #262626;
+    -fx-highlight-fill: #ffb400;
 }
 
 .answer .submit-container {

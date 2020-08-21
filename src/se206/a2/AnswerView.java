@@ -7,7 +7,6 @@ public class AnswerView {
     private final VBox _outerContainer = new VBox();
 
     public AnswerView(GameModel model) {
-
         Question question = model.getCurrentQuestion();
 
         Label categoryLabel = new Label("Playing Animals for $" + question.getValue());
