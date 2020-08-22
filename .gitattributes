@@ -2,7 +2,6 @@
 .gitattributes  text eol=lf
 .gitignore      text eol=lf
 
-*.bat           text eol=lf
 *.css           text eol=lf
 *.fxml          text eol=lf
 *.html          text eol=lf
