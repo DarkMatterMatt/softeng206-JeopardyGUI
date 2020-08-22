@@ -8,6 +8,8 @@ public class GameContentView {
     private final AnswerView _answerView;
     private final CategoriesListView _categoriesListView;
     private final StackPane _container = new StackPane();
+    private final CorrectView _correctView;
+    private final IncorrectView _incorrectView;
     private final GameModel _model;
 
     public GameContentView(GameModel model) {
@@ -15,7 +17,15 @@ public class GameContentView {
 
         _categoriesListView = new CategoriesListView(_model);
         _answerView = new AnswerView(_model);
-        _container.getChildren().addAll(_categoriesListView.getView(), _answerView.getView());
+        _correctView = new CorrectView(_model);
+        _incorrectView = new IncorrectView(_model);
+        _container.getChildren().addAll(
+                _categoriesListView.getView(),
+                _answerView.getView(),
+                _correctView.getView(),
+                _incorrectView.getView()
+        );
+        _container.getStyleClass().add("content");
 
         // listen for when the state changes, we manage which view is shown
         showCorrectView(_model.getState());
@@ -33,6 +43,12 @@ public class GameContentView {
                 break;
             case ANSWER_QUESTION:
                 showView(_answerView.getView());
+                break;
+            case CORRECT_ANSWER:
+                showView(_correctView.getView());
+                break;
+            case INCORRECT_ANSWER:
+                showView(_incorrectView.getView());
                 break;
         }
     }

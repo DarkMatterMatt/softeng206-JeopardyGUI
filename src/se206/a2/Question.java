@@ -38,6 +38,10 @@ public class Question implements Comparable<Question>, Serializable {
         return o._value - _value;
     }
 
+    public String getAnswer() {
+        return _answer;
+    }
+
     public Category getCategory() {
         return _category;
     }

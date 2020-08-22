@@ -27,6 +27,18 @@
     -fx-font-size: 12;
 }
 
+.progress-bar > .track  {
+    -fx-background-color: -c-grey-03;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: -c-gold;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
 .bold {
     -fx-font-weight: bold;
 }
@@ -146,4 +158,42 @@
 .answer .submit-container {
     -fx-background-color: -c-gold;
     -fx-alignment: center;
+}
+
+.correct-view, .incorrect-view {
+    -fx-background-color: -c-grey-01;
+    -fx-alignment: top-center;
+    -fx-padding: 48;
+}
+
+.correct-view .main {
+    -fx-text-fill: #00ff00;
+    -fx-font-size: 48;
+    -fx-padding: 24;
+}
+
+.incorrect-view .main {
+    -fx-text-fill: #ff0000;
+    -fx-font-size: 48;
+    -fx-padding: 24;
+}
+
+.correct-view .text-flow, .incorrect-view .text-flow {
+    -fx-text-alignment: center;
+    -fx-padding: 24;
+}
+
+.correct-view .text-flow .label, .incorrect-view .text-flow .label {
+    -fx-text-fill: -c-off-white;
+}
+
+.correct-view .interact-to-skip, .incorrect-view .interact-to-skip {
+    -fx-padding: 24 24 0 24;
+    -fx-font-size: 12;
+    -fx-text-fill: -c-off-white;
+}
+
+.correct-view .progress-bar, .incorrect-view .progress-bar {
+    -fx-pref-height: 12;
+    -fx-max-width: 480;
 }
