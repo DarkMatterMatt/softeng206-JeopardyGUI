@@ -9,9 +9,17 @@
  */
 
 .root {
+    -c-gold: #ffb400;
+    -c-grey-00: #121212;
+    -c-grey-01: #1e1e1e;
+    -c-grey-03: #252525;
+    -c-grey-04: #272727;
+    -c-grey-08: #2d2d2d;
+    -c-off-white: #fcfcf4;
+
     -fx-font-family: "sans-serif";
     -fx-font-size: 24;
-    -fx-background-color: #121212;
+    -fx-background-color: -c-grey-00;
 }
 
 .bold {
@@ -31,8 +39,8 @@
 }
 
 .header {
-    -fx-background-color: #ffb400;
-    -fx-text-fill: #262626;
+    -fx-background-color: -c-gold;
+    -fx-text-fill: -c-grey-03;
 }
 
 .header .taskbar {
@@ -59,29 +67,29 @@
 }
 
 .category {
-    -fx-background-color: #1e1e1e;
+    -fx-background-color: -c-grey-01;
     -fx-padding: 8;
 }
 
 .category .name {
     -fx-padding: 8 16 8 16;
-    -fx-text-fill: #ffb400;
+    -fx-text-fill: -c-gold;
     -fx-font-weight: bold;
 }
 
 .question .value {
-    -fx-text-fill: #fcfcf4;
+    -fx-text-fill: -c-off-white;
 }
 
 .question .background {
-    -fx-fill: #272727;
+    -fx-fill: -c-grey-04;
     -fx-stroke-type: inside;
     -fx-stroke-width: 2;
 }
 
 .question:hover .background {
-    -fx-fill: #2d2d2d;
-    -fx-stroke: #ffb400;
+    -fx-fill: -c-grey-08;
+    -fx-stroke: -c-gold;
 }
 
 .question.correct .background {
@@ -97,7 +105,7 @@
 }
 
 .answer {
-    -fx-background-color: #1e1e1e;
+    -fx-background-color: -c-grey-01;
     -fx-alignment: top-center;
     -fx-padding: 48;
 }
@@ -108,12 +116,12 @@
 }
 
 .answer .category-value .label {
-    -fx-text-fill: #ffb400;
+    -fx-text-fill: -c-gold;
 }
 
 .answer .question {
     -fx-padding: 24;
-    -fx-text-fill: #fcfcf4;
+    -fx-text-fill: -c-off-white;
     -fx-wrap-text: true;
     -fx-text-alignment: center;
 }
@@ -124,13 +132,13 @@
 }
 
 .answer .input-container .text-input {
-    -fx-background-color: #272727;
-    -fx-text-fill: #fcfcf4;
-    -fx-highlight-text-fill: #262626;
-    -fx-highlight-fill: #ffb400;
+    -fx-background-color: -c-grey-04;
+    -fx-text-fill: -c-off-white;
+    -fx-highlight-text-fill: -c-grey-03;
+    -fx-highlight-fill: -c-gold;
 }
 
 .answer .submit-container {
-    -fx-background-color: #ffb400;
+    -fx-background-color: -c-gold;
     -fx-alignment: center;
 }
