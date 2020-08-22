@@ -19,9 +19,7 @@ public class GameContentView {
 
         // listen for when the state changes, we manage which view is shown
         showCorrectView(_model.getState());
-        model.getStateProperty().addListener((observable, oldVal, newVal) -> {
-            showCorrectView(newVal);
-        });
+        model.getStateProperty().addListener((observable, oldVal, newVal) -> showCorrectView(newVal));
     }
 
     public StackPane getView() {

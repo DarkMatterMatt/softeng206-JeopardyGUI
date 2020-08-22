@@ -16,7 +16,7 @@ public class GameModel implements Serializable {
     private final transient GameModelDataSource _dataSource;
     private final transient GameModelPersistence _persistence;
     private List<Category> _categories;
-    private Question _currentQuestion;
+    private transient ObjectProperty<Question> _currentQuestion = new SimpleObjectProperty<>(null);
     private transient IntegerProperty _score = new SimpleIntegerProperty();
     private transient ObjectProperty<State> _state = new SimpleObjectProperty<>(State.SELECT_QUESTION);
 
@@ -30,8 +30,8 @@ public class GameModel implements Serializable {
         if (_state.get() != State.ANSWER_QUESTION) {
             throw new IllegalStateException("Previous state should be ANSWER_QUESTION, found " + _state.get());
         }
-        boolean correct = _currentQuestion.checkAnswer(answer);
-        _score.set(_score.get() + (correct ? 1 : -1) * _currentQuestion.getValue());
+        boolean correct = _currentQuestion.get().checkAnswer(answer);
+        _score.set(_score.get() + (correct ? 1 : -1) * _currentQuestion.get().getValue());
         _state.set(correct ? State.CORRECT_ANSWER : State.INCORRECT_ANSWER);
         save();
     }
@@ -40,7 +40,7 @@ public class GameModel implements Serializable {
         if (_state.get() != State.SELECT_QUESTION) {
             throw new IllegalStateException("Previous state should be SELECT_QUESTION, found " + _state.get());
         }
-        _currentQuestion = question;
+        _currentQuestion.set(question);
         _state.set(State.ANSWER_QUESTION);
         save();
     }
@@ -65,6 +65,10 @@ public class GameModel implements Serializable {
     }
 
     public Question getCurrentQuestion() {
+        return _currentQuestion.get();
+    }
+
+    public ObjectProperty<Question> getCurrentQuestionProperty() {
         return _currentQuestion;
     }
 
@@ -113,11 +117,12 @@ public class GameModel implements Serializable {
         s.defaultReadObject();
         _score = new SimpleIntegerProperty(s.readInt());
         _state = new SimpleObjectProperty<>((State) s.readObject());
+        _currentQuestion = new SimpleObjectProperty<>((Question) s.readObject());
     }
 
     public void reset() {
         _categories = _dataSource.loadCategories();
-        _currentQuestion = null;
+        _currentQuestion.setValue(null);
         _score.set(0);
         _state.set(State.RESET); // trigger any RESET listeners
         _state.set(State.SELECT_QUESTION);
@@ -133,6 +138,7 @@ public class GameModel implements Serializable {
         s.defaultWriteObject();
         s.writeInt(_score.intValue());
         s.writeObject(_state.get());
+        s.writeObject(_currentQuestion.get());
     }
 
     enum State {
