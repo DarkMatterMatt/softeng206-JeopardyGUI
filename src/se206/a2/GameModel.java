@@ -51,6 +51,7 @@ public class GameModel implements Serializable {
         }
         _currentQuestion.set(null);
         _state.set(State.SELECT_QUESTION);
+        save();
     }
 
     public List<Category> getCategories() {
