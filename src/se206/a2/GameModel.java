@@ -49,7 +49,7 @@ public class GameModel implements Serializable {
         if (_state.get() != State.CORRECT_ANSWER && _state.get() != State.INCORRECT_ANSWER) {
             throw new IllegalStateException("Previous state should be CORRECT_ANSWER or INCORRECT_ANSWER, found " + _state.get());
         }
-        _currentQuestion = null;
+        _currentQuestion.set(null);
         _state.set(State.SELECT_QUESTION);
     }
 
@@ -105,8 +105,9 @@ public class GameModel implements Serializable {
             GameModel old = _persistence.load();
             if (old != null) {
                 _categories = old._categories;
-                _currentQuestion = old._currentQuestion;
+                _currentQuestion.set(old._currentQuestion.get());
                 _score.set(old._score.get());
+                _state.set(old._state.get());
                 return;
             }
         }
