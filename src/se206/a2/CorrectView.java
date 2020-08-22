@@ -6,7 +6,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 
 public class CorrectView {
-    private static final int TIMEOUT_SECS = 3;
+    private static final int TIMEOUT_SECS = 2;
     private final VBox _container = new VBox();
     private final GameModel _model;
     private final ProgressBar _progressBar = new ProgressBar(0);

@@ -33,6 +33,8 @@ public class AnswerInputView {
         submitContainer.prefWidthProperty().bind(answerInput.heightProperty());
 
         _container.getChildren().addAll(answerInput, submitContainer);
+
+        model.getCurrentQuestionProperty().addListener((observable, oldVal, newVal) -> answerInput.clear());
     }
 
     public HBox getView() {

@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 
 public class IncorrectView {
-    private static final int TIMEOUT_SECS = 5;
+    private static final int TIMEOUT_SECS = 4;
     private final Label _answerLabel = new Label();
     private final VBox _container = new VBox();
     private final GameModel _model;
