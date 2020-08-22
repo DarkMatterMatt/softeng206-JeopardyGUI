@@ -77,8 +77,11 @@
     -fx-padding: 0 0 36 0;
 }
 
+.content {
+    -fx-padding: 48;
+}
+
 .categories {
-    -fx-padding: 24;
     -fx-hgap: 24;
     -fx-vgap: 24;
 }
@@ -115,10 +118,6 @@
 
 .question.incorrect .background {
     -fx-fill: #231d1d;
-}
-
-.answer-container {
-    -fx-padding: 24;
 }
 
 .answer {

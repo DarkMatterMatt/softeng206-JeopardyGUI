@@ -5,7 +5,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 
 public class AnswerView {
-    private final VBox _outerContainer = new VBox();
+    private final VBox _container = new VBox();
     private final Label _categoryNameLabel = new Label();
     private final Label _questionValueLabel = new Label();
     private final Label _questionLabel = new Label();
@@ -20,12 +20,8 @@ public class AnswerView {
 
         AnswerInputView answerInputView = new AnswerInputView(model);
 
-        VBox innerContainer = new VBox();
-        innerContainer.getStyleClass().add("answer");
-        innerContainer.getChildren().addAll(categoryLabel, _questionLabel, answerInputView.getView());
-
-        _outerContainer.getStyleClass().add("answer-container");
-        _outerContainer.getChildren().add(innerContainer);
+        _container.getStyleClass().add("answer");
+        _container.getChildren().addAll(categoryLabel, _questionLabel, answerInputView.getView());
 
         questionUpdate(model.getCurrentQuestion());
         model.getCurrentQuestionProperty().addListener((observable, oldVal, newVal) -> questionUpdate(newVal));
@@ -40,6 +36,6 @@ public class AnswerView {
     }
 
     public VBox getView() {
-        return _outerContainer;
+        return _container;
     }
 }
