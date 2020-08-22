@@ -1,9 +1,9 @@
 package se206.a2;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,11 +14,11 @@ import java.util.List;
 
 public class GameModel implements Serializable {
     private final transient GameModelDataSource _dataSource;
-    private final transient BooleanProperty _needsBigUglyReset = new SimpleBooleanProperty();
     private final transient GameModelPersistence _persistence;
     private List<Category> _categories;
     private Question _currentQuestion;
     private transient IntegerProperty _score = new SimpleIntegerProperty();
+    private transient ObjectProperty<State> _state = new SimpleObjectProperty<>(State.SELECT_QUESTION);
 
     public GameModel(GameModelDataSource dataSource, GameModelPersistence persistence) {
         _dataSource = dataSource;
@@ -27,18 +27,30 @@ public class GameModel implements Serializable {
     }
 
     public void answerQuestion(String answer) {
-        if (_currentQuestion == null) {
-            throw new IllegalStateException("Cannot answer question. No question is active.");
+        if (_state.get() != State.ANSWER_QUESTION) {
+            throw new IllegalStateException("Previous state should be ANSWER_QUESTION, found " + _state.get());
         }
         boolean correct = _currentQuestion.checkAnswer(answer);
         _score.set(_score.get() + (correct ? 1 : -1) * _currentQuestion.getValue());
-        _currentQuestion = null;
+        _state.set(correct ? State.CORRECT_ANSWER : State.INCORRECT_ANSWER);
         save();
     }
 
     public void askQuestion(Question question) {
+        if (_state.get() != State.SELECT_QUESTION) {
+            throw new IllegalStateException("Previous state should be SELECT_QUESTION, found " + _state.get());
+        }
         _currentQuestion = question;
+        _state.set(State.ANSWER_QUESTION);
         save();
+    }
+
+    public void finishQuestion() {
+        if (_state.get() != State.CORRECT_ANSWER && _state.get() != State.INCORRECT_ANSWER) {
+            throw new IllegalStateException("Previous state should be CORRECT_ANSWER or INCORRECT_ANSWER, found " + _state.get());
+        }
+        _currentQuestion = null;
+        _state.set(State.SELECT_QUESTION);
     }
 
     public List<Category> getCategories() {
@@ -56,10 +68,6 @@ public class GameModel implements Serializable {
         return _currentQuestion;
     }
 
-    public BooleanProperty getNeedsResetProperty() {
-        return _needsBigUglyReset;
-    }
-
     public Question getQuestion(String categoryName, int value) {
         Category category = getCategory(categoryName);
         if (category == null) {
@@ -74,6 +82,14 @@ public class GameModel implements Serializable {
 
     public IntegerProperty getScoreProperty() {
         return _score;
+    }
+
+    public State getState() {
+        return _state.get();
+    }
+
+    public ObjectProperty<State> getStateProperty() {
+        return _state;
     }
 
     public boolean hasUnattemptedQuestions() {
@@ -96,14 +112,15 @@ public class GameModel implements Serializable {
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
         s.defaultReadObject();
         _score = new SimpleIntegerProperty(s.readInt());
+        _state = new SimpleObjectProperty<>((State) s.readObject());
     }
 
     public void reset() {
         _categories = _dataSource.loadCategories();
         _currentQuestion = null;
         _score.set(0);
-        _needsBigUglyReset.setValue(true);
-        _needsBigUglyReset.setValue(false);
+        _state.set(State.RESET); // trigger any RESET listeners
+        _state.set(State.SELECT_QUESTION);
     }
 
     private void save() {
@@ -115,5 +132,14 @@ public class GameModel implements Serializable {
     private void writeObject(ObjectOutputStream s) throws IOException {
         s.defaultWriteObject();
         s.writeInt(_score.intValue());
+        s.writeObject(_state.get());
+    }
+
+    enum State {
+        RESET,
+        SELECT_QUESTION,
+        ANSWER_QUESTION,
+        CORRECT_ANSWER,
+        INCORRECT_ANSWER,
     }
 }

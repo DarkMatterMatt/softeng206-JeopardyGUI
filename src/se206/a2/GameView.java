@@ -11,9 +11,9 @@ public class GameView {
         createViews();
 
         // listen for when the model is reset, we need to recreate our views for the new data
-        model.getNeedsResetProperty().addListener((observable, oldVal, newVal) -> {
-            if (newVal) {
-                // only recreate views when reset triggered becomes true
+        model.getStateProperty().addListener((observable, oldVal, newVal) -> {
+            if (newVal == GameModel.State.RESET) {
+                // reset triggered
                 _container.getChildren().clear();
                 createViews();
             }
@@ -21,10 +21,10 @@ public class GameView {
     }
 
     private void createViews() {
-        CategoriesListView categoriesListView = new CategoriesListView(_model);
         HeaderView headerView = new HeaderView(_model);
+        GameContentView contentView = new GameContentView(_model);
 
-        _container.getChildren().addAll(headerView.getView(), categoriesListView.getView());
+        _container.getChildren().addAll(headerView.getView(), contentView.getView());
         _container.getStyleClass().add("game");
     }
 
