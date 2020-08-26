@@ -34,6 +34,7 @@ public class GameModel implements Serializable {
         _score.set(_score.get() + (correct ? 1 : -1) * _currentQuestion.get().getValue());
         _state.set(correct ? State.CORRECT_ANSWER : State.INCORRECT_ANSWER);
         save();
+        TextToSpeech.getInstance().speak(correct ? "Correct!" : "Incorrect");
     }
 
     public void askQuestion(Question question) {
@@ -43,6 +44,7 @@ public class GameModel implements Serializable {
         _currentQuestion.set(question);
         _state.set(State.ANSWER_QUESTION);
         save();
+        TextToSpeech.getInstance().speak(question.getQuestion());
     }
 
     public void finishQuestion() {
