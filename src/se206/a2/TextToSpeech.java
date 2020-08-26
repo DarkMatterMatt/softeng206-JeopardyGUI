@@ -1,8 +1,9 @@
 package se206.a2;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public class TextToSpeech {
+public class TextToSpeech implements Serializable {
     private static TextToSpeech _instance;
     private Command _command;
     private boolean _muted = false;

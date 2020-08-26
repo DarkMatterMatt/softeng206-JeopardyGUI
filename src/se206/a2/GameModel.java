@@ -19,6 +19,7 @@ public class GameModel implements Serializable {
     private transient ObjectProperty<Question> _currentQuestion = new SimpleObjectProperty<>(null);
     private transient IntegerProperty _score = new SimpleIntegerProperty();
     private transient ObjectProperty<State> _state = new SimpleObjectProperty<>(State.SELECT_QUESTION);
+    private TextToSpeech _textToSpeech = TextToSpeech.getInstance();
 
     public GameModel(GameModelDataSource dataSource, GameModelPersistence persistence) {
         _dataSource = dataSource;
@@ -34,7 +35,7 @@ public class GameModel implements Serializable {
         _score.set(_score.get() + (correct ? 1 : -1) * _currentQuestion.get().getValue());
         _state.set(correct ? State.CORRECT_ANSWER : State.INCORRECT_ANSWER);
         save();
-        TextToSpeech.getInstance().speak(correct ? "Correct!" : "Incorrect");
+        _textToSpeech.speak(correct ? "Correct!" : "Incorrect");
     }
 
     public void askQuestion(Question question) {
@@ -44,7 +45,17 @@ public class GameModel implements Serializable {
         _currentQuestion.set(question);
         _state.set(State.ANSWER_QUESTION);
         save();
-        TextToSpeech.getInstance().speak(question.getQuestion());
+        _textToSpeech.speak(question.getQuestion());
+    }
+
+    public void disableSound() {
+        _textToSpeech.setMuted(true);
+        save();
+    }
+
+    public void enableSound() {
+        _textToSpeech.setMuted(false);
+        save();
     }
 
     public void finishQuestion() {
@@ -103,6 +114,10 @@ public class GameModel implements Serializable {
         return _categories.stream().anyMatch(Category::hasUnattemptedQuestions);
     }
 
+    public boolean isSoundEnabled() {
+        return !_textToSpeech.isMuted();
+    }
+
     private void load() {
         if (_persistence != null) {
             GameModel old = _persistence.load();
@@ -111,6 +126,7 @@ public class GameModel implements Serializable {
                 _currentQuestion.set(old._currentQuestion.get());
                 _score.set(old._score.get());
                 _state.set(old._state.get());
+                _textToSpeech = old._textToSpeech;
                 return;
             }
         }
