@@ -107,7 +107,7 @@
     -fx-stroke-width: 2;
 }
 
-.question:hover .background {
+.question .background:hover {
     -fx-fill: -c-grey-08;
     -fx-stroke: -c-gold;
 }
