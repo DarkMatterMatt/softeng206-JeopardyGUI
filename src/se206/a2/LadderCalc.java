@@ -1,19 +1,19 @@
 package se206.a2;
 
-public class LadderBuilder {
+public class LadderCalc {
     public final int _bottomWidth;
     public final int _height;
     public final int _topWidth;
 
     /**
-     * LadderBuilder is used to calculate width/heights on a quadrilateral
+     * LadderCalc is used to calculate width/heights on a quadrilateral
      * where the topWidth != bottomWidth and the top and bottom edges are parallel
      *
      * @param height      vertical height of the quadrilateral
      * @param bottomWidth length of the bottom edge
      * @param topWidth    length of the top edge
      */
-    public LadderBuilder(int height, int bottomWidth, int topWidth) {
+    public LadderCalc(int height, int bottomWidth, int topWidth) {
         _bottomWidth = bottomWidth;
         _height = height;
         _topWidth = topWidth;

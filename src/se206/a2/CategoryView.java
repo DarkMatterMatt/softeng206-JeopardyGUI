@@ -17,7 +17,7 @@ public class CategoryView {
 
         int currentHeight = 0;
         int questionHeight = 50;
-        LadderBuilder lb = new LadderBuilder(questionHeight * category.size(), 160, 200);
+        LadderCalc lb = new LadderCalc(questionHeight * category.size(), 160, 200);
 
         for (Question question : category.getQuestions()) {
             int topWidth = lb.getXAtY(currentHeight);
