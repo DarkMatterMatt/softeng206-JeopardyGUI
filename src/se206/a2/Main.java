@@ -22,14 +22,8 @@ public class Main extends Application {
         Scene scene = new Scene(view.getView());
         scene.getStylesheets().add(stylesheet);
 
-        // horrible key-press detection to skip in/correct screen
-        scene.setOnKeyPressed(e -> {
-            switch (model.getState()) {
-                case CORRECT_ANSWER:
-                case INCORRECT_ANSWER:
-                    model.finishQuestion();
-            }
-        });
+        // game model handles key presses directly
+        scene.setOnKeyPressed(model::onKeyPress);
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Jeopardy!");

@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -131,6 +132,14 @@ public class GameModel implements Serializable {
             }
         }
         reset();
+    }
+
+    public void onKeyPress(KeyEvent ev) {
+        switch (getState()) {
+            case CORRECT_ANSWER:
+            case INCORRECT_ANSWER:
+                finishQuestion();
+        }
     }
 
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
