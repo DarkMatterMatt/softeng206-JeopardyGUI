@@ -1,14 +1,16 @@
 package se206.a2.dino;
 
+import javafx.scene.Node;
+
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 public class Player extends GameObject {
     private static final double GRAVITY = 800;
     private static final double JUMP_SPEED = 400;
 
-    public Player() {
-        super(new Rectangle(50, 100), new Point2D.Double(100, 0));
+    public Player(Shape bounds, Node view) {
+        super(bounds, view);
+        setX(100);
     }
 
     public void jump() {

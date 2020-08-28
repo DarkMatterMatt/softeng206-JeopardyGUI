@@ -2,23 +2,27 @@ package se206.a2.dino;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.Node;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 
 public abstract class GameObject {
-    private final DoubleProperty _x = new SimpleDoubleProperty();
-    private final DoubleProperty _y = new SimpleDoubleProperty();
-    private Shape _bounds;
+    private final Shape _bounds;
+    private final DoubleProperty _layoutX = new SimpleDoubleProperty();
+    private final DoubleProperty _layoutY = new SimpleDoubleProperty();
+    private final Node _view;
+    private double _containerHeight;
+    private double _containerWidth;
     private double _speedX;
     private double _speedY;
+    private double _x;
+    private double _y;
 
-    protected GameObject(Shape bounds, Point2D.Double position) {
+    protected GameObject(Shape bounds, Node image) {
         _bounds = bounds;
-        _x.set(position.x);
-        _y.set(position.y);
+        _view = image;
     }
 
     public final boolean collidesWith(GameObject obj) {
@@ -26,7 +30,7 @@ public abstract class GameObject {
             return false;
         }
         AffineTransform transform = new AffineTransform();
-        transform.translate(_x.get() - obj._x.get(), _y.get() - obj._y.get());
+        transform.translate(getLayoutX() - obj.getLayoutX(), getLayoutY() - obj.getLayoutY());
 
         Area area = new Area(_bounds);
         area.transform(transform);
@@ -38,8 +42,28 @@ public abstract class GameObject {
         return _bounds;
     }
 
-    public void setBounds(Shape bounds) {
-        _bounds = bounds;
+    public double getLayoutX() {
+        return _layoutX.get();
+    }
+
+    public void setLayoutX(double x) {
+        _layoutX.set(x);
+    }
+
+    public DoubleProperty getLayoutXProperty() {
+        return _layoutX;
+    }
+
+    public double getLayoutY() {
+        return _layoutY.get();
+    }
+
+    public void setLayoutY(double y) {
+        _layoutY.set(y);
+    }
+
+    public DoubleProperty getLayoutYProperty() {
+        return _layoutY;
     }
 
     public double getSpeedX() {
@@ -58,36 +82,44 @@ public abstract class GameObject {
         _speedY = speedY;
     }
 
+    public Node getView() {
+        return _view;
+    }
+
     public double getX() {
-        return _x.get();
-    }
-
-    public void setX(double x) {
-        _x.set(x);
-    }
-
-    public DoubleProperty getXProperty() {
         return _x;
     }
 
+    public void setX(double x) {
+        _x = x;
+    }
+
     public double getY() {
-        return _y.get();
+        return _y;
     }
 
     public void setY(double y) {
-        _y.set(y);
-    }
-
-    public DoubleProperty getYProperty() {
-        return _y;
+        _y = y;
     }
 
     protected void onTick(double secs) {
     }
 
+    public void setContainerHeight(double height) {
+        _containerHeight = height;
+        _layoutY.set(_containerHeight - _y - _view.getBoundsInLocal().getHeight());
+    }
+
+    public void setContainerWidth(double width) {
+        _containerWidth = width;
+        _layoutX.set(_x);
+    }
+
     public final void tick(double secs) {
-        _x.set(_x.get() + secs * _speedX);
-        _y.set(_y.get() + secs * _speedY);
+        _x += secs * _speedX;
+        _y += secs * _speedY;
         onTick(secs);
+        _layoutY.set(_containerHeight - _y - _view.getBoundsInLocal().getHeight());
+        _layoutX.set(_x);
     }
 }
