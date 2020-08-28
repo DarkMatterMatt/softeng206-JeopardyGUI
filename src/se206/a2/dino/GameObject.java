@@ -107,7 +107,7 @@ public abstract class GameObject {
 
     public void setContainerHeight(double height) {
         _containerHeight = height;
-        _layoutY.set(_containerHeight - _y - _view.getBoundsInLocal().getHeight());
+        _layoutY.set(_containerHeight - _y - _bounds.getBounds2D().getHeight());
     }
 
     public void setContainerWidth(double width) {
@@ -119,7 +119,7 @@ public abstract class GameObject {
         _x += secs * _speedX;
         _y += secs * _speedY;
         onTick(secs);
-        _layoutY.set(_containerHeight - _y - _view.getBoundsInLocal().getHeight());
+        _layoutY.set(_containerHeight - _y - _bounds.getBounds2D().getHeight());
         _layoutX.set(_x);
     }
 }

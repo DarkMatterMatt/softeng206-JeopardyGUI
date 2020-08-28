@@ -12,7 +12,7 @@ public class DinoModel {
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
     private final ObservableList<Obstacle> _obstacles = FXCollections.observableList(new ArrayList<>());
     private final IGameComplete _onComplete;
-    private final Player _player = GameObjectFactory.createPlayer(GameObjectFactory.PlayerType.PIG, 10, 20);
+    private final Player _player = GameObjectFactory.createPlayer(GameObjectFactory.Type.PIG, 0, 100);
     private final AnimationTimer _gameTimer = new AnimationTimer() {
         private long lastTime;
 

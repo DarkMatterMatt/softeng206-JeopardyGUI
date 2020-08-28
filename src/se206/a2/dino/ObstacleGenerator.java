@@ -3,7 +3,7 @@ package se206.a2.dino;
 public class ObstacleGenerator {
     private double _lastUpdate = 0;
     private double _nextSpawn = 0;
-    private double _spawnRate = 3;
+    private double _spawnRate = 2;
 
     public ObstacleGenerator() {
     }
@@ -13,9 +13,10 @@ public class ObstacleGenerator {
         if (_lastUpdate < _nextSpawn) {
             return null;
         }
-        _nextSpawn = _lastUpdate + _spawnRate;
-        Obstacle o = new Obstacle(Obstacle.ObstacleType.BLOCK, 60, 60, 0);
+        _nextSpawn = _lastUpdate + _spawnRate + Math.random() * _spawnRate;
+        Obstacle o = GameObjectFactory.createObstacle(GameObjectFactory.Type.INVERTED_TEE, 0, 40 + Math.random() * 40);
         o.setSpeedX(-150);
+        o.setX(1500);
         return o;
     }
 }
