@@ -5,6 +5,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.input.KeyEvent;
+import se206.a2.dino.DinoModel;
+import se206.a2.dino.IGameComplete;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,8 +15,9 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class GameModel implements Serializable {
+public class GameModel implements Serializable, IGameComplete {
     private final transient GameModelDataSource _dataSource;
+    private final transient DinoModel _dinoModel = new DinoModel(this);
     private final transient GameModelPersistence _persistence;
     private List<Category> _categories;
     private transient ObjectProperty<Question> _currentQuestion = new SimpleObjectProperty<>(null);
@@ -64,8 +67,14 @@ public class GameModel implements Serializable {
             throw new IllegalStateException("Previous state should be CORRECT_ANSWER or INCORRECT_ANSWER, found " + _state.get());
         }
         _currentQuestion.set(null);
-        _state.set(State.SELECT_QUESTION);
+        _state.set(hasUnattemptedQuestions() ? State.SELECT_QUESTION : State.GAME_OVER);
         save();
+    }
+
+    @Override
+    public void gameComplete() {
+        // dino game finished
+        reset();
     }
 
     public List<Category> getCategories() {
@@ -85,6 +94,10 @@ public class GameModel implements Serializable {
 
     public ObjectProperty<Question> getCurrentQuestionProperty() {
         return _currentQuestion;
+    }
+
+    public DinoModel getDinoModel() {
+        return _dinoModel;
     }
 
     public Question getQuestion(String categoryName, int value) {
@@ -139,6 +152,10 @@ public class GameModel implements Serializable {
             case CORRECT_ANSWER:
             case INCORRECT_ANSWER:
                 finishQuestion();
+                break;
+            case GAME_OVER:
+                _dinoModel.onKeyPress(ev);
+                break;
         }
     }
 
@@ -176,5 +193,6 @@ public class GameModel implements Serializable {
         ANSWER_QUESTION,
         CORRECT_ANSWER,
         INCORRECT_ANSWER,
+        GAME_OVER,
     }
 }
