@@ -4,6 +4,7 @@ import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 
 import java.util.HashMap;
 
@@ -30,16 +31,29 @@ public class DinoView {
             }
         });
 
+        Rectangle clip = new Rectangle(_container.getWidth(), _container.getHeight());
+        _container.setClip(clip);
+
         _container.heightProperty().addListener((obs, oldVal, newVal) -> {
-            model.getPlayer().setContainerHeight(newVal.doubleValue());
+            double val = newVal.doubleValue();
+            // ignore small changes in height, fixes stuttering
+            if (Math.abs(oldVal.doubleValue() - val) < 1.5) return;
+
+            clip.setHeight(val);
+            model.getPlayer().setContainerHeight(val);
             _obstacleViews.forEach((obstacle, view) -> {
-                obstacle.setContainerHeight(newVal.doubleValue());
+                obstacle.setContainerHeight(val);
             });
         });
         _container.widthProperty().addListener((obs, oldVal, newVal) -> {
-            model.getPlayer().setContainerWidth(newVal.doubleValue());
+            double val = newVal.doubleValue();
+            // ignore small changes in height, fixes stuttering
+            if (Math.abs(oldVal.doubleValue() - val) < 1.5) return;
+
+            clip.setWidth(val);
+            model.getPlayer().setContainerWidth(val);
             _obstacleViews.forEach((obstacle, view) -> {
-                obstacle.setContainerWidth(newVal.doubleValue());
+                obstacle.setContainerWidth(val);
             });
         });
 
