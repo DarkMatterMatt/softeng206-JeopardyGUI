@@ -1,5 +1,8 @@
 package se206.a2.dino;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.awt.*;
 
 public class GameObjectFactory {
@@ -15,17 +18,6 @@ public class GameObjectFactory {
                 return new Obstacle(
                         new Rectangle(intWidth, intHeight),
                         new javafx.scene.shape.Rectangle(width, height)
-                );
-
-            case PIG:
-                return new Obstacle(
-                        new Polygon(
-                                new int[]{42, 101, 109, 155, 172, 188, 230, 238, 226, 167, 197, 163, 138, 88, 84, 42, 26, 51, 26, 5, 5, 34, 55},
-                                new int[]{14, 2, 52, 56, 27, 60, 64, 85, 114, 152, 181, 202, 173, 185, 214, 206, 189, 160, 131, 127, 98, 110, 85},
-                                23
-                        ),
-                        new javafx.scene.shape.Polygon(42, 14, 101, 2, 109, 52, 155, 56, 172, 27, 188, 60, 230, 64, 238, 85, 226, 114, 167, 152, 197, 181, 163, 202, 138, 173, 88, 185, 84, 214, 42, 206, 26, 189, 51, 160, 26, 131, 5, 127, 5, 98, 34, 110, 55, 85)
-                        //new ImageView(new Image(GameObjectFactory.class.getResourceAsStream("assets/flying-pig.png")))
                 );
 
             case TEE:
@@ -71,8 +63,7 @@ public class GameObjectFactory {
                                 new int[]{14, 2, 52, 56, 27, 60, 64, 85, 114, 152, 181, 202, 173, 185, 214, 206, 189, 160, 131, 127, 98, 110, 85},
                                 23
                         ),
-                        new javafx.scene.shape.Polygon(42, 14, 101, 2, 109, 52, 155, 56, 172, 27, 188, 60, 230, 64, 238, 85, 226, 114, 167, 152, 197, 181, 163, 202, 138, 173, 88, 185, 84, 214, 42, 206, 26, 189, 51, 160, 26, 131, 5, 127, 5, 98, 34, 110, 55, 85)
-                        //new ImageView(new Image(GameObjectFactory.class.getResourceAsStream("assets/flying-pig.png")))
+                        new ImageView(new Image(GameObjectFactory.class.getResourceAsStream("assets/flying-pig.png")))
                 );
 
             default:
@@ -83,13 +74,12 @@ public class GameObjectFactory {
     enum ObstacleType {
         BLOCK,
         FIRE,
-        PIG,
         TEE,
         INVERTED_TEE,
     }
 
     enum PlayerType {
         BLOCK,
-        PIG
+        PIG,
     }
 }
