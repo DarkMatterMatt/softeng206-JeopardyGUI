@@ -5,8 +5,8 @@ import javafx.scene.Node;
 import java.awt.*;
 
 public class Player extends GameObject {
-    private static final double GRAVITY = 800;
-    private static final double JUMP_SPEED = 400;
+    private static final double GRAVITY = 4000;
+    private static final double JUMP_SPEED = 1200;
 
     public Player(Shape bounds, Node view) {
         super(bounds, view);

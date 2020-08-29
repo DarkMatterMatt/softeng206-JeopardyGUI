@@ -34,6 +34,12 @@ public class GameObjectFactory {
         String imageFile = null;
 
         switch (type) {
+            case FIRE:
+                polyX = new double[]{254, 452, 485, 420, 259, 56, 1, 43};
+                polyY = new double[]{1, 317, 543, 661, 693, 636, 514, 336};
+                imageFile = "assets/fire.gif";
+                break;
+
             case INVERTED_TEE:
                 polyX = new double[]{0, 60, 60, 40, 40, 20, 20, 0};
                 polyY = new double[]{80, 80, 60, 60, 0, 0, 60, 60};
