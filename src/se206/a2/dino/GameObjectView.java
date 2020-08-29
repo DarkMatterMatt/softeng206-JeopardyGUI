@@ -1,6 +1,5 @@
 package se206.a2.dino;
 
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public abstract class GameObjectView {

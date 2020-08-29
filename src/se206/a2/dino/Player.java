@@ -6,10 +6,10 @@ import java.awt.*;
 
 public class Player extends GameObject {
     private static final double GRAVITY = 4800;
+    private static final double GROUND_HEIGHT = 8;
     private static final double JUMP_SPEED = 1200;
     private static final int NOT_JUMPING = -1;
     private static double _jumpingForTime = NOT_JUMPING;
-    private static final double GROUND_HEIGHT = 8;
 
     public Player(Shape bounds, Node view) {
         super(bounds, view);
