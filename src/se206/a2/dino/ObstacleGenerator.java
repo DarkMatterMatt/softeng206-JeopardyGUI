@@ -11,14 +11,13 @@ public class ObstacleGenerator {
     public ObstacleGenerator() {
     }
 
-    public Obstacle spawnObstacle(double secs) {
+    public Obstacle spawnObstacle(double secs, double runningSpeed) {
         _lastUpdate += secs;
         if (_lastUpdate < _nextSpawn) {
             return null;
         }
         _nextSpawn = _lastUpdate + 1 / (_spawnSpeed * (1 + 0.5 * Math.random()));
         Obstacle o = getRandomObstacle(60 * (1 + 0.5 * Math.random()));
-        o.setSpeedX(-_obstacleSpeed);
         o.setX(2500);
         if (_obstacleSpeed < MAX_SPEED) _obstacleSpeed += 20;
         if (_spawnSpeed < MAX_SPAWN_SPEED) _spawnSpeed += 1.0 / 80;

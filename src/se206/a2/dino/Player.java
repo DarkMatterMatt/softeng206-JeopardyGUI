@@ -17,8 +17,11 @@ public class Player extends GameObject {
         setSpeedY(JUMP_SPEED);
     }
 
-    @Override
-    protected void onTick(double secs) {
+    public void tick(double secs) {
+        tick(secs, 0);
+    }
+
+    protected void onTick(double secs, double runningSpeed) {
         double y = getY();
         double speedY = getSpeedY();
 

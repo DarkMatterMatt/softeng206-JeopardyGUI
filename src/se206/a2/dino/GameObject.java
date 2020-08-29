@@ -102,7 +102,7 @@ public abstract class GameObject {
         _y = y;
     }
 
-    protected void onTick(double secs) {
+    protected void onTick(double secs, double runningSpeed) {
     }
 
     public void setContainerHeight(double height) {
@@ -115,10 +115,10 @@ public abstract class GameObject {
         _layoutX.set(_x);
     }
 
-    public final void tick(double secs) {
-        _x += secs * _speedX;
+    public final void tick(double secs, double runningSpeed) {
+        _x += secs * (_speedX - runningSpeed);
         _y += secs * _speedY;
-        onTick(secs);
+        onTick(secs, runningSpeed);
         _layoutY.set(_containerHeight - _y - _bounds.getBounds2D().getHeight());
         _layoutX.set(_x);
     }

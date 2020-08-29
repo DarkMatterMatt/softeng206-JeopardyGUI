@@ -29,7 +29,9 @@ public class DinoModel {
             lastTime = System.nanoTime();
         }
     };
+    private double _gameTime = 0;
     private boolean _isRunning = false;
+    private double _runningSpeed;
 
     public DinoModel(IGameComplete onComplete) {
         _onComplete = onComplete;
@@ -68,12 +70,15 @@ public class DinoModel {
     }
 
     public void tick(double secs) {
+        _gameTime += secs;
+        _runningSpeed = 400 * Math.pow(1.1, (int) (_gameTime / 10));
+
         _player.tick(secs);
 
         Iterator<Obstacle> iter = _obstacles.iterator();
         while (iter.hasNext()) {
             GameObject obj = iter.next();
-            obj.tick(secs);
+            obj.tick(secs, _runningSpeed);
 
             // remove objects off the screen
             if (obj.getX() < -100) {
@@ -86,7 +91,7 @@ public class DinoModel {
         }
 
         // spawn new obstacles
-        Obstacle o = _obstacleGenerator.spawnObstacle(secs);
+        Obstacle o = _obstacleGenerator.spawnObstacle(secs, _runningSpeed);
         if (o != null) {
             _obstacles.add(o);
         }
