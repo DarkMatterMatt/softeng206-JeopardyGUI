@@ -24,6 +24,7 @@ public class Main extends Application {
 
         // game model handles key presses directly
         scene.setOnKeyPressed(model::onKeyPress);
+        scene.setOnKeyReleased(model::onKeyRelease);
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Jeopardy!");

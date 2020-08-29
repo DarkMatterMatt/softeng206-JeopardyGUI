@@ -159,6 +159,14 @@ public class GameModel implements Serializable, IGameComplete {
         }
     }
 
+    public void onKeyRelease(KeyEvent ev) {
+        switch (getState()) {
+            case GAME_OVER:
+                _dinoModel.onKeyRelease(ev);
+                break;
+        }
+    }
+
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
         s.defaultReadObject();
         _score = new SimpleIntegerProperty(s.readInt());

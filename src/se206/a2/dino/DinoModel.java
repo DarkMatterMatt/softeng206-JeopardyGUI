@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class DinoModel {
+    private static final double BASE_RUNNING_SPEED = 600;
+    private static final double MAX_RUNNING_SPEED = 2 * BASE_RUNNING_SPEED;
+
     private final Background _background = new Background();
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
     private final ObservableList<Obstacle> _obstacles = FXCollections.observableList(new ArrayList<>());
@@ -60,7 +63,11 @@ public class DinoModel {
     }
 
     public void onKeyPress(KeyEvent ev) {
-        _player.jump();
+        _player.jumpPress();
+    }
+
+    public void onKeyRelease(KeyEvent ev) {
+        _player.jumpRelease();
     }
 
     public void startGame() {
@@ -76,7 +83,9 @@ public class DinoModel {
 
     public void tick(double secs) {
         _gameTime += secs;
-        _runningSpeed = 400 * Math.pow(1.1, (int) (_gameTime / 10));
+        if (_runningSpeed < MAX_RUNNING_SPEED) {
+            _runningSpeed = BASE_RUNNING_SPEED * Math.pow(1.1, (int) (_gameTime / 10));
+        }
 
         _player.tick(secs);
         _background.tick(secs, _runningSpeed);
