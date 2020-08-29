@@ -61,7 +61,7 @@ public class DinoView {
         });
 
         _container.getChildren().addAll(backgroundView.getView(), playerView.getView());
-        _container.getStyleClass().addAll("dino", "border-blue");
+        _container.getStyleClass().addAll("dino");
         VBox.setVgrow(_container, Priority.ALWAYS);
     }
 

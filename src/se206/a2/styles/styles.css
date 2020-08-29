@@ -196,3 +196,7 @@
     -fx-pref-height: 12;
     -fx-max-width: 480;
 }
+
+.dino {
+    -fx-background-color: -c-grey-01;
+}
