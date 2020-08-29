@@ -34,6 +34,12 @@ public class GameObjectFactory {
         String imageFile = null;
 
         switch (type) {
+            case DUCK:
+                polyX = new double[]{143.6, 168.833, 257.859, 380.3, 436, 383.025, 308, 259.333, 206.4, 252.738, 284.4, 273.875, 189.112, 108.75, 45.886, 48.5, 28.875, 0, 22.625, 74.189, 15.553, 10.4, 57.335, 100.181, 123};
+                polyY = new double[]{2.55, 32.633, 30.909, 2.13, 11.675, 48.462, 50.6, 72.9, 120.8, 130.858, 121.7, 164.3, 133.611, 148.05, 187.9, 203.3, 213.8, 207.5, 177.9, 149.3, 130.905, 93.5, 93.311, 75.953, 13.6};
+                imageFile = "assets/duck.png";
+                break;
+
             case FIRE:
                 polyX = new double[]{254, 452, 485, 420, 259, 56, 1, 43};
                 polyY = new double[]{1, 317, 543, 661, 693, 636, 514, 336};
@@ -97,6 +103,7 @@ public class GameObjectFactory {
     }
 
     public enum Type {
+        DUCK,
         FIRE,
         INVERTED_TEE,
         PIG,
