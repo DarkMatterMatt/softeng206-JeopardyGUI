@@ -9,10 +9,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class DinoModel {
+    private final Background _background = new Background();
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
     private final ObservableList<Obstacle> _obstacles = FXCollections.observableList(new ArrayList<>());
     private final IGameComplete _onComplete;
     private final Player _player = GameObjectFactory.createPlayer(GameObjectFactory.Type.PIG, 0, 100);
+    private double _gameTime = 0;
+    private boolean _isRunning = false;
+    private double _runningSpeed;
     private final AnimationTimer _gameTimer = new AnimationTimer() {
         private long lastTime;
 
@@ -29,9 +33,6 @@ public class DinoModel {
             lastTime = System.nanoTime();
         }
     };
-    private double _gameTime = 0;
-    private boolean _isRunning = false;
-    private double _runningSpeed;
 
     public DinoModel(IGameComplete onComplete) {
         _onComplete = onComplete;
@@ -40,6 +41,10 @@ public class DinoModel {
     public void finishGame() {
         _onComplete.gameComplete();
         stopGame();
+    }
+
+    public Background getBackground() {
+        return _background;
     }
 
     public ObservableList<Obstacle> getObstacles() {
@@ -74,6 +79,7 @@ public class DinoModel {
         _runningSpeed = 400 * Math.pow(1.1, (int) (_gameTime / 10));
 
         _player.tick(secs);
+        _background.tick(secs, _runningSpeed);
 
         Iterator<Obstacle> iter = _obstacles.iterator();
         while (iter.hasNext()) {
@@ -81,7 +87,7 @@ public class DinoModel {
             obj.tick(secs, _runningSpeed);
 
             // remove objects off the screen
-            if (obj.getX() < -100) {
+            if (obj.getX() < obj.getBounds().getBounds().getWidth()) {
                 iter.remove();
             }
 

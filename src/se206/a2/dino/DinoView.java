@@ -14,6 +14,7 @@ public class DinoView {
 
     public DinoView(DinoModel model) {
         PlayerView playerView = new PlayerView(model);
+        BackgroundView backgroundView = new BackgroundView(model);
 
         model.getObstacles().addListener((ListChangeListener.Change<? extends Obstacle> change) -> {
             while (change.next()) {
@@ -41,6 +42,7 @@ public class DinoView {
 
             clip.setHeight(val);
             model.getPlayer().setContainerHeight(val);
+            model.getBackground().setContainerHeight(val);
             _obstacleViews.forEach((obstacle, view) -> {
                 obstacle.setContainerHeight(val);
             });
@@ -52,12 +54,13 @@ public class DinoView {
 
             clip.setWidth(val);
             model.getPlayer().setContainerWidth(val);
+            model.getBackground().setContainerWidth(val);
             _obstacleViews.forEach((obstacle, view) -> {
                 obstacle.setContainerWidth(val);
             });
         });
 
-        _container.getChildren().add(playerView.getView());
+        _container.getChildren().addAll(backgroundView.getView(), playerView.getView());
         _container.getStyleClass().addAll("dino", "border-blue");
         VBox.setVgrow(_container, Priority.ALWAYS);
     }
