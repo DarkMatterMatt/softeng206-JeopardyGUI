@@ -19,6 +19,7 @@ public class ObstacleGenerator {
         _nextSpawn = _lastUpdate + 1 / (_spawnSpeed * (1 + 0.5 * Math.random()));
         Obstacle o = getRandomObstacle(60 * (1 + 0.5 * Math.random()));
         o.setX(2500);
+        o.setY(5);
         if (_obstacleSpeed < MAX_SPEED) _obstacleSpeed += 20;
         if (_spawnSpeed < MAX_SPAWN_SPEED) _spawnSpeed += 1.0 / 80;
         return o;

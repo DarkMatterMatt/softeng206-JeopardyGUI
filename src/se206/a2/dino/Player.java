@@ -9,14 +9,16 @@ public class Player extends GameObject {
     private static final double JUMP_SPEED = 1200;
     private static final int NOT_JUMPING = -1;
     private static double _jumpingForTime = NOT_JUMPING;
+    private static final double GROUND_HEIGHT = 8;
 
     public Player(Shape bounds, Node view) {
         super(bounds, view);
         setX(100);
+        setY(GROUND_HEIGHT);
     }
 
     public void jumpPress() {
-        if (getY() == 0) {
+        if (getY() == GROUND_HEIGHT) {
             setSpeedY(JUMP_SPEED);
             _jumpingForTime = 0;
         }
@@ -31,8 +33,8 @@ public class Player extends GameObject {
         double speedY = getSpeedY();
 
         // on the ground
-        if (speedY < 0 && y <= 0) {
-            setY(0);
+        if (speedY < 0 && y <= GROUND_HEIGHT) {
+            setY(GROUND_HEIGHT);
             setSpeedY(0);
         }
 
