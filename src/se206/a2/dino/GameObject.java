@@ -35,7 +35,7 @@ public abstract class GameObject {
         }
 
         // X or Y doesn't overlap
-        if (_x + _width  < obj._x || obj._x + obj._width  < _x) return false;
+        if (_x + _width < obj._x || obj._x + obj._width < _x) return false;
         if (_y + _height < obj._y || obj._y + obj._height < _y) return false;
 
         AffineTransform transform = new AffineTransform();
@@ -44,11 +44,19 @@ public abstract class GameObject {
         Area area = new Area(_bounds);
         area.transform(transform);
         area.intersect(new Area(obj._bounds));
-        return !area.isEmpty();
+        if (area.isEmpty()) return false;
+
+        onCollision(obj);
+        obj.onCollision(this);
+        return true;
     }
 
     public Shape getBounds() {
         return _bounds;
+    }
+
+    public double getHeight() {
+        return _height;
     }
 
     public double getLayoutX() {
@@ -95,6 +103,10 @@ public abstract class GameObject {
         return _view;
     }
 
+    public double getWidth() {
+        return _width;
+    }
+
     public double getX() {
         return _x;
     }
@@ -109,6 +121,9 @@ public abstract class GameObject {
 
     public void setY(double y) {
         _y = y;
+    }
+
+    protected void onCollision(GameObject other) {
     }
 
     protected void onTick(double secs, double runningSpeed) {
