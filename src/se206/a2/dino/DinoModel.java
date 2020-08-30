@@ -96,7 +96,7 @@ public class DinoModel {
             obj.tick(secs, _runningSpeed);
 
             // remove objects off the screen
-            if (obj.getX() < obj.getBounds().getBounds().getWidth()) {
+            if (obj.getX() < -obj.getWidth()) {
                 iter.remove();
             }
 
