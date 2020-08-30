@@ -10,9 +10,11 @@ import java.awt.geom.Area;
 
 public abstract class GameObject {
     private final Shape _bounds;
+    private final double _height;
     private final DoubleProperty _layoutX = new SimpleDoubleProperty();
     private final DoubleProperty _layoutY = new SimpleDoubleProperty();
     private final Node _view;
+    private final double _width;
     private double _containerHeight;
     private double _containerWidth;
     private double _speedX;
@@ -23,14 +25,21 @@ public abstract class GameObject {
     protected GameObject(Shape bounds, Node image) {
         _bounds = bounds;
         _view = image;
+        _width = bounds.getBounds().getWidth();
+        _height = bounds.getBounds().getHeight();
     }
 
     public final boolean collidesWith(GameObject obj) {
         if (_bounds == null || obj._bounds == null) {
             return false;
         }
+
+        // X or Y doesn't overlap
+        if (_x + _width  < obj._x || obj._x + obj._width  < _x) return false;
+        if (_y + _height < obj._y || obj._y + obj._height < _y) return false;
+
         AffineTransform transform = new AffineTransform();
-        transform.translate(getLayoutX() - obj.getLayoutX(), getLayoutY() - obj.getLayoutY());
+        transform.translate(_x - obj._x, _y - obj._y);
 
         Area area = new Area(_bounds);
         area.transform(transform);
@@ -107,7 +116,7 @@ public abstract class GameObject {
 
     public void setContainerHeight(double height) {
         _containerHeight = height;
-        _layoutY.set(_containerHeight - _y - _bounds.getBounds2D().getHeight());
+        _layoutY.set(_containerHeight - _y - _height);
     }
 
     public void setContainerWidth(double width) {
@@ -119,7 +128,7 @@ public abstract class GameObject {
         _x += secs * (_speedX - runningSpeed);
         _y += secs * _speedY;
         onTick(secs, runningSpeed);
-        _layoutY.set(_containerHeight - _y - _bounds.getBounds2D().getHeight());
+        _layoutY.set(_containerHeight - _y - _height);
         _layoutX.set(_x);
     }
 }
