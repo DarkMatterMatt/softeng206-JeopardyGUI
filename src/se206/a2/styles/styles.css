@@ -10,12 +10,14 @@
 
 .root {
     -c-gold: #ffb400;
+    -c-green: #00ff00;
     -c-grey-00: #121212;
     -c-grey-01: #1e1e1e;
     -c-grey-03: #252525;
     -c-grey-04: #272727;
     -c-grey-08: #2d2d2d;
     -c-off-white: #fcfcf4;
+    -c-red: #ff0000;
 
     -fx-font-family: "sans-serif";
     -fx-font-size: 24;
@@ -166,13 +168,13 @@
 }
 
 .correct-view .main {
-    -fx-text-fill: #00ff00;
+    -fx-text-fill: -c-green;
     -fx-font-size: 48;
     -fx-padding: 24;
 }
 
 .incorrect-view .main {
-    -fx-text-fill: #ff0000;
+    -fx-text-fill: -c-red;
     -fx-font-size: 48;
     -fx-padding: 24;
 }
@@ -195,8 +197,4 @@
 .correct-view .progress-bar, .incorrect-view .progress-bar {
     -fx-pref-height: 12;
     -fx-max-width: 480;
-}
-
-.dino {
-    -fx-background-color: -c-grey-01;
 }

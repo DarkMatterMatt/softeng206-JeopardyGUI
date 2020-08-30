@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import se206.a2.dino.DinoModel;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -19,8 +20,9 @@ public class Main extends Application {
         GameView view = new GameView(model);
 
         String stylesheet = getClass().getResource("styles/styles.css").toExternalForm();
+        String dinoStyles = DinoModel.class.getResource("styles/styles.css").toExternalForm();
         Scene scene = new Scene(view.getView());
-        scene.getStylesheets().add(stylesheet);
+        scene.getStylesheets().addAll(stylesheet, dinoStyles);
 
         // game model handles key presses directly
         scene.setOnKeyPressed(model::onKeyPress);

@@ -10,19 +10,23 @@ import java.awt.*;
 public class Obstacle extends GameObject {
     private static final int FLASH_DURATION_MS = 70;
     private static final int NUM_FLASHES = 3;
-    private boolean hasCollided = false;
+    private boolean _hasCollided = false;
 
     public Obstacle(Shape bounds, Node view) {
         super(bounds, view);
         setX(1500);
     }
 
+    public boolean hasCollided() {
+        return _hasCollided;
+    }
+
     @Override
     protected void onCollision(GameObject other) {
         super.onCollision(other);
 
-        if (hasCollided) return;
-        hasCollided = true;
+        if (_hasCollided) return;
+        _hasCollided = true;
 
         // flashing animation
         Timeline collisionAnimation = new Timeline(new KeyFrame(

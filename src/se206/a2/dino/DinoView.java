@@ -15,6 +15,7 @@ public class DinoView {
     public DinoView(DinoModel model) {
         PlayerView playerView = new PlayerView(model);
         BackgroundView backgroundView = new BackgroundView(model);
+        DeathCounterView deathCounterView = new DeathCounterView(model);
 
         model.getObstacles().addListener((ListChangeListener.Change<? extends Obstacle> change) -> {
             while (change.next()) {
@@ -58,9 +59,10 @@ public class DinoView {
             _obstacleViews.forEach((obstacle, view) -> {
                 obstacle.setContainerWidth(val);
             });
+            deathCounterView.setContainerWidth(val);
         });
 
-        _container.getChildren().addAll(backgroundView.getView(), playerView.getView());
+        _container.getChildren().addAll(backgroundView.getView(), playerView.getView(), deathCounterView.getView());
         _container.getStyleClass().addAll("dino");
         VBox.setVgrow(_container, Priority.ALWAYS);
     }

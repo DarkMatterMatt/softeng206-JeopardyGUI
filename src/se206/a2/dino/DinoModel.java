@@ -1,6 +1,8 @@
 package se206.a2.dino;
 
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyEvent;
@@ -13,10 +15,11 @@ public class DinoModel {
     private static final double MAX_RUNNING_SPEED = 2 * BASE_RUNNING_SPEED;
 
     private final Background _background = new Background();
+    private final IntegerProperty _deaths = new SimpleIntegerProperty();
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
     private final ObservableList<Obstacle> _obstacles = FXCollections.observableList(new ArrayList<>());
     private final IGameComplete _onComplete;
-    private final Player _player = GameObjectFactory.createPlayer(GameObjectFactory.Type.PIG, 0, 100);
+    private final Player _player = GameObjectFactory.createPlayer(GameObjectFactory.Type.DUCK, 120, 100);
     private double _gameTime = 0;
     private boolean _isRunning = false;
     private double _runningSpeed;
@@ -48,6 +51,14 @@ public class DinoModel {
 
     public Background getBackground() {
         return _background;
+    }
+
+    public int getDeaths() {
+        return _deaths.get();
+    }
+
+    public IntegerProperty getDeathsProperty() {
+        return _deaths;
     }
 
     public ObservableList<Obstacle> getObstacles() {
@@ -92,7 +103,7 @@ public class DinoModel {
 
         Iterator<Obstacle> iter = _obstacles.iterator();
         while (iter.hasNext()) {
-            GameObject obj = iter.next();
+            Obstacle obj = iter.next();
             obj.tick(secs, _runningSpeed);
 
             // remove objects off the screen
@@ -100,8 +111,8 @@ public class DinoModel {
                 iter.remove();
             }
 
-            if (_player.collidesWith(obj)) {
-                System.out.println("collision");
+            if (!obj.hasCollided() && _player.collidesWith(obj)) {
+                _deaths.set(_deaths.get() + 1);
             }
         }
 

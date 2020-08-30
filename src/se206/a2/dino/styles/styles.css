@@ -1,0 +1,19 @@
+.dino {
+    -c-grey-01: #1e1e1e;
+    -c-red: #ff0000;
+
+    -fx-font-family: "sans-serif";
+    -fx-font-size: 24;
+    -fx-background-color: -c-grey-01;
+}
+
+.dino .death-counter {
+    -fx-padding: 8 8 0 0;
+    -fx-alignment: center-right;
+}
+
+.dino .death-counter .label {
+    -fx-padding: 0 4 0 0;
+    -fx-text-fill: -c-red;
+    -fx-font-weight: bold;
+}
