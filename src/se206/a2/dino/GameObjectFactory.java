@@ -1,5 +1,6 @@
 package se206.a2.dino;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,6 +10,11 @@ import java.awt.*;
 
 public class GameObjectFactory {
     private GameObjectFactory() {
+    }
+
+    public static Collectable createCollectable(Type type, double width, double height) {
+        Pair<Shape, Node> p = getViewAndBounds(type, width, height);
+        return new Collectable(p.getKey(), p.getValue());
     }
 
     public static Obstacle createObstacle(Type type, double width, double height) {
@@ -32,8 +38,50 @@ public class GameObjectFactory {
         double[] polyX;
         double[] polyY;
         String imageFile = null;
+        Rectangle2D viewport = null;
 
         switch (type) {
+            case CREDITS:
+                polyX = new double[]{0, 457, 457, 0};
+                polyY = new double[]{0, 0, 124, 124};
+                imageFile = "assets/credits.gif";
+                break;
+
+            case CREDITS_A:
+                polyX = new double[]{0, 59, 59, 0};
+                polyY = new double[]{0, 0, 87, 87};
+                imageFile = "assets/credits.gif";
+                viewport = new Rectangle2D(123, 30, 59, 87);
+                break;
+
+            case CREDITS_M1:
+                polyX = new double[]{0, 113, 113, 0};
+                polyY = new double[]{0, 0, 118, 118};
+                imageFile = "assets/credits.gif";
+                viewport = new Rectangle2D(3, 3, 113, 118);
+                break;
+
+            case CREDITS_M2:
+                polyX = new double[]{0, 109, 109, 0};
+                polyY = new double[]{0, 0, 118, 118};
+                imageFile = "assets/credits.gif";
+                viewport = new Rectangle2D(345, 3, 109, 118);
+                break;
+
+            case CREDITS_T1:
+                polyX = new double[]{0, 61, 61, 0};
+                polyY = new double[]{0, 0, 77, 77};
+                imageFile = "assets/credits.gif";
+                viewport = new Rectangle2D(183, 37, 61, 77);
+                break;
+
+            case CREDITS_T2:
+                polyX = new double[]{0, 63, 63, 0};
+                polyY = new double[]{0, 0, 77, 77};
+                imageFile = "assets/credits.gif";
+                viewport = new Rectangle2D(246, 37, 63, 77);
+                break;
+
             case DUCK:
                 polyX = new double[]{143.6, 168.833, 257.859, 380.3, 436, 383.025, 308, 259.333, 206.4, 252.738, 284.4, 273.875, 189.112, 108.75, 45.886, 48.5, 28.875, 0, 22.625, 74.189, 15.553, 10.4, 57.335, 100.181, 123};
                 polyY = new double[]{2.55, 32.633, 30.909, 2.13, 11.675, 48.462, 50.6, 72.9, 120.8, 130.858, 121.7, 164.3, 133.611, 148.05, 187.9, 203.3, 213.8, 207.5, 177.9, 149.3, 130.905, 93.5, 93.311, 75.953, 13.6};
@@ -94,6 +142,7 @@ public class GameObjectFactory {
             view.setCache(true);
             if (width > 0) view.setFitWidth(width);
             if (height > 0) view.setFitHeight(height);
+            if (viewport != null) view.setViewport(viewport);
 
             return new Pair<>(poly, view);
         }
@@ -103,6 +152,12 @@ public class GameObjectFactory {
     }
 
     public enum Type {
+        CREDITS,
+        CREDITS_A,
+        CREDITS_M1,
+        CREDITS_M2,
+        CREDITS_T1,
+        CREDITS_T2,
         DUCK,
         FIRE,
         INVERTED_TEE,

@@ -13,7 +13,7 @@ import java.util.Iterator;
 public class DinoModel {
     private static final double BASE_RUNNING_SPEED = 600;
     private static final double MAX_RUNNING_SPEED = 2 * BASE_RUNNING_SPEED;
-
+    private final CollectableGenerator _collectableGenerator = new CollectableGenerator();
     private final IntegerProperty _deaths = new SimpleIntegerProperty();
     private final ObservableList<GameObject> _gameObjects = FXCollections.observableList(new ArrayList<>());
     private final KeyDownTracker _keyDownTracker = KeyDownTracker.getInstance();
@@ -108,15 +108,25 @@ public class DinoModel {
                 iter.remove();
             }
 
-            if (obj instanceof Obstacle && !((Obstacle) obj).hasCollided() && _player.collidesWith(obj)) {
+            if (obj instanceof Player) {
+                // do nothing
+            }
+            else if (obj instanceof Obstacle && !((Obstacle) obj).hasCollided() && _player.collidesWith(obj)) {
                 _deaths.set(_deaths.get() + 1);
+            }
+            else if (obj instanceof Collectable && !((Collectable) obj).hasCollided() && _player.collidesWith(obj)) {
+                // collectable will do something here
             }
         }
 
+        GameObject o;
+
         // spawn new obstacles
-        Obstacle o = _obstacleGenerator.spawnObstacle(secs, _runningSpeed);
-        if (o != null) {
-            _gameObjects.add(o);
-        }
+        o = _obstacleGenerator.spawnObstacle(secs, _runningSpeed);
+        if (o != null) _gameObjects.add(o);
+
+        // spawn new collectables
+        o = _collectableGenerator.spawn(secs, _runningSpeed);
+        if (o != null) _gameObjects.add(o);
     }
 }
