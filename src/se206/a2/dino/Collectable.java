@@ -5,12 +5,14 @@ import javafx.scene.Node;
 import java.awt.*;
 
 public class Collectable extends GameObject {
+    private static final double POS_Y = 100;
     private static final double WAVE_AMPLITUDE = 100;
     private static final double WAVE_FREQ = 3;
-    private static final double POS_Y = 100;
     private double _finalX;
     private double _finalY;
     private boolean _hasCollided = false;
+    private boolean _posXLocked = false;
+    private boolean _posYLocked = false;
     private double _time = 0;
 
     public Collectable(Shape bounds, Node view) {
@@ -25,17 +27,16 @@ public class Collectable extends GameObject {
     @Override
     protected void onCollision(GameObject other) {
         super.onCollision(other);
-
-        if (_hasCollided) return;
         _hasCollided = true;
-
-        setSpeedY(300);
-        setSpeedX(-100);
     }
 
     @Override
     protected void onTick(double secs, double runningSpeed) {
         super.onTick(secs, runningSpeed);
+        double x = getX();
+        double y = getY();
+        double speedX = getSpeedX();
+        double speedY = getSpeedY();
 
         _time += secs;
 
@@ -43,13 +44,22 @@ public class Collectable extends GameObject {
         if (_hasCollided) {
             _finalY = getContainerHeight() - 70;
 
-            if (getY() > _finalY) {
+            if (_posXLocked || (speedX < 0 && x < _finalX) || (speedX > 0 && x > _finalX)) {
+                _posXLocked = true;
+                setX(_finalX);
+                setSpeedX(runningSpeed);
+            }
+            else {
+                setSpeedX(DinoHelper.clamp(2 * (_finalX - x), -300, 300));
+            }
+
+            if (_posYLocked || (speedY < 0 && y < _finalY) || (speedY > 0 && y > _finalY)) {
+                _posYLocked = true;
                 setY(_finalY);
                 setSpeedY(0);
             }
-            if (getX() < _finalX) {
-                setX(_finalX);
-                setSpeedX(0);
+            else {
+                setSpeedY(DinoHelper.clamp(5 * (_finalY - y), -300, 300));
             }
         }
         else {
@@ -59,9 +69,5 @@ public class Collectable extends GameObject {
 
     public void setFinalX(double finalX) {
         _finalX = finalX;
-    }
-
-    public void setFinalY(double finalY) {
-        _finalY = finalY;
     }
 }
