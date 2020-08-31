@@ -14,11 +14,10 @@ public class DinoModel {
     private static final double BASE_RUNNING_SPEED = 600;
     private static final double MAX_RUNNING_SPEED = 2 * BASE_RUNNING_SPEED;
 
-    private final Background _background = new Background();
     private final IntegerProperty _deaths = new SimpleIntegerProperty();
+    private final ObservableList<GameObject> _gameObjects = FXCollections.observableList(new ArrayList<>());
     private final KeyDownTracker _keyDownTracker = KeyDownTracker.getInstance();
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
-    private final ObservableList<GameObject> _gameObjects = FXCollections.observableList(new ArrayList<>());
     private final IGameComplete _onComplete;
     private final Player _player = GameObjectFactory.createPlayer(GameObjectFactory.Type.PIG, 120, 100);
     private double _gameTime = 0;
@@ -43,15 +42,13 @@ public class DinoModel {
 
     public DinoModel(IGameComplete onComplete) {
         _onComplete = onComplete;
+        _gameObjects.add(_player);
+        _gameObjects.add(new Background());
     }
 
     public void finishGame() {
         _onComplete.gameComplete();
         stopGame();
-    }
-
-    public Background getBackground() {
-        return _background;
     }
 
     public int getDeaths() {
@@ -64,10 +61,6 @@ public class DinoModel {
 
     public ObservableList<GameObject> getGameObjects() {
         return _gameObjects;
-    }
-
-    public Player getPlayer() {
-        return _player;
     }
 
     public boolean isRunning() {
@@ -99,13 +92,16 @@ public class DinoModel {
             _runningSpeed = BASE_RUNNING_SPEED * Math.pow(1.1, (int) (_gameTime / 10));
         }
 
-        _player.tick(secs);
-        _background.tick(secs, _runningSpeed);
-
         Iterator<GameObject> iter = _gameObjects.iterator();
         while (iter.hasNext()) {
             GameObject obj = iter.next();
-            obj.tick(secs, _runningSpeed);
+
+            if (obj instanceof Player) {
+                ((Player) obj).tick(secs);
+            }
+            else {
+                obj.tick(secs, _runningSpeed);
+            }
 
             // remove objects off the screen
             if (obj.getX() < -obj.getWidth()) {

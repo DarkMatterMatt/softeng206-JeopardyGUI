@@ -12,6 +12,14 @@ public class DinoView {
     public DinoView(DinoModel model) {
         DeathCounter deathCounter = new DeathCounter(model);
 
+        // add existing game objects
+        model.getGameObjects().forEach(o -> {
+            o.setContainerWidth(_container.getWidth());
+            o.setContainerHeight(_container.getHeight());
+            _container.getChildren().add(o.getView());
+        });
+
+        // listen for future changes so we can add those game objects too
         model.getGameObjects().addListener((ListChangeListener.Change<? extends GameObject> change) -> {
             while (change.next()) {
                 for (GameObject o : change.getRemoved()) {
@@ -25,33 +33,33 @@ public class DinoView {
             }
         });
 
+        // hide overflow
         Rectangle clip = new Rectangle(_container.getWidth(), _container.getHeight());
         _container.setClip(clip);
 
+        // listen for change in screen height
         _container.heightProperty().addListener((obs, oldVal, newVal) -> {
             double val = newVal.doubleValue();
             // ignore small changes in height, fixes stuttering
             if (Math.abs(oldVal.doubleValue() - val) < 1.5) return;
 
             clip.setHeight(val);
-            model.getPlayer().setContainerHeight(val);
-            model.getBackground().setContainerHeight(val);
             model.getGameObjects().forEach((o) -> o.setContainerHeight(val));
         });
+
+        // listen for change in screen width
         _container.widthProperty().addListener((obs, oldVal, newVal) -> {
             double val = newVal.doubleValue();
             // ignore small changes in height, fixes stuttering
             if (Math.abs(oldVal.doubleValue() - val) < 1.5) return;
 
             clip.setWidth(val);
-            model.getPlayer().setContainerWidth(val);
-            model.getBackground().setContainerWidth(val);
             model.getGameObjects().forEach((o) -> o.setContainerWidth(val));
             deathCounter.setContainerWidth(val);
         });
 
-        _container.getChildren().addAll(model.getBackground().getView(), model.getPlayer().getView(), deathCounter.getView());
-        _container.getStyleClass().addAll("dino");
+        _container.getChildren().add(deathCounter.getView());
+        _container.getStyleClass().add("dino");
         VBox.setVgrow(_container, Priority.ALWAYS);
     }
 
