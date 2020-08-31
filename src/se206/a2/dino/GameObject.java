@@ -55,6 +55,24 @@ public abstract class GameObject {
         return _bounds;
     }
 
+    public double getContainerHeight() {
+        return _containerHeight;
+    }
+
+    public void setContainerHeight(double height) {
+        _containerHeight = height;
+        _layoutY.set(_containerHeight - _y - _height);
+    }
+
+    public double getContainerWidth() {
+        return _containerWidth;
+    }
+
+    public void setContainerWidth(double width) {
+        _containerWidth = width;
+        _layoutX.set(_x);
+    }
+
     public double getHeight() {
         return _height;
     }
@@ -127,16 +145,6 @@ public abstract class GameObject {
     }
 
     protected void onTick(double secs, double runningSpeed) {
-    }
-
-    public void setContainerHeight(double height) {
-        _containerHeight = height;
-        _layoutY.set(_containerHeight - _y - _height);
-    }
-
-    public void setContainerWidth(double width) {
-        _containerWidth = width;
-        _layoutX.set(_x);
     }
 
     public final void tick(double secs, double runningSpeed) {

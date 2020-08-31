@@ -10,10 +10,13 @@ public class Player extends GameObject {
     private static final double GRAVITY = 4800;
     private static final double GROUND_HEIGHT = 8;
     private static final double JUMP_SPEED = 1200;
+    private static final double MOVE_SPEED = 400;
     private static final int NOT_JUMPING = -1;
     private static double _jumpingForTime = NOT_JUMPING;
     private final KeyDownTracker _keyDownTracker = KeyDownTracker.getInstance();
     private KeyCode _jumpKey = null;
+    private KeyCode _movingLeftKey = null;
+    private KeyCode _movingRightKey = null;
 
     public Player(Shape bounds, Node view) {
         super(bounds, view);
@@ -21,6 +24,17 @@ public class Player extends GameObject {
         setY(GROUND_HEIGHT);
         _keyDownTracker.addPressListener(this::jumpPress, KeyCode.SPACE, KeyCode.UP, KeyCode.W, KeyCode.NUMPAD8);
         _keyDownTracker.addReleaseListener(this::jumpRelease, KeyCode.SPACE, KeyCode.UP, KeyCode.W, KeyCode.NUMPAD8);
+
+        _keyDownTracker.addPressListener(ev -> _movingLeftKey = ev.getCode(), KeyCode.LEFT, KeyCode.A, KeyCode.NUMPAD4);
+        _keyDownTracker.addReleaseListener(ev -> {
+            if (_movingLeftKey == ev.getCode()) _movingLeftKey = null;
+        }, KeyCode.LEFT, KeyCode.A, KeyCode.NUMPAD4);
+
+        _keyDownTracker.addPressListener(ev -> _movingRightKey = ev.getCode(), KeyCode.RIGHT, KeyCode.D, KeyCode.NUMPAD6);
+        _keyDownTracker.addReleaseListener(ev -> {
+            if (_movingRightKey == ev.getCode()) _movingRightKey = null;
+        }, KeyCode.RIGHT, KeyCode.D, KeyCode.NUMPAD6);
+
     }
 
     public void jumpPress(KeyEvent ev) {
@@ -41,7 +55,10 @@ public class Player extends GameObject {
     }
 
     protected void onTick(double secs, double runningSpeed) {
+        double x = getX();
         double y = getY();
+        double width = getWidth();
+        double containerWidth = getContainerWidth();
         double speedY = getSpeedY();
 
         // on the ground
@@ -69,6 +86,14 @@ public class Player extends GameObject {
             else {
                 setSpeedY(speedY - GRAVITY * secs);
             }
+        }
+
+        // left/right movement
+        if (_movingLeftKey != null && _movingRightKey == null && x > 0) {
+            setX(x - MOVE_SPEED * secs);
+        }
+        else if (_movingLeftKey == null && _movingRightKey != null && x + width < containerWidth) {
+            setX(x + MOVE_SPEED * secs);
         }
     }
 
