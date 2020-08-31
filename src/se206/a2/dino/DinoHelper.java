@@ -92,4 +92,12 @@ public class DinoHelper {
         }
         return zipped;
     }
+
+    /* package-private */
+    static float clamp(float val, float min, float max) {
+        return Math.max(min, Math.min(max, val));
+    }
+    static double clamp(double val, double min, double max) {
+        return Math.max(min, Math.min(max, val));
+    }
 }
