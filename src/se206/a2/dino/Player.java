@@ -3,6 +3,7 @@ package se206.a2.dino;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Pair;
 
 import java.awt.*;
 
@@ -14,27 +15,46 @@ public class Player extends GameObject {
     private static final int NOT_JUMPING = -1;
     private static double _jumpingForTime = NOT_JUMPING;
     private final KeyDownTracker _keyDownTracker = KeyDownTracker.getInstance();
+    private final Pair<Shape, Node> duckModel = GameObjectFactory.getViewAndBounds(GameObjectFactory.Type.DUCK, 120, 100);
+    private final Pair<Shape, Node> pigModel;
     private KeyCode _jumpKey = null;
     private KeyCode _movingLeftKey = null;
     private KeyCode _movingRightKey = null;
 
     public Player(Shape bounds, Node view) {
         super(bounds, view);
+        pigModel = new Pair<>(bounds, view);
+
         setX(100);
         setY(GROUND_HEIGHT);
+
+        // jump
         _keyDownTracker.addPressListener(this::jumpPress, KeyCode.SPACE, KeyCode.UP, KeyCode.W, KeyCode.NUMPAD8);
         _keyDownTracker.addReleaseListener(this::jumpRelease, KeyCode.SPACE, KeyCode.UP, KeyCode.W, KeyCode.NUMPAD8);
 
+        // duck
+        _keyDownTracker.addPressListener(ev -> {
+            if (getBounds() == pigModel.getKey()) {
+                setBounds(duckModel.getKey());
+                setImage(duckModel.getValue());
+            }
+            else {
+                setBounds(pigModel.getKey());
+                setImage(pigModel.getValue());
+            }
+        }, KeyCode.DOWN, KeyCode.S, KeyCode.NUMPAD2);
+
+        // move left
         _keyDownTracker.addPressListener(ev -> _movingLeftKey = ev.getCode(), KeyCode.LEFT, KeyCode.A, KeyCode.NUMPAD4);
         _keyDownTracker.addReleaseListener(ev -> {
             if (_movingLeftKey == ev.getCode()) _movingLeftKey = null;
         }, KeyCode.LEFT, KeyCode.A, KeyCode.NUMPAD4);
 
+        // move right
         _keyDownTracker.addPressListener(ev -> _movingRightKey = ev.getCode(), KeyCode.RIGHT, KeyCode.D, KeyCode.NUMPAD6);
         _keyDownTracker.addReleaseListener(ev -> {
             if (_movingRightKey == ev.getCode()) _movingRightKey = null;
         }, KeyCode.RIGHT, KeyCode.D, KeyCode.NUMPAD6);
-
     }
 
     public void jumpPress(KeyEvent ev) {
