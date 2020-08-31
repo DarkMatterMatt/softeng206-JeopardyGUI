@@ -3,28 +3,29 @@ package se206.a2.dino;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
 public abstract class GameObject {
-    private final Shape _bounds;
-    private final double _height;
+    private final Pane _container = new Pane();
     private final DoubleProperty _layoutX = new SimpleDoubleProperty();
     private final DoubleProperty _layoutY = new SimpleDoubleProperty();
-    private final Node _view;
-    private final double _width;
+    private Shape _bounds;
     private double _containerHeight;
     private double _containerWidth;
+    private double _height;
     private double _speedX;
     private double _speedY;
+    private double _width;
     private double _x;
     private double _y;
 
     protected GameObject(Shape bounds, Node image) {
         _bounds = bounds;
-        _view = image;
+        _container.getChildren().add(image);
         _width = bounds.getBounds().getWidth();
         _height = bounds.getBounds().getHeight();
     }
@@ -55,6 +56,12 @@ public abstract class GameObject {
         return _bounds;
     }
 
+    public void setBounds(Shape bounds) {
+        _bounds = bounds;
+        _width = bounds.getBounds().getWidth();
+        _height = bounds.getBounds().getHeight();
+    }
+
     public double getContainerHeight() {
         return _containerHeight;
     }
@@ -75,6 +82,15 @@ public abstract class GameObject {
 
     public double getHeight() {
         return _height;
+    }
+
+    public Node getImage() {
+        return _container.getChildren().get(0);
+    }
+
+    public void setImage(Node node) {
+        _container.getChildren().clear();
+        _container.getChildren().add(node);
     }
 
     public double getLayoutX() {
@@ -117,8 +133,8 @@ public abstract class GameObject {
         _speedY = speedY;
     }
 
-    public Node getView() {
-        return _view;
+    public Pane getView() {
+        return _container;
     }
 
     public double getWidth() {

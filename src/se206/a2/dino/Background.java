@@ -20,7 +20,7 @@ public class Background extends GameObject {
         //   automatically expand to try and fit the entire width of the background
         if (_firstTick) {
             _firstTick = false;
-            ((HBox) getView()).getChildren().addAll(new ImageView(_image), new ImageView(_image));
+            ((HBox) getImage()).getChildren().addAll(new ImageView(_image), new ImageView(_image));
         }
 
         // when one side goes off the screen, shift ourselves right
