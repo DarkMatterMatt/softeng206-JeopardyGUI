@@ -16,6 +16,7 @@ public class DinoModel {
 
     private final Background _background = new Background();
     private final IntegerProperty _deaths = new SimpleIntegerProperty();
+    private final KeyDownTracker _keyDownTracker = KeyDownTracker.getInstance();
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
     private final ObservableList<Obstacle> _obstacles = FXCollections.observableList(new ArrayList<>());
     private final IGameComplete _onComplete;
@@ -74,11 +75,11 @@ public class DinoModel {
     }
 
     public void onKeyPress(KeyEvent ev) {
-        _player.jumpPress();
+        _keyDownTracker.onKeyPress(ev);
     }
 
     public void onKeyRelease(KeyEvent ev) {
-        _player.jumpRelease();
+        _keyDownTracker.onKeyRelease(ev);
     }
 
     public void startGame() {
