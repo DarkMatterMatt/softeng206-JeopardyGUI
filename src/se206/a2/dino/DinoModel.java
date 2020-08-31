@@ -18,7 +18,7 @@ public class DinoModel {
     private final IntegerProperty _deaths = new SimpleIntegerProperty();
     private final KeyDownTracker _keyDownTracker = KeyDownTracker.getInstance();
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
-    private final ObservableList<Obstacle> _obstacles = FXCollections.observableList(new ArrayList<>());
+    private final ObservableList<GameObject> _gameObjects = FXCollections.observableList(new ArrayList<>());
     private final IGameComplete _onComplete;
     private final Player _player = GameObjectFactory.createPlayer(GameObjectFactory.Type.PIG, 120, 100);
     private double _gameTime = 0;
@@ -62,8 +62,8 @@ public class DinoModel {
         return _deaths;
     }
 
-    public ObservableList<Obstacle> getObstacles() {
-        return _obstacles;
+    public ObservableList<GameObject> getGameObjects() {
+        return _gameObjects;
     }
 
     public Player getPlayer() {
@@ -90,7 +90,7 @@ public class DinoModel {
     public void stopGame() {
         _isRunning = false;
         _gameTimer.stop();
-        _obstacles.clear();
+        _gameObjects.clear();
     }
 
     public void tick(double secs) {
@@ -102,9 +102,9 @@ public class DinoModel {
         _player.tick(secs);
         _background.tick(secs, _runningSpeed);
 
-        Iterator<Obstacle> iter = _obstacles.iterator();
+        Iterator<GameObject> iter = _gameObjects.iterator();
         while (iter.hasNext()) {
-            Obstacle obj = iter.next();
+            GameObject obj = iter.next();
             obj.tick(secs, _runningSpeed);
 
             // remove objects off the screen
@@ -112,7 +112,7 @@ public class DinoModel {
                 iter.remove();
             }
 
-            if (!obj.hasCollided() && _player.collidesWith(obj)) {
+            if (obj instanceof Obstacle && !((Obstacle) obj).hasCollided() && _player.collidesWith(obj)) {
                 _deaths.set(_deaths.get() + 1);
             }
         }
@@ -120,7 +120,7 @@ public class DinoModel {
         // spawn new obstacles
         Obstacle o = _obstacleGenerator.spawnObstacle(secs, _runningSpeed);
         if (o != null) {
-            _obstacles.add(o);
+            _gameObjects.add(o);
         }
     }
 }

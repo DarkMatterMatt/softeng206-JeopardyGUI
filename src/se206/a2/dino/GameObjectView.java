@@ -2,7 +2,7 @@ package se206.a2.dino;
 
 import javafx.scene.layout.Pane;
 
-public abstract class GameObjectView {
+public class GameObjectView {
     private final Pane _container = new Pane();
 
     public GameObjectView(DinoModel model, GameObject obj) {

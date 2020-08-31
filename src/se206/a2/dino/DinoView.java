@@ -10,24 +10,24 @@ import java.util.HashMap;
 
 public class DinoView {
     private final Pane _container = new Pane();
-    private final HashMap<Obstacle, ObstacleView> _obstacleViews = new HashMap<>();
+    private final HashMap<GameObject, GameObjectView> _gameObjectViews = new HashMap<>();
 
     public DinoView(DinoModel model) {
-        PlayerView playerView = new PlayerView(model);
-        BackgroundView backgroundView = new BackgroundView(model);
+        GameObjectView playerView = new GameObjectView(model, model.getPlayer());
+        GameObjectView backgroundView = new GameObjectView(model, model.getBackground());
         DeathCounterView deathCounterView = new DeathCounterView(model);
 
-        model.getObstacles().addListener((ListChangeListener.Change<? extends Obstacle> change) -> {
+        model.getGameObjects().addListener((ListChangeListener.Change<? extends GameObject> change) -> {
             while (change.next()) {
-                for (Obstacle obstacle : change.getRemoved()) {
-                    ObstacleView ov = _obstacleViews.remove(obstacle);
+                for (GameObject o : change.getRemoved()) {
+                    GameObjectView ov = _gameObjectViews.remove(o);
                     _container.getChildren().remove(ov.getView());
                 }
-                for (Obstacle o : change.getAddedSubList()) {
-                    ObstacleView ov = new ObstacleView(model, o);
+                for (GameObject o : change.getAddedSubList()) {
+                    GameObjectView ov = new GameObjectView(model, o);
                     o.setContainerWidth(_container.getWidth());
                     o.setContainerHeight(_container.getHeight());
-                    _obstacleViews.put(o, ov);
+                    _gameObjectViews.put(o, ov);
                     _container.getChildren().add(ov.getView());
                 }
             }
@@ -44,7 +44,7 @@ public class DinoView {
             clip.setHeight(val);
             model.getPlayer().setContainerHeight(val);
             model.getBackground().setContainerHeight(val);
-            _obstacleViews.forEach((obstacle, view) -> {
+            _gameObjectViews.forEach((obstacle, view) -> {
                 obstacle.setContainerHeight(val);
             });
         });
@@ -56,7 +56,7 @@ public class DinoView {
             clip.setWidth(val);
             model.getPlayer().setContainerWidth(val);
             model.getBackground().setContainerWidth(val);
-            _obstacleViews.forEach((obstacle, view) -> {
+            _gameObjectViews.forEach((obstacle, view) -> {
                 obstacle.setContainerWidth(val);
             });
             deathCounterView.setContainerWidth(val);
