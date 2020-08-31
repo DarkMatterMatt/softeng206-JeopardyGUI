@@ -1,7 +1,6 @@
 package se206.a2.dino;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
@@ -11,8 +10,6 @@ import java.awt.geom.Area;
 
 public abstract class GameObject {
     private final Pane _container = new Pane();
-    private final DoubleProperty _layoutX = new SimpleDoubleProperty();
-    private final DoubleProperty _layoutY = new SimpleDoubleProperty();
     private Shape _bounds;
     private double _containerHeight;
     private double _containerWidth;
@@ -68,7 +65,7 @@ public abstract class GameObject {
 
     public void setContainerHeight(double height) {
         _containerHeight = height;
-        _layoutY.set(_containerHeight - _y - _height);
+        _container.setLayoutY(_containerHeight - _y - _height);
     }
 
     public double getContainerWidth() {
@@ -77,7 +74,7 @@ public abstract class GameObject {
 
     public void setContainerWidth(double width) {
         _containerWidth = width;
-        _layoutX.set(_x);
+        _container.setLayoutX(_x);
     }
 
     public double getHeight() {
@@ -94,27 +91,19 @@ public abstract class GameObject {
     }
 
     public double getLayoutX() {
-        return _layoutX.get();
+        return _container.getLayoutX();
     }
 
     public void setLayoutX(double x) {
-        _layoutX.set(x);
-    }
-
-    public DoubleProperty getLayoutXProperty() {
-        return _layoutX;
+        _container.setLayoutX(x);
     }
 
     public double getLayoutY() {
-        return _layoutY.get();
+        return _container.getLayoutY();
     }
 
     public void setLayoutY(double y) {
-        _layoutY.set(y);
-    }
-
-    public DoubleProperty getLayoutYProperty() {
-        return _layoutY;
+        _container.setLayoutY(y);
     }
 
     public double getSpeedX() {
@@ -167,7 +156,7 @@ public abstract class GameObject {
         _x += secs * (_speedX - runningSpeed);
         _y += secs * _speedY;
         onTick(secs, runningSpeed);
-        _layoutY.set(_containerHeight - _y - _height);
-        _layoutX.set(_x);
+        _container.setLayoutX(_x);
+        _container.setLayoutY(_containerHeight - _y - _height);
     }
 }

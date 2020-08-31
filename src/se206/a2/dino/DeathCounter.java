@@ -5,11 +5,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class DeathCounterView {
+public class DeathCounter {
     private final HBox _container = new HBox();
     private final Label _deathsLabel = new Label();
 
-    public DeathCounterView(DinoModel model) {
+    public DeathCounter(DinoModel model) {
         ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("assets/skull.png")));
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
