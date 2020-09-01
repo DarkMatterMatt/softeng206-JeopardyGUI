@@ -1,12 +1,16 @@
 package se206.a2.dino;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 public class DinoView {
+    private static final int FADE_OUT_MS = 2000;
     private final Pane _container = new Pane();
 
     public DinoView(DinoModel model) {
@@ -56,6 +60,21 @@ public class DinoView {
             clip.setWidth(val);
             model.getGameObjects().forEach((o) -> o.setContainerWidth(val));
             deathCounter.setContainerWidth(val);
+        });
+
+        // listen for the game finishing, we fade out
+        model.getGameFinishingProperty().addListener((obs, oldVal, newVal) -> {
+            FadeTransition ft = new FadeTransition(Duration.millis(FADE_OUT_MS), _container);
+            ft.setFromValue(1.0);
+            ft.setToValue(0);
+
+            // after fade out, have one second of black screen, then we're done
+            ft.setOnFinished(ev -> {
+                PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                pause.setOnFinished(event -> model.finishGame());
+                pause.play();
+            });
+            ft.play();
         });
 
         _container.getChildren().add(deathCounter.getView());

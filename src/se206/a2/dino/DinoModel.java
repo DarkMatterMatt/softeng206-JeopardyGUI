@@ -1,7 +1,9 @@
 package se206.a2.dino;
 
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +15,9 @@ import java.util.Iterator;
 public class DinoModel {
     private static final double BASE_RUNNING_SPEED = 600;
     private static final double MAX_RUNNING_SPEED = 2 * BASE_RUNNING_SPEED;
-    private final CollectableGenerator _collectableGenerator = new CollectableGenerator();
+    private final CollectableGenerator _collectableGenerator = new CollectableGenerator(this);
     private final IntegerProperty _deaths = new SimpleIntegerProperty();
+    private final BooleanProperty _gameFinishing = new SimpleBooleanProperty();
     private final ObservableList<GameObject> _gameObjects = FXCollections.observableList(new ArrayList<>());
     private final KeyDownTracker _keyDownTracker = KeyDownTracker.getInstance();
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
@@ -46,6 +49,10 @@ public class DinoModel {
         _gameObjects.add(new Background());
     }
 
+    public void beginFinishGame() {
+        _gameFinishing.set(true);
+    }
+
     public void finishGame() {
         _onComplete.gameComplete();
         stopGame();
@@ -59,8 +66,16 @@ public class DinoModel {
         return _deaths;
     }
 
+    public BooleanProperty getGameFinishingProperty() {
+        return _gameFinishing;
+    }
+
     public ObservableList<GameObject> getGameObjects() {
         return _gameObjects;
+    }
+
+    public boolean isFinishing() {
+        return _gameFinishing.get();
     }
 
     public boolean isRunning() {

@@ -1,5 +1,8 @@
 package se206.a2.dino;
 
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+
 import java.util.ArrayList;
 
 public class CollectableGenerator {
@@ -7,12 +10,14 @@ public class CollectableGenerator {
     private static final double SPAWN_SPEED = 0.5;
     private static final double SPEED = 1000;
     public final ArrayList<Collectable> _collectables = new ArrayList<>();
+    private final DinoModel _model;
+    private final double _obstacleSpeed = 400;
     private int _creditsCollected = 0;
     private double _nextSpawn = 5;
-    private final double _obstacleSpeed = 400;
     private double _time = 0;
 
-    public CollectableGenerator() {
+    public CollectableGenerator(DinoModel model) {
+        _model = model;
         addCredits();
     }
 
@@ -64,8 +69,10 @@ public class CollectableGenerator {
 
     public void onCreditCollected(Collectable c) {
         if (++_creditsCollected == 5) {
-            // we've collected the entire 'Matt M'
-            System.out.println("Credits collected");
+            // we've collected the entire 'Matt M', wait one second for the last collectable to move into place
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished(event -> _model.beginFinishGame());
+            pause.play();
         }
     }
 
