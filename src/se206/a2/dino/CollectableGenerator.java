@@ -3,16 +3,21 @@ package se206.a2.dino;
 import java.util.ArrayList;
 
 public class CollectableGenerator {
-    private double _time = 0;
-    private double _nextSpawn = 5;
-    private double _obstacleSpeed = 400;
-    private static final double SPEED = 1000;
-    private static final double SPAWN_SPEED = 0.5;
-    public final ArrayList<Collectable> _collectables = new ArrayList<>();
     private static final double CREDITS_SIZE = 50;
+    private static final double SPAWN_SPEED = 0.5;
+    private static final double SPEED = 1000;
+    public final ArrayList<Collectable> _collectables = new ArrayList<>();
+    private int _creditsCollected = 0;
+    private double _nextSpawn = 5;
+    private final double _obstacleSpeed = 400;
+    private double _time = 0;
 
     public CollectableGenerator() {
         addCredits();
+    }
+
+    public void addCollectable(Collectable c) {
+        _collectables.add(c);
     }
 
     private void addCredits() {
@@ -22,23 +27,46 @@ public class CollectableGenerator {
 
         c = GameObjectFactory.createCollectable(GameObjectFactory.Type.CREDITS_M1, 0, CREDITS_SIZE * 1.24);
         c.setFinalX(10);
-        _collectables.add(c);
-
-        c = GameObjectFactory.createCollectable(GameObjectFactory.Type.CREDITS_T1, 0, CREDITS_SIZE * 0.77);
-        c.setFinalX(100);
-        _collectables.add(c);
-
-        c = GameObjectFactory.createCollectable(GameObjectFactory.Type.CREDITS_T2, 0, CREDITS_SIZE * 0.77);
-        c.setFinalX(133);
+        c.setOnMissed(this::addCollectable);
+        c.setOnCollected(this::onCreditCollected);
         _collectables.add(c);
 
         c = GameObjectFactory.createCollectable(GameObjectFactory.Type.CREDITS_A, 0, CREDITS_SIZE * 0.80);
         c.setFinalX(70);
+        c.setOnMissed(this::addCollectable);
+        c.setOnCollected(this::onCreditCollected);
+        _collectables.add(c);
+
+        c = GameObjectFactory.createCollectable(GameObjectFactory.Type.CREDITS_T1, 0, CREDITS_SIZE * 0.77);
+        c.setFinalX(100);
+        c.setOnMissed(this::addCollectable);
+        c.setOnCollected(this::onCreditCollected);
+        _collectables.add(c);
+
+        c = GameObjectFactory.createCollectable(GameObjectFactory.Type.CREDITS_T2, 0, CREDITS_SIZE * 0.77);
+        c.setFinalX(133);
+        c.setOnMissed(this::addCollectable);
+        c.setOnCollected(this::onCreditCollected);
         _collectables.add(c);
 
         c = GameObjectFactory.createCollectable(GameObjectFactory.Type.CREDITS_M2, 0, CREDITS_SIZE * 1.18);
         c.setFinalX(180);
+        c.setOnMissed(this::addCollectable);
+        c.setOnCollected(this::onCreditCollected);
         _collectables.add(c);
+    }
+
+    public Collectable getRandomCollectable() {
+        int numRemaining = _collectables.size();
+        if (numRemaining == 0) return null;
+        return _collectables.remove(0);
+    }
+
+    public void onCreditCollected(Collectable c) {
+        if (++_creditsCollected == 5) {
+            // we've collected the entire 'Matt M'
+            System.out.println("Credits collected");
+        }
     }
 
     public Collectable spawn(double secs, double runningSpeed) {
@@ -52,11 +80,5 @@ public class CollectableGenerator {
 
         o.setX(2500);
         return o;
-    }
-
-    public Collectable getRandomCollectable() {
-        int numRemaining = _collectables.size();
-        if (numRemaining == 0) return null;
-        return _collectables.remove(0);
     }
 }
