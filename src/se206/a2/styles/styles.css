@@ -1,23 +1,13 @@
-/**
- * Colors
- * YellowGold: #ffb400
- * Grey: #262626
- * White: #ffffff
- * Aqua: #33e6ed
- * Black: #000000
- * OffWhite: #fcfcf4
- */
-
 .root {
-    -c-gold: #ffb400;
-    -c-green: #00ff00;
-    -c-grey-00: #121212;
-    -c-grey-01: #1e1e1e;
-    -c-grey-03: #252525;
-    -c-grey-04: #272727;
-    -c-grey-08: #2d2d2d;
-    -c-off-white: #fcfcf4;
-    -c-red: #ff0000;
+    -c-gold: #ffb400; /* hsl(42, 100%, 50%) */
+    -c-green: #00ff00; /* hsl(120, 100%, 50%) */
+    -c-grey-00: #121212; /* hsl(0, 0%, 7%) */
+    -c-grey-01: #1e1e1e; /* hsl(0, 0%, 12%) */
+    -c-grey-03: #252525; /* hsl(0, 0%, 15%) */
+    -c-grey-04: #272727; /* hsl(0, 0%, 15%) */
+    -c-grey-08: #2d2d2d; /* hsl(0, 0%, 18%) */
+    -c-off-white: #fcfcf4; /* hsl(60, 57%, 97%) */
+    -c-red: #ff0000; /* hsl(0, 100%, 50%) */
 
     -fx-font-family: "sans-serif";
     -fx-font-size: 24;
