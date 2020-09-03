@@ -115,11 +115,11 @@
 }
 
 .question.correct .background {
-    -fx-fill: #1e221c;
+    -fx-fill: #23301d; /* hsl(101, 25%, 15%) */
 }
 
 .question.incorrect .background {
-    -fx-fill: #231d1d;
+    -fx-fill: #301d1d; /* hsl(0, 25%, 15%) */
 }
 
 .answer {
