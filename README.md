@@ -39,3 +39,15 @@ Download the [latest compiled release](https://github.com/SOFTENG206-2020/assign
 Then run `java --module-path /path/to/javafx/lib/ --add-modules javafx.controls -jar jeopardy.jar`.
  
 Don't have JavaFX? Check out [jfxRunner](https://github.com/DarkMatterMatt/jfxrunner/releases/latest), which seamlessly deals with JavaFX for you. Just run `java -jar jfxrunner.jar jeopardy.jar` (you might have to wait for a moment while JavaFX is downloaded!).
+
+
+## Screenshots
+
+Question selection menu
+![question selection menu](./screenshots/menu.png)
+
+Answering a question
+![answering a question](./screenshots/answer_question.png)
+
+Whoops, wrong answer!
+![wrong answer](./screenshots/incorrect.png)
