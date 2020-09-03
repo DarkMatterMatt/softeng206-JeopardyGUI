@@ -23,6 +23,7 @@ public class DinoModel {
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
     private final IGameComplete _onComplete;
     private final Player _player = GameObjectFactory.createPlayer(GameObjectFactory.Type.PIG, 120, 100);
+    private final Background _background = new Background();
     private double _gameTime = 0;
     private boolean _isRunning = false;
     private double _runningSpeed;
@@ -45,8 +46,6 @@ public class DinoModel {
 
     public DinoModel(IGameComplete onComplete) {
         _onComplete = onComplete;
-        _gameObjects.add(_player);
-        _gameObjects.add(new Background());
     }
 
     public void beginFinishGame() {
@@ -91,6 +90,17 @@ public class DinoModel {
     }
 
     public void startGame() {
+        // reset
+        _gameObjects.clear();
+        _gameObjects.add(_player);
+        _gameObjects.add(_background);
+
+        _player.setX(100);
+        _gameTime = 0;
+        _collectableGenerator.reset();
+        _gameFinishing.set(false);
+
+        // start
         _gameTimer.start();
         _isRunning = true;
     }

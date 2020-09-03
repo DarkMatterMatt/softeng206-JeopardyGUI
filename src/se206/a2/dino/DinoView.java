@@ -64,17 +64,19 @@ public class DinoView {
 
         // listen for the game finishing, we fade out
         model.getGameFinishingProperty().addListener((obs, oldVal, newVal) -> {
-            FadeTransition ft = new FadeTransition(Duration.millis(FADE_OUT_MS), _container);
-            ft.setFromValue(1.0);
-            ft.setToValue(0);
+            if (newVal) {
+                FadeTransition ft = new FadeTransition(Duration.millis(FADE_OUT_MS), _container);
+                ft.setFromValue(1.0);
+                ft.setToValue(0);
 
-            // after fade out, have one second of black screen, then we're done
-            ft.setOnFinished(ev -> {
-                PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                pause.setOnFinished(event -> model.finishGame());
-                pause.play();
-            });
-            ft.play();
+                // after fade out, have one second of black screen, then we're done
+                ft.setOnFinished(ev -> {
+                    PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                    pause.setOnFinished(event -> model.finishGame());
+                    pause.play();
+                });
+                ft.play();
+            }
         });
 
         _container.getChildren().add(deathCounter.getView());

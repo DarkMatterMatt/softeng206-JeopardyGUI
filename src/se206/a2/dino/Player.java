@@ -24,8 +24,6 @@ public class Player extends GameObject {
     public Player(Shape bounds, Node view) {
         super(bounds, view);
         pigModel = new Pair<>(bounds, view);
-
-        setX(100);
         setY(GROUND_HEIGHT);
 
         // jump
