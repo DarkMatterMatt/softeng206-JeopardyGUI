@@ -94,6 +94,24 @@ public class GameObjectFactory {
                 polyY = new double[]{80, 80, 60, 60, 0, 0, 60, 60};
                 break;
 
+            case INFO_AVOID_OBSTACLES:
+                polyX = new double[]{0, 335.86, 335.86, 0};
+                polyY = new double[]{0, 0, 28.05, 28.05};
+                imageFile = "assets/avoid-obstacles.png";
+                break;
+
+            case INFO_COLLECT_ITEMS:
+                polyX = new double[]{0, 285.87, 285.87, 0};
+                polyY = new double[]{0, 0, 28.05, 28.05};
+                imageFile = "assets/collect-items.png";
+                break;
+
+            case INFO_CONTROLS:
+                polyX = new double[]{380, 380, 392, 392, 536.362, 536.362, 661, 661, 536, 536, 377, 377, 279.556, 279.556, 120, 120, 0, 0, 120, 120, 264, 264, 277, 277};
+                polyY = new double[]{0, 43.9, 43.9, 187.9, 187.9, 214.9, 214.9, 288.74, 288.74, 315.675, 315.675, 358.9, 358.9, 315.9, 315.9, 288.9, 288.9, 214.797, 214.797, 187.9, 187.9, 43.9, 43.9, 0};
+                imageFile = "assets/controls.png";
+                break;
+
             case PIG:
                 polyX = new double[]{10.18, 24.18, 26.18, 37.18, 41.18, 45.18, 55.18, 57.18, 54.18, 40.18, 47.18, 39.18, 33.18, 21.18, 20.18, 10.18, 6.18, 12.18, 6.18, 1.18, 1.18, 8.18, 13.18, 10.18};
                 polyY = new double[]{3.42, 0.42, 12.42, 13.42, 6.42, 14.42, 15.42, 20.42, 27.42, 36.42, 43.42, 48.42, 41.42, 44.42, 51.42, 49.42, 45.42, 38.42, 31.42, 30.42, 23.42, 26.42, 20.42, 3.42};
@@ -155,6 +173,9 @@ public class GameObjectFactory {
         CREDITS_T2,
         DUCK,
         FIRE,
+        INFO_AVOID_OBSTACLES,
+        INFO_COLLECT_ITEMS,
+        INFO_CONTROLS,
         INVERTED_TEE,
         PIG,
         RECTANGLE,
