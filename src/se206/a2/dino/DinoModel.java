@@ -22,7 +22,7 @@ public class DinoModel {
     private final KeyDownTracker _keyDownTracker = KeyDownTracker.getInstance();
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
     private final IGameComplete _onComplete;
-    private final Player _player = GameObjectFactory.createPlayer(GameObjectFactory.Type.PIG, 120, 100);
+    private final Player _player = new Player();
     private final Background _background = new Background();
     private double _gameTime = 0;
     private boolean _isRunning = false;

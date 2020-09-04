@@ -22,11 +22,6 @@ public class GameObjectFactory {
         return new Obstacle(p.getKey(), p.getValue());
     }
 
-    public static Player createPlayer(Type type, double width, double height) {
-        Pair<Shape, Node> p = getViewAndBounds(type, width, height);
-        return new Player(p.getKey(), p.getValue());
-    }
-
     public static Pair<Shape, Node> getViewAndBounds(Type type, double width, double height) {
         if (width <= 0 && height <= 0) {
             throw new IllegalArgumentException("One of width and height must be positive. Only one can be automatic at a time");

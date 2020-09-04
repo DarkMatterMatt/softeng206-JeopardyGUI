@@ -13,17 +13,17 @@ public class Player extends GameObject {
     private static final double JUMP_SPEED = 1200;
     private static final double MOVE_SPEED = 400;
     private static final int NOT_JUMPING = -1;
-    private static double _jumpingForTime = NOT_JUMPING;
-    private final KeyDownTracker _keyDownTracker = KeyDownTracker.getInstance();
-    private final Pair<Shape, Node> duckModel = GameObjectFactory.getViewAndBounds(GameObjectFactory.Type.DUCK, 120, 100);
-    private final Pair<Shape, Node> pigModel;
+    private static final Pair<Shape, Node> _duckModel = GameObjectFactory.getViewAndBounds(GameObjectFactory.Type.DUCK, 120, 100);
+    private static final KeyDownTracker _keyDownTracker = KeyDownTracker.getInstance();
+    private static final Pair<Shape, Node> _pigModel = GameObjectFactory.getViewAndBounds(GameObjectFactory.Type.PIG, 120, 100);
     private KeyCode _jumpKey = null;
+    private double _jumpingForTime = NOT_JUMPING;
     private KeyCode _movingLeftKey = null;
     private KeyCode _movingRightKey = null;
 
-    public Player(Shape bounds, Node view) {
-        super(bounds, view);
-        pigModel = new Pair<>(bounds, view);
+    public Player() {
+        super(_pigModel.getKey(), _pigModel.getValue());
+        setMovesGround(false);
         setY(GROUND_HEIGHT);
 
         // jump
@@ -32,13 +32,13 @@ public class Player extends GameObject {
 
         // duck
         _keyDownTracker.addPressListener(ev -> {
-            if (getBounds() == pigModel.getKey()) {
-                setBounds(duckModel.getKey());
-                setImage(duckModel.getValue());
+            if (getBounds() == _pigModel.getKey()) {
+                setBounds(_duckModel.getKey());
+                setImage(_duckModel.getValue());
             }
             else {
-                setBounds(pigModel.getKey());
-                setImage(pigModel.getValue());
+                setBounds(_pigModel.getKey());
+                setImage(_pigModel.getValue());
             }
         }, KeyCode.DOWN, KeyCode.S, KeyCode.NUMPAD2);
 

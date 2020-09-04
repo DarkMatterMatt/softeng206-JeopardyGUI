@@ -1,6 +1,5 @@
 package se206.a2.dino;
 
-import javafx.beans.property.DoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
@@ -14,6 +13,7 @@ public abstract class GameObject {
     private double _containerHeight;
     private double _containerWidth;
     private double _height;
+    private boolean _movesWithGround = true;
     private double _speedX;
     private double _speedY;
     private double _width;
@@ -146,15 +146,24 @@ public abstract class GameObject {
         _y = y;
     }
 
+    public boolean movesWithGround() {
+        return _movesWithGround;
+    }
+
     protected void onCollision(GameObject other) {
     }
 
     protected void onTick(double secs, double runningSpeed) {
     }
 
+    public void setMovesGround(boolean movesWithGround) {
+        _movesWithGround = movesWithGround;
+    }
+
     public final void tick(double secs, double runningSpeed) {
-        _x += secs * (_speedX - runningSpeed);
+        _x += secs * _speedX;
         _y += secs * _speedY;
+        if (_movesWithGround) _x -= secs * runningSpeed;
         onTick(secs, runningSpeed);
         _container.setLayoutX(_x);
         _container.setLayoutY(_containerHeight - _y - _height);
