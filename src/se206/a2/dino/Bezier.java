@@ -4,6 +4,8 @@ import java.awt.geom.Point2D;
 
 public class Bezier {
     public static class Cubic {
+        private static final int ARR_SIZE = 1000; // array of -1 <= t <= 2
+        private final double[] _cacheXforT = new double[3 * ARR_SIZE];
         private final double _p1X, _p1Y, _p2X, _p2Y, _aX, _bX, _cX, _aY, _bY, _cY;
 
         /**
@@ -27,6 +29,10 @@ public class Bezier {
             _cY = 3 * _p1Y;
             _bY = 3 * (_p2Y - _p1Y) - _cY;
             _aY = 1 - _cY - _bY;
+
+            for (int i = 0; i < 3 * ARR_SIZE; i++) {
+                _cacheXforT[i] = getX((double) (i - ARR_SIZE) / ARR_SIZE);
+            }
         }
 
         /**
@@ -34,7 +40,7 @@ public class Bezier {
          * @return progress at time `t`
          */
         public double get(double t) {
-            return getY(t);
+            return getY(getTAtX(t));
         }
 
         public double getP1X() {
@@ -59,6 +65,37 @@ public class Bezier {
          */
         public Point2D getPoint(double t) {
             return new Point2D.Double(getX(t), getY(t));
+        }
+
+        /**
+         * Terrible implementation to find the time which produces `x`. Doesn't even work half the time...
+         */
+        public double getTAtX(double x) {
+            double best_diff = Math.abs(_cacheXforT[ARR_SIZE] - x);
+            int best_i = ARR_SIZE;
+
+            // search range for t <= 0
+            if (x < 0) {
+                for (int i = ARR_SIZE - 1; i >= 0; i--) {
+                    double diff = Math.abs(_cacheXforT[i] - x);
+                    if (diff < best_diff) {
+                        best_i = i;
+                        best_diff = diff;
+                    }
+                }
+            }
+            // search range for 0 <= t < 2
+            else {
+                for (int i = ARR_SIZE + 1; i < _cacheXforT.length; i++) {
+                    double diff = Math.abs(_cacheXforT[i] - x);
+                    if (diff < best_diff) {
+                        best_i = i;
+                        best_diff = diff;
+                    }
+                }
+            }
+
+            return (double) (best_i - ARR_SIZE) / ARR_SIZE;
         }
 
         /**

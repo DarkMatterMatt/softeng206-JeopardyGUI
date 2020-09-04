@@ -15,6 +15,7 @@ import java.util.Iterator;
 public class DinoModel {
     private static final double BASE_RUNNING_SPEED = 600;
     private static final double MAX_RUNNING_SPEED = 2 * BASE_RUNNING_SPEED;
+    private final Background _background = new Background();
     private final CollectableGenerator _collectableGenerator = new CollectableGenerator(this);
     private final IntegerProperty _deaths = new SimpleIntegerProperty();
     private final BooleanProperty _gameFinishing = new SimpleBooleanProperty();
@@ -23,7 +24,6 @@ public class DinoModel {
     private final ObstacleGenerator _obstacleGenerator = new ObstacleGenerator();
     private final IGameComplete _onComplete;
     private final Player _player = new Player();
-    private final Background _background = new Background();
     private double _gameTime = 0;
     private boolean _isRunning = false;
     private double _runningSpeed;
@@ -46,6 +46,19 @@ public class DinoModel {
 
     public DinoModel(IGameComplete onComplete) {
         _onComplete = onComplete;
+    }
+
+    private void addInfoObjects() {
+        InfoObject controls = GameObjectFactory.createInfoObject(GameObjectFactory.Type.INFO_CONTROLS, 0, 120)
+                .setEntryStart(2)
+                //.setCurve(new Bezier.Cubic(0.5, 0.8, 1.0, 0.5)) // buggy bezier curve implementation
+                .setEntryDuration(4);
+        InfoObject avoid = GameObjectFactory.createInfoObject(GameObjectFactory.Type.INFO_AVOID_OBSTACLES, 0, 35)
+                .setEntryStart(8);
+        InfoObject collect = GameObjectFactory.createInfoObject(GameObjectFactory.Type.INFO_COLLECT_ITEMS, 0, 35)
+                .setEntryStart(11);
+
+        _gameObjects.addAll(controls, avoid, collect);
     }
 
     public void beginFinishGame() {
@@ -81,6 +94,17 @@ public class DinoModel {
         return _isRunning;
     }
 
+    private void onFirstTick() {
+        // reset
+        _gameObjects.clear();
+        _gameObjects.add(_player);
+        _gameObjects.add(_background);
+        addInfoObjects();
+
+        _player.setX(100);
+        _collectableGenerator.reset();
+    }
+
     public void onKeyPress(KeyEvent ev) {
         _keyDownTracker.onKeyPress(ev);
     }
@@ -91,13 +115,7 @@ public class DinoModel {
 
     public void startGame() {
         // reset
-        _gameObjects.clear();
-        _gameObjects.add(_player);
-        _gameObjects.add(_background);
-
-        _player.setX(100);
         _gameTime = 0;
-        _collectableGenerator.reset();
         _gameFinishing.set(false);
 
         // start
@@ -112,6 +130,8 @@ public class DinoModel {
     }
 
     public void tick(double secs) {
+        if (_gameTime == 0) onFirstTick();
+
         _gameTime += secs;
         if (_runningSpeed < MAX_RUNNING_SPEED) {
             _runningSpeed = BASE_RUNNING_SPEED * Math.pow(1.1, (int) (_gameTime / 10));
