@@ -14,6 +14,7 @@ public class Obstacle extends GameObject {
 
     public Obstacle(Shape bounds, Node view) {
         super(bounds, view);
+        getView().setViewOrder(-20);
         setX(1500);
     }
 

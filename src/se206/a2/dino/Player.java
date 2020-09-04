@@ -23,7 +23,8 @@ public class Player extends GameObject {
 
     public Player() {
         super(_pigModel.getKey(), _pigModel.getValue());
-        setMovesGround(false);
+        getView().setViewOrder(-50);
+        setMovesWithGround(false);
         setY(GROUND_HEIGHT);
 
         // jump

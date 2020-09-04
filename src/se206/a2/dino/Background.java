@@ -12,6 +12,7 @@ public class Background extends GameObject {
 
     public Background() {
         super(new Rectangle(4800, 24), new HBox());
+        getView().setViewOrder(10);
     }
 
     @Override

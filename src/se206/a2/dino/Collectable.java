@@ -20,6 +20,7 @@ public class Collectable extends GameObject {
 
     public Collectable(Shape bounds, Node view) {
         super(bounds, view);
+        getView().setViewOrder(-30);
         setX(1500);
     }
 

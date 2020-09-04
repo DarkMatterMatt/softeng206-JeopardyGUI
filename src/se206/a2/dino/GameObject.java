@@ -156,7 +156,7 @@ public abstract class GameObject {
     protected void onTick(double secs, double runningSpeed) {
     }
 
-    public void setMovesGround(boolean movesWithGround) {
+    public void setMovesWithGround(boolean movesWithGround) {
         _movesWithGround = movesWithGround;
     }
 

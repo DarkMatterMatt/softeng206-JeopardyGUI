@@ -15,6 +15,7 @@ public class DinoView {
 
     public DinoView(DinoModel model) {
         DeathCounter deathCounter = new DeathCounter(model);
+        deathCounter.getView().setViewOrder(-10);
 
         // add existing game objects
         model.getGameObjects().forEach(o -> {
