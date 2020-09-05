@@ -15,42 +15,23 @@ public class TaskbarView {
 
     public TaskbarView(GameModel model) {
         // exit button view
-        ImageView exit = new ImageView(new Image(getClass().getResourceAsStream("assets/exit.png")));
-        exit.setFitHeight(32);
-        exit.setPreserveRatio(true);
-        exit.setSmooth(true);
-        exit.setCache(true);
-        exit.setPickOnBounds(true);
+        ImageView exit = createButton(new Image(getClass().getResourceAsStream("assets/exit.png")));
         exit.setOnMouseClicked(e -> Platform.exit());
-        exit.getStyleClass().add("btn");
         Tooltip.install(exit, new Tooltip("Quit"));
 
         // reset button view
-        ImageView reset = new ImageView(new Image(getClass().getResourceAsStream("assets/reset.png")));
-        reset.setFitHeight(32);
-        reset.setPreserveRatio(true);
-        reset.setSmooth(true);
-        reset.setCache(true);
-        reset.setPickOnBounds(true);
+        ImageView reset = createButton(new Image(getClass().getResourceAsStream("assets/reset.png")));
         reset.setOnMouseClicked(e -> model.reset());
-        reset.getStyleClass().add("btn");
         Tooltip.install(reset, new Tooltip("Reset game"));
 
-        // volume mute/unmute image
+        // volume mute/unmute image & tooltips
         Image volumeImage = new Image(getClass().getResourceAsStream("assets/volume.png"));
         Image volumeMuteImage = new Image(getClass().getResourceAsStream("assets/volume-mute.png"));
         Tooltip volumeTooltip = new Tooltip("Enable sound");
         Tooltip volumeMuteTooltip = new Tooltip("Disable sound");
 
         // volume mute/unmute view
-        ImageView volume = new ImageView(model.isSoundEnabled() ? volumeImage : volumeMuteImage);
-        volume.setFitHeight(32);
-        volume.setPreserveRatio(true);
-        volume.setSmooth(true);
-        volume.setCache(true);
-        volume.setPickOnBounds(true);
-        volume.setOnMouseClicked(e -> model.reset());
-        volume.getStyleClass().add("btn");
+        ImageView volume = createButton(model.isSoundEnabled() ? volumeImage : volumeMuteImage);
         Tooltip.install(volume, model.isSoundEnabled() ? volumeMuteTooltip : volumeTooltip);
 
         _container.getStyleClass().add("taskbar");
@@ -73,6 +54,17 @@ public class TaskbarView {
                 model.enableSound();
             }
         });
+    }
+
+    private static ImageView createButton(Image img) {
+        ImageView v = new ImageView(img);
+        v.setFitHeight(32);
+        v.setPreserveRatio(true);
+        v.setSmooth(true);
+        v.setCache(true);
+        v.setPickOnBounds(true);
+        v.getStyleClass().add("btn");
+        return v;
     }
 
     public Pane getView() {
