@@ -6,6 +6,9 @@ import javafx.scene.layout.StackPane;
 import se206.a2.dino.DinoModel;
 import se206.a2.dino.DinoView;
 
+/**
+ * View for all game content, controls which child-view is displayed
+ */
 public class GameContentView {
     private final AnswerView _answerView;
     private final CategoriesListView _categoriesListView;
@@ -18,6 +21,7 @@ public class GameContentView {
     public GameContentView(GameModel model) {
         _model = model;
 
+        // create views for each game state
         _categoriesListView = new CategoriesListView(_model);
         _answerView = new AnswerView(_model);
         _correctView = new CorrectView(_model);
@@ -41,7 +45,11 @@ public class GameContentView {
         return _container;
     }
 
+    /**
+     * Show the right view to match the game state
+     */
     private void showCorrectView(GameModel.State currentState) {
+        // stop dino game if it isn't being displayed
         DinoModel dinoModel = _model.getDinoModel();
         if (currentState != GameModel.State.GAME_OVER && dinoModel.isRunning()) {
             dinoModel.stopGame();
@@ -69,6 +77,9 @@ public class GameContentView {
         }
     }
 
+    /**
+     * Show a single view and hide all others
+     */
     private void showView(Parent show) {
         for (Node n : _container.getChildren()) {
             n.setVisible(n == show);

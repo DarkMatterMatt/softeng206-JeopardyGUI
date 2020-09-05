@@ -8,6 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/**
+ * Logic & details for a single question
+ */
 public class Question implements Comparable<Question>, Serializable {
     private final String _answer;
     private final Category _category;
@@ -27,6 +30,9 @@ public class Question implements Comparable<Question>, Serializable {
         _status = new SimpleObjectProperty<>(status);
     }
 
+    /**
+     * @return true if the answer is correct (case insensitive, trims whitespace)
+     */
     public boolean checkAnswer(String answer) {
         boolean correct = _answer.equalsIgnoreCase(answer.trim());
         _status.set(correct ? Status.CORRECT : Status.INCORRECT);
@@ -62,16 +68,25 @@ public class Question implements Comparable<Question>, Serializable {
         return _value;
     }
 
+    /**
+     * Custom deserialization for Serializable
+     */
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
         s.defaultReadObject();
         _status = new SimpleObjectProperty<>((Status) s.readObject());
     }
 
+    /**
+     * Custom serialization for Serializable
+     */
     private void writeObject(ObjectOutputStream s) throws IOException {
         s.defaultWriteObject();
         s.writeObject(_status.get());
     }
 
+    /**
+     * Question status
+     */
     public enum Status {
         UNATTEMPTED,
         CORRECT,

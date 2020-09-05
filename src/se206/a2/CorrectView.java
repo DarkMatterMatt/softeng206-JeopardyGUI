@@ -5,6 +5,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 
+/**
+ * View for correct answer screen, after a correct answer has been submitted
+ */
 public class CorrectView {
     private static final int TIMEOUT_SECS = 2;
     private final VBox _container = new VBox();
@@ -33,6 +36,9 @@ public class CorrectView {
         return _container;
     }
 
+    /**
+     * Progress bar fills linearly over a fixed duration, TIMEOUT_SECS
+     */
     private void startAnimation() {
         AnimationTimer timer = new AnimationTimer() {
             private long startTime;
@@ -49,6 +55,7 @@ public class CorrectView {
                 _progressBar.setProgress(progress);
 
                 if (progress >= 1) {
+                    // leave this screen when the progress bar is full
                     _model.finishQuestion();
                     stop();
                 }

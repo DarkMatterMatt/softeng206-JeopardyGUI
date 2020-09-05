@@ -2,6 +2,9 @@ package se206.a2;
 
 import javafx.scene.layout.TilePane;
 
+/**
+ * View that displays all categories in tiles
+ */
 public class CategoriesListView {
     private final TilePane _container = new TilePane();
 

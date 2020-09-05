@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+/**
+ * Handles loading of categories & questions
+ */
 public class GameModelDataSource {
     private final String _categoriesDir;
 
@@ -16,6 +19,9 @@ public class GameModelDataSource {
         _categoriesDir = categoriesDir;
     }
 
+    /**
+     * @return a list of categories as loaded from disk
+     */
     public List<Category> loadCategories() {
         // open categories directory
         File categoriesDir = new File(_categoriesDir);

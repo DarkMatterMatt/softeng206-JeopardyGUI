@@ -2,6 +2,9 @@ package se206.a2;
 
 import javafx.scene.layout.VBox;
 
+/**
+ * Parent view for Jeopardy!
+ */
 public class GameView {
     private final VBox _container = new VBox();
     private final GameModel _model;

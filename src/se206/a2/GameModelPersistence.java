@@ -2,6 +2,9 @@ package se206.a2;
 
 import java.io.*;
 
+/**
+ * Handles loading from / saving to disk
+ */
 public class GameModelPersistence {
     private final String _saveFile;
 
@@ -9,6 +12,9 @@ public class GameModelPersistence {
         _saveFile = saveFile;
     }
 
+    /**
+     * Loads a previous GameModel from disk
+     */
     public GameModel load() {
         try {
             FileInputStream file = new FileInputStream(_saveFile);
@@ -22,7 +28,7 @@ public class GameModelPersistence {
             return model;
         }
         catch (FileNotFoundException e) {
-            System.out.println("No save file found");
+            // no save file found
             return null;
         }
         catch (IOException | ClassNotFoundException e) {

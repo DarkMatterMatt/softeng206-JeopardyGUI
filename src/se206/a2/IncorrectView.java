@@ -6,6 +6,9 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 
+/**
+ * View for incorrect answer screen, after an incorrect answer has been submitted
+ */
 public class IncorrectView {
     private static final int TIMEOUT_SECS = 4;
     private final Label _answerLabel = new Label();
@@ -16,10 +19,10 @@ public class IncorrectView {
     public IncorrectView(GameModel model) {
         _model = model;
 
+        // show correct answer
         Label incorrectLabel = new Label("Incorrect!");
         Label answerPrefixLabel = new Label("The correct answer was ");
         Label answerSuffixLabel = new Label(".");
-
         TextFlow answerText = new TextFlow(answerPrefixLabel, _answerLabel, answerSuffixLabel);
 
         answerText.getStyleClass().add("text-flow");
@@ -35,6 +38,7 @@ public class IncorrectView {
         startAnimation();
         model.getStateProperty().addListener((observable, oldVal, newVal) -> startAnimation());
 
+        // update answer to reflect current question
         questionUpdate(model.getCurrentQuestion());
         model.getCurrentQuestionProperty().addListener((observable, oldVal, newVal) -> questionUpdate(newVal));
 
@@ -45,12 +49,18 @@ public class IncorrectView {
         return _container;
     }
 
+    /**
+     * Update to show correct answer
+     */
     private void questionUpdate(Question q) {
         if (q != null) {
             _answerLabel.setText(q.getAnswer());
         }
     }
 
+    /**
+     * Progress bar fills linearly over a fixed duration, TIMEOUT_SECS
+     */
     private void startAnimation() {
         AnimationTimer timer = new AnimationTimer() {
             private long startTime;
@@ -67,6 +77,7 @@ public class IncorrectView {
                 _progressBar.setProgress(progress);
 
                 if (progress >= 1) {
+                    // leave this screen when the progress bar is full
                     _model.finishQuestion();
                     stop();
                 }

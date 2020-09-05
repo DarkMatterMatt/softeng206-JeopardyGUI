@@ -5,12 +5,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Polygon;
 
+/**
+ * View for a single question
+ */
 public class QuestionView {
     private final StackPane _container = new StackPane();
 
     public QuestionView(GameModel model, Question question, int height, int topWidth, int bottomWidth) {
+        // custom symmetrical quadrilateral shape (topWidth != bottomWidth)
         int bottomLeftX = (topWidth - bottomWidth) / 2;
-
         Polygon background = new Polygon(0, 0,
                 topWidth, 0,
                 bottomLeftX + bottomWidth, height,
@@ -18,6 +21,7 @@ public class QuestionView {
         background.getStyleClass().addAll("background", "btn");
         background.setOnMouseClicked(ev -> model.askQuestion(question));
 
+        // display question value
         Label valueLabel = new Label("$" + question.getValue());
         valueLabel.getStyleClass().add("value");
         valueLabel.setMouseTransparent(true);
@@ -29,6 +33,9 @@ public class QuestionView {
         question.getStatusProperty().addListener((observable, oldVal, newVal) -> updateStatus(newVal));
     }
 
+    /**
+     * Add / remove background coloring depending on question state
+     */
     public void updateStatus(Question.Status status) {
         switch (status) {
             case UNATTEMPTED:

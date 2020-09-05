@@ -15,6 +15,9 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Logic & data for Jeopardy!
+ */
 public class GameModel implements Serializable, IGameComplete {
     private final transient GameModelDataSource _dataSource;
     private final transient DinoModel _dinoModel = new DinoModel(this);
@@ -31,6 +34,9 @@ public class GameModel implements Serializable, IGameComplete {
         load();
     }
 
+    /**
+     * Submit an answer for the current question
+     */
     public void answerQuestion(String answer) {
         if (_state.get() != State.ANSWER_QUESTION) {
             throw new IllegalStateException("Previous state should be ANSWER_QUESTION, found " + _state.get());
@@ -42,6 +48,9 @@ public class GameModel implements Serializable, IGameComplete {
         _textToSpeech.speak(correct ? "Correct!" : "Incorrect");
     }
 
+    /**
+     * Ask the specified question
+     */
     public void askQuestion(Question question) {
         if (_state.get() != State.SELECT_QUESTION) {
             throw new IllegalStateException("Previous state should be SELECT_QUESTION, found " + _state.get());
@@ -62,6 +71,9 @@ public class GameModel implements Serializable, IGameComplete {
         save();
     }
 
+    /**
+     * Return to question selection screen
+     */
     public void finishQuestion() {
         if (_state.get() != State.CORRECT_ANSWER && _state.get() != State.INCORRECT_ANSWER) {
             throw new IllegalStateException("Previous state should be CORRECT_ANSWER or INCORRECT_ANSWER, found " + _state.get());
@@ -81,6 +93,9 @@ public class GameModel implements Serializable, IGameComplete {
         return Collections.unmodifiableList(_categories);
     }
 
+    /**
+     * Get category with specified name
+     */
     public Category getCategory(String categoryName) {
         return _categories.stream()
                 .filter(c -> c.getName().equals(categoryName))
@@ -100,6 +115,9 @@ public class GameModel implements Serializable, IGameComplete {
         return _dinoModel;
     }
 
+    /**
+     * Get question with specified value in category
+     */
     public Question getQuestion(String categoryName, int value) {
         Category category = getCategory(categoryName);
         if (category == null) {
@@ -124,6 +142,9 @@ public class GameModel implements Serializable, IGameComplete {
         return _state;
     }
 
+    /**
+     * @return true if any category has at least one unattempted question
+     */
     public boolean hasUnattemptedQuestions() {
         return _categories.stream().anyMatch(Category::hasUnattemptedQuestions);
     }
@@ -132,6 +153,9 @@ public class GameModel implements Serializable, IGameComplete {
         return !_textToSpeech.isMuted();
     }
 
+    /**
+     * Load save data from persistence
+     */
     private void load() {
         if (_persistence != null) {
             GameModel old = _persistence.load();
@@ -147,6 +171,9 @@ public class GameModel implements Serializable, IGameComplete {
         reset();
     }
 
+    /**
+     * Handle key presses depending on current state
+     */
     public void onKeyPress(KeyEvent ev) {
         switch (getState()) {
             case CORRECT_ANSWER:
@@ -159,6 +186,9 @@ public class GameModel implements Serializable, IGameComplete {
         }
     }
 
+    /**
+     * Handle key releases depending on current state
+     */
     public void onKeyRelease(KeyEvent ev) {
         switch (getState()) {
             case GAME_OVER:
@@ -167,6 +197,9 @@ public class GameModel implements Serializable, IGameComplete {
         }
     }
 
+    /**
+     * Custom deserialization for Serializable
+     */
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
         s.defaultReadObject();
         _score = new SimpleIntegerProperty(s.readInt());
@@ -174,6 +207,9 @@ public class GameModel implements Serializable, IGameComplete {
         _currentQuestion = new SimpleObjectProperty<>((Question) s.readObject());
     }
 
+    /**
+     * Reset game. Loads categories, zeros score, starts question selection screen
+     */
     public void reset() {
         _categories = _dataSource.loadCategories();
         _currentQuestion.setValue(null);
@@ -182,12 +218,18 @@ public class GameModel implements Serializable, IGameComplete {
         _state.set(State.SELECT_QUESTION);
     }
 
+    /**
+     * Save the current game state to persistence
+     */
     private void save() {
         if (_persistence != null) {
             _persistence.save(this);
         }
     }
 
+    /**
+     * Custom serialization for Serializable
+     */
     private void writeObject(ObjectOutputStream s) throws IOException {
         s.defaultWriteObject();
         s.writeInt(_score.intValue());
@@ -195,6 +237,9 @@ public class GameModel implements Serializable, IGameComplete {
         s.writeObject(_currentQuestion.get());
     }
 
+    /**
+     * Game state
+     */
     enum State {
         RESET,
         SELECT_QUESTION,

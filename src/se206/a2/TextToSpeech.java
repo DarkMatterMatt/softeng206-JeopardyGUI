@@ -3,12 +3,16 @@ package se206.a2;
 import java.io.IOException;
 import java.io.Serializable;
 
+/**
+ * Enables text-to-speech using multiple providers
+ */
 public class TextToSpeech implements Serializable {
     private static TextToSpeech _instance;
     private Command _command;
     private boolean _muted = false;
 
     private TextToSpeech() {
+        // start looking for installed TTS providers in the background
         new Thread(this::getCommand).start();
     }
 
@@ -28,6 +32,10 @@ public class TextToSpeech implements Serializable {
         }
     }
 
+    /**
+     * Check if various TTS providers are installed
+     * @return an installed TTS provider, or Command.NO_COMMAND_EXISTS
+     */
     private Command getCommand() {
         synchronized (this) {
             if (_command == null) {
@@ -73,6 +81,9 @@ public class TextToSpeech implements Serializable {
         _muted = muted;
     }
 
+    /**
+     * Speak text using the installed TTS provider
+     */
     public void speak(String text) {
         if (_muted) {
             return;
@@ -83,10 +94,10 @@ public class TextToSpeech implements Serializable {
                 executeInBackground("espeak", text);
                 break;
             case FESTIVAL:
-                System.out.println("Festival detected.");
+                //System.out.println("Festival detected.");
                 break;
             case NO_COMMAND_EXISTS:
-                System.out.println("No supported TTS providers found.");
+                //System.out.println("No supported TTS providers found.");
                 break;
             default:
                 System.out.println("Programming error. Missing command implementation.");

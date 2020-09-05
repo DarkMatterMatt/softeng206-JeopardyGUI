@@ -9,17 +9,22 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * View for input field for answer screen
+ */
 public class AnswerInputView {
     private final HBox _container = new HBox();
 
     public AnswerInputView(GameModel model) {
         _container.getStyleClass().add("input-container");
 
+        // user input
         TextField answerInput = new TextField();
         answerInput.addEventFilter(ContextMenuEvent.CONTEXT_MENU_REQUESTED, Event::consume);
         answerInput.setOnAction(e -> model.answerQuestion(answerInput.getText()));
         HBox.setHgrow(answerInput, Priority.ALWAYS);
 
+        // submit button
         ImageView submit = new ImageView(new Image(getClass().getResourceAsStream("assets/submit.png")));
         submit.setFitWidth(32);
         submit.setPreserveRatio(true);
@@ -27,6 +32,7 @@ public class AnswerInputView {
         submit.setCache(true);
         submit.getStyleClass().addAll("submit");
 
+        // square background for submit button
         VBox submitContainer = new VBox(submit);
         submitContainer.setOnMouseClicked(e -> model.answerQuestion(answerInput.getText()));
         submitContainer.getStyleClass().addAll("submit-container", "btn");
