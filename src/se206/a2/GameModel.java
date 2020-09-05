@@ -163,8 +163,15 @@ public class GameModel implements Serializable, IGameComplete {
                 _categories = old._categories;
                 _currentQuestion.set(old._currentQuestion.get());
                 _score.set(old._score.get());
-                _state.set(old._state.get());
                 _textToSpeech = old._textToSpeech;
+
+                // don't restore dino-game state
+                if (old._state.get() == State.GAME_OVER) {
+                    reset();
+                }
+                else {
+                    _state.set(old._state.get());
+                }
                 return;
             }
         }
