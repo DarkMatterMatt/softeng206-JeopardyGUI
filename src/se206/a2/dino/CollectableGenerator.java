@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 public class CollectableGenerator {
     private static final double CREDITS_SIZE = 50;
-    private static final double SPAWN_SPEED = 0.5;
+    private static final double SPAWN_SPEED = 0.1;
     public final ArrayList<Collectable> _collectables = new ArrayList<>();
     private final DinoModel _model;
     private int _creditsCollected;
-    private double _nextSpawn = 5;
+    private double _nextSpawn = 20;
     private double _time = 0;
 
     public CollectableGenerator(DinoModel model) {

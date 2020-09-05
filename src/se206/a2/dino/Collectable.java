@@ -21,7 +21,8 @@ public class Collectable extends GameObject {
     public Collectable(Shape bounds, Node view) {
         super(bounds, view);
         getView().setViewOrder(-30);
-        setX(1500);
+        setMovesWithGround(false);
+        setX(5000);
     }
 
     public boolean hasCollided() {
@@ -43,35 +44,44 @@ public class Collectable extends GameObject {
         double x = getX();
         double y = getY();
         double width = getWidth();
+        double containerWidth = getContainerWidth();
         double speedX = getSpeedX();
         double speedY = getSpeedY();
 
         _time += secs;
 
-        // fly in a sine wave pattern
         if (_hasCollided) {
+            // fly towards final position
             _finalY = getContainerHeight() - 70;
 
+            // fly towards finalX & snap into place
             if (_posXLocked || (speedX < 0 && x < _finalX) || (speedX > 0 && x > _finalX)) {
                 _posXLocked = true;
                 setX(_finalX);
                 setSpeedX(runningSpeed);
             }
             else {
-                setSpeedX(DinoHelper.clamp(2 * (_finalX - x), -300, 300));
+                setSpeedX(DinoHelper.clamp(2 * (_finalX - x), -1000, 1000));
             }
 
+            // fly towards finalY & snap into place
             if (_posYLocked || (speedY < 0 && y < _finalY) || (speedY > 0 && y > _finalY)) {
                 _posYLocked = true;
                 setY(_finalY);
                 setSpeedY(0);
             }
             else {
-                setSpeedY(DinoHelper.clamp(5 * (_finalY - y), -300, 300));
+                setSpeedY(DinoHelper.clamp(5 * (_finalY - y), -1000, 1000));
             }
         }
         else {
+            // fly in a sine wave pattern
             setY(POS_Y + WAVE_AMPLITUDE * Math.sin(WAVE_FREQ * _time));
+
+            if (x > containerWidth) {
+                setX(containerWidth);
+            }
+            setSpeedX(-0.9 * runningSpeed);
         }
 
         // trigger event when we leave the screen

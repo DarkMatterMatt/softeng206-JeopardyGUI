@@ -54,9 +54,9 @@ public class DinoModel {
                 //.setCurve(new Bezier.Cubic(0.5, 0.8, 1.0, 0.5)) // buggy bezier curve implementation
                 .setEntryDuration(4);
         InfoObject avoid = GameObjectFactory.createInfoObject(GameObjectFactory.Type.INFO_AVOID_OBSTACLES, 0, 35)
-                .setEntryStart(8);
+                .setEntryStart(6);
         InfoObject collect = GameObjectFactory.createInfoObject(GameObjectFactory.Type.INFO_COLLECT_ITEMS, 0, 35)
-                .setEntryStart(11);
+                .setEntryStart(8.5);
 
         _gameObjects.addAll(controls, avoid, collect);
     }

@@ -15,7 +15,7 @@ public class Obstacle extends GameObject {
     public Obstacle(Shape bounds, Node view) {
         super(bounds, view);
         getView().setViewOrder(-20);
-        setX(1500);
+        setX(5000);
     }
 
     public boolean hasCollided() {
@@ -38,5 +38,15 @@ public class Obstacle extends GameObject {
         collisionAnimation.setOnFinished(event -> setX(-1500));
         collisionAnimation.setCycleCount(NUM_FLASHES * 2);
         collisionAnimation.play();
+    }
+
+    @Override
+    protected void onTick(double secs, double runningSpeed) {
+        super.onTick(secs, runningSpeed);
+
+        // move to edge of container screen
+        if (getX() > getContainerWidth()) {
+            setX(getContainerWidth());
+        }
     }
 }

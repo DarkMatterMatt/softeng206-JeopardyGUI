@@ -19,7 +19,7 @@ public class InfoObject extends GameObject {
     protected InfoObject(Shape bounds, Node image) {
         super(bounds, image);
         getView().setViewOrder(-40);
-        setX(1500);
+        setX(5000);
         setY(140);
         setMovesWithGround(false);
     }
@@ -33,6 +33,11 @@ public class InfoObject extends GameObject {
         double completion = (_gameTime - _entryStart) / _entryDuration;
         if (completion <= 0) {
             return;
+        }
+
+        // move to edge of container screen
+        if (getX() > getContainerWidth()) {
+            setX(getContainerWidth());
         }
 
         double containerWidth = getContainerWidth();

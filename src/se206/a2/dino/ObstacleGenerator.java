@@ -2,7 +2,7 @@ package se206.a2.dino;
 
 public class ObstacleGenerator {
     private double _lastUpdate = 0;
-    private double _nextSpawn = 0;
+    private double _nextSpawn = 10;
     private double _spawnSpeed = 0.5;
     private double _obstacleSpeed = 400;
     private static final double MAX_SPEED = 1000;
@@ -18,7 +18,6 @@ public class ObstacleGenerator {
         }
         _nextSpawn = _lastUpdate + 1 / (_spawnSpeed * (1 + 0.5 * Math.random()));
         Obstacle o = getRandomObstacle(60 * (1 + 0.5 * Math.random()));
-        o.setX(2500);
         o.setY(5);
         if (_obstacleSpeed < MAX_SPEED) _obstacleSpeed += 20;
         if (_spawnSpeed < MAX_SPAWN_SPEED) _spawnSpeed += 1.0 / 80;
