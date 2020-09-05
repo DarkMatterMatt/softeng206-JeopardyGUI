@@ -62,6 +62,9 @@ public class IncorrectView {
      * Progress bar fills linearly over a fixed duration, TIMEOUT_SECS
      */
     private void startAnimation() {
+        // only start animation when we are the active view
+        if (_model.getState() != GameModel.State.INCORRECT_ANSWER) return;
+
         AnimationTimer timer = new AnimationTimer() {
             private long startTime;
 
