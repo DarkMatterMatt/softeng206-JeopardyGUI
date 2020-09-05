@@ -20,6 +20,10 @@ public class TaskbarView {
         exit.setPreserveRatio(true);
         exit.setSmooth(true);
         exit.setCache(true);
+        exit.setPickOnBounds(true);
+        exit.setOnMouseClicked(e -> Platform.exit());
+        exit.getStyleClass().add("btn");
+        Tooltip.install(exit, new Tooltip("Quit"));
 
         // reset button view
         ImageView reset = new ImageView(new Image(getClass().getResourceAsStream("assets/reset.png")));
@@ -27,6 +31,10 @@ public class TaskbarView {
         reset.setPreserveRatio(true);
         reset.setSmooth(true);
         reset.setCache(true);
+        reset.setPickOnBounds(true);
+        reset.setOnMouseClicked(e -> model.reset());
+        reset.getStyleClass().add("btn");
+        Tooltip.install(reset, new Tooltip("Reset game"));
 
         // volume mute/unmute image
         Image volumeImage = new Image(getClass().getResourceAsStream("assets/volume.png"));
@@ -40,40 +48,28 @@ public class TaskbarView {
         volume.setPreserveRatio(true);
         volume.setSmooth(true);
         volume.setCache(true);
-
-        // add background panes for each button so it detects clicks on the transparent areas
-        Pane exitContainer = new Pane(exit);
-        exitContainer.setOnMouseClicked(e -> Platform.exit());
-        exitContainer.getStyleClass().add("btn");
-        Tooltip.install(exitContainer, new Tooltip("Quit"));
-
-        Pane resetContainer = new Pane(reset);
-        resetContainer.setOnMouseClicked(e -> model.reset());
-        resetContainer.getStyleClass().add("btn");
-        Tooltip.install(resetContainer, new Tooltip("Reset game"));
-
-        Pane volumeContainer = new Pane(volume);
-        volumeContainer.setOnMouseClicked(e -> model.reset());
-        volumeContainer.getStyleClass().add("btn");
-        Tooltip.install(volumeContainer, model.isSoundEnabled() ? volumeMuteTooltip : volumeTooltip);
+        volume.setPickOnBounds(true);
+        volume.setOnMouseClicked(e -> model.reset());
+        volume.getStyleClass().add("btn");
+        Tooltip.install(volume, model.isSoundEnabled() ? volumeMuteTooltip : volumeTooltip);
 
         _container.getStyleClass().add("taskbar");
-        _container.getChildren().addAll(volumeContainer, resetContainer, exitContainer);
+        _container.getChildren().addAll(volume, reset, exit);
 
         // toggle mute/unmute icons
-        volumeContainer.setOnMouseClicked(e -> {
+        volume.setOnMouseClicked(e -> {
             if (volume.getImage().equals(volumeImage)) {
                 // sound was enabled, muting sound
                 volume.setImage(volumeMuteImage);
-                Tooltip.uninstall(volumeContainer, volumeMuteTooltip);
-                Tooltip.install(volumeContainer, volumeTooltip);
+                Tooltip.uninstall(volume, volumeMuteTooltip);
+                Tooltip.install(volume, volumeTooltip);
                 model.disableSound();
             }
             else {
                 // sound was muted, enabling sound
                 volume.setImage(volumeImage);
-                Tooltip.uninstall(volumeContainer, volumeTooltip);
-                Tooltip.install(volumeContainer, volumeMuteTooltip);
+                Tooltip.uninstall(volume, volumeTooltip);
+                Tooltip.install(volume, volumeMuteTooltip);
                 model.enableSound();
             }
         });
