@@ -1,5 +1,8 @@
 package se206.a2.dino;
 
+/**
+ * Generates obstacles to be added to the game
+ */
 public class ObstacleGenerator {
     private double _lastUpdate = 0;
     private double _nextSpawn = 10;
@@ -11,6 +14,9 @@ public class ObstacleGenerator {
     public ObstacleGenerator() {
     }
 
+    /**
+     * @return a new obstacle if one is due to spawn, or null
+     */
     public Obstacle spawnObstacle(double secs, double runningSpeed) {
         _lastUpdate += secs;
         if (_lastUpdate < _nextSpawn) {
@@ -24,7 +30,7 @@ public class ObstacleGenerator {
         return o;
     }
 
-    public Obstacle getRandomObstacle(double height) {
+    private Obstacle getRandomObstacle(double height) {
         switch ((int) (Math.random() * 2)) {
             case 0:
                 return GameObjectFactory.createObstacle(GameObjectFactory.Type.FIRE, 0, height);

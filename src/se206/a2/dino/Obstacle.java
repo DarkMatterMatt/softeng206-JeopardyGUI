@@ -7,6 +7,9 @@ import javafx.util.Duration;
 
 import java.awt.*;
 
+/**
+ * A game object which is attached to the ground and will kill with the player
+ */
 public class Obstacle extends GameObject {
     private static final int FLASH_DURATION_MS = 70;
     private static final int NUM_FLASHES = 3;
@@ -22,6 +25,9 @@ public class Obstacle extends GameObject {
         return _hasCollided;
     }
 
+    /**
+     * Called when this object collides with another
+     */
     @Override
     protected void onCollision(GameObject other) {
         super.onCollision(other);
@@ -40,6 +46,9 @@ public class Obstacle extends GameObject {
         collisionAnimation.play();
     }
 
+    /**
+     * Called on every tick (~60Hz)
+     */
     @Override
     protected void onTick(double secs, double runningSpeed) {
         super.onTick(secs, runningSpeed);

@@ -7,6 +7,9 @@ import javafx.util.Pair;
 
 import java.awt.*;
 
+/**
+ * The main player game object, listens for (and acts on) keyboard events
+ */
 public class Player extends GameObject {
     private static final double GRAVITY = 4800;
     private static final double GROUND_HEIGHT = 8;
@@ -73,6 +76,9 @@ public class Player extends GameObject {
         }
     }
 
+    /**
+     * Called on every tick (~60Hz)
+     */
     protected void onTick(double secs, double runningSpeed) {
         double x = getX();
         double y = getY();

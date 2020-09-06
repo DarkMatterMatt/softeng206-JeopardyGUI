@@ -12,6 +12,9 @@ import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Main logic for dino-game
+ */
 public class DinoModel {
     private static final double BASE_RUNNING_SPEED = 600;
     private static final double MAX_RUNNING_SPEED = 2 * BASE_RUNNING_SPEED;
@@ -48,6 +51,9 @@ public class DinoModel {
         _onComplete = onComplete;
     }
 
+    /**
+     * Add instructional objects that fly past when the game starts
+     */
     private void addInfoObjects() {
         InfoObject controls = GameObjectFactory.createInfoObject(GameObjectFactory.Type.INFO_CONTROLS, 0, 120)
                 .setEntryStart(2)
@@ -94,6 +100,10 @@ public class DinoModel {
         return _isRunning;
     }
 
+    /**
+     * Called on the first tick of the game running
+     * We don't add game objects before this because the scene will resize to contain them
+     */
     private void onFirstTick() {
         // reset
         _gameObjects.clear();
@@ -113,6 +123,9 @@ public class DinoModel {
         _keyDownTracker.onKeyRelease(ev);
     }
 
+    /**
+     * Start the game
+     */
     public void startGame() {
         // reset
         _gameTime = 0;
@@ -123,17 +136,24 @@ public class DinoModel {
         _isRunning = true;
     }
 
+    /**
+     * Stop the game
+     */
     public void stopGame() {
         _isRunning = false;
         _gameTimer.stop();
         _gameObjects.clear();
     }
 
+    /**
+     * Called on every tick (~60Hz)
+     */
     public void tick(double secs) {
         if (_gameTime == 0) onFirstTick();
 
         _gameTime += secs;
         if (_runningSpeed < MAX_RUNNING_SPEED) {
+            // running is multiplied by 1.1^k. k increments every 10 seconds
             _runningSpeed = BASE_RUNNING_SPEED * Math.pow(1.1, (int) (_gameTime / 10));
         }
 

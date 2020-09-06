@@ -5,6 +5,9 @@ import javafx.scene.Node;
 import java.awt.*;
 import java.util.function.Consumer;
 
+/**
+ * Collectables fly to a fixed position when hit
+ */
 public class Collectable extends GameObject {
     private static final double POS_Y = 140;
     private static final double WAVE_AMPLITUDE = 100;
@@ -94,10 +97,16 @@ public class Collectable extends GameObject {
         _finalX = finalX;
     }
 
+    /**
+     * Set function to be called when the collectable is collided with the first time
+     */
     public void setOnCollected(Consumer<Collectable> onCollectableCollected) {
         _onCollected = onCollectableCollected;
     }
 
+    /**
+     * Set function to be called when the collectable leaves the screen without being collected
+     */
     public void setOnMissed(Consumer<Collectable> onCollectableMissed) {
         _onMissed = onCollectableMissed;
     }

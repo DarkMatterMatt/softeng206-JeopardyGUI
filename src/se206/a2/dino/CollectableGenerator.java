@@ -5,6 +5,9 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
+/**
+ * Generates collectables to be added to the game
+ */
 public class CollectableGenerator {
     private static final double CREDITS_SIZE = 50;
     private static final double SPAWN_SPEED = 0.1;
@@ -19,19 +22,14 @@ public class CollectableGenerator {
         reset();
     }
 
-    public void reset() {
-        _collectables.clear();
-        _creditsCollected = 0;
-        addCredits();
-    }
-
     public void addCollectable(Collectable c) {
         _collectables.add(c);
     }
 
+    /**
+     * Adds 'Matt M' collectables
+     */
     private void addCredits() {
-        // adds 'Matt M' collectables
-
         Collectable c;
 
         c = GameObjectFactory.createCollectable(GameObjectFactory.Type.CREDITS_M1, 0, CREDITS_SIZE * 1.24);
@@ -71,15 +69,24 @@ public class CollectableGenerator {
         return _collectables.remove(0);
     }
 
-    public void onCreditCollected(Collectable c) {
+    private void onCreditCollected(Collectable c) {
         if (++_creditsCollected == 5) {
-            // we've collected the entire 'Matt M', wait one second for the last collectable to move into place
+            // we've collected the entire 'Matt M', wait a sec for last collectable to move into place, then finish
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(event -> _model.beginFinishGame());
             pause.play();
         }
     }
 
+    public void reset() {
+        _collectables.clear();
+        _creditsCollected = 0;
+        addCredits();
+    }
+
+    /**
+     * @return a new collectable if one is due to spawn, or null
+     */
     public Collectable spawn(double secs, double runningSpeed) {
         _time += secs;
         if (_time < _nextSpawn) {

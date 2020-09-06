@@ -6,6 +6,9 @@ import java.awt.geom.Point2D;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test suite for Bezier. Currently not comprehensive
+ */
 public class BezierTest {
     Bezier.Cubic cubic1 = new Bezier.Cubic(0.17, 0.67, 0.83, 0.67);
 

@@ -8,25 +8,56 @@ import javafx.util.Pair;
 
 import java.awt.*;
 
+/**
+ * Creates various types of GameObjects, including the Player and Obstacles
+ */
 public class GameObjectFactory {
     private GameObjectFactory() {
     }
 
+    /**
+     * Create a collectable
+     *
+     * @param type   image type (e.g. pig, fire)
+     * @param width  maximum width of collectable
+     * @param height maximum height of collectable
+     */
     public static Collectable createCollectable(Type type, double width, double height) {
         Pair<Shape, Node> p = getViewAndBounds(type, width, height);
         return new Collectable(p.getKey(), p.getValue());
     }
 
-    public static Obstacle createObstacle(Type type, double width, double height) {
-        Pair<Shape, Node> p = getViewAndBounds(type, width, height);
-        return new Obstacle(p.getKey(), p.getValue());
-    }
-
+    /**
+     * Create an info object
+     *
+     * @param type   image type (e.g. pig, fire)
+     * @param width  maximum width of info object
+     * @param height maximum height of info object
+     */
     public static InfoObject createInfoObject(Type type, double width, double height) {
         Pair<Shape, Node> p = getViewAndBounds(type, width, height);
         return new InfoObject(p.getKey(), p.getValue());
     }
 
+    /**
+     * Create an obstacle
+     *
+     * @param type   image type (e.g. pig, fire)
+     * @param width  maximum width of obstacle
+     * @param height maximum height of obstacle
+     */
+    public static Obstacle createObstacle(Type type, double width, double height) {
+        Pair<Shape, Node> p = getViewAndBounds(type, width, height);
+        return new Obstacle(p.getKey(), p.getValue());
+    }
+
+    /**
+     * Creates a scaled collision box and image for an object type
+     *
+     * @param type   image type (e.g. pig, fire)
+     * @param width  maximum width of view & bounds. set to zero to match height scale
+     * @param height maximum height of view & bounds. set to zero to match width scale
+     */
     public static Pair<Shape, Node> getViewAndBounds(Type type, double width, double height) {
         if (width <= 0 && height <= 0) {
             throw new IllegalArgumentException("One of width and height must be positive. Only one can be automatic at a time");
@@ -154,6 +185,7 @@ public class GameObjectFactory {
         Polygon poly = new Polygon(DinoHelper.roundArray(polyX), DinoHelper.roundArray(polyY), polyX.length);
 
         if (imageFile != null) {
+            // create image view
             ImageView view = new ImageView(new Image(GameObjectFactory.class.getResourceAsStream(imageFile)));
             view.setPreserveRatio(true);
             view.setSmooth(true);
@@ -165,6 +197,7 @@ public class GameObjectFactory {
             return new Pair<>(poly, view);
         }
 
+        // image is a polygon shape
         javafx.scene.shape.Polygon poly2 = new javafx.scene.shape.Polygon(DinoHelper.zipArrays(polyX, polyY));
         return new Pair<>(poly, poly2);
     }

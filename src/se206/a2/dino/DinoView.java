@@ -9,6 +9,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+/**
+ * Adds views and tracks resizing for all GameObjects
+ */
 public class DinoView {
     private static final int FADE_OUT_MS = 2000;
     private final Pane _container = new Pane();

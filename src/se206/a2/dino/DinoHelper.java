@@ -8,6 +8,9 @@ public class DinoHelper {
     private DinoHelper() {
     }
 
+    /**
+     * @return max value in array
+     */
     /* package-private */
     static double arrayMax(double[] arr) {
         if (arr == null || arr.length == 0) {
@@ -22,6 +25,9 @@ public class DinoHelper {
         return max;
     }
 
+    /**
+     * @return min value in array
+     */
     /* package-private */
     static double arrayMin(double[] arr) {
         if (arr == null || arr.length == 0) {
@@ -36,6 +42,9 @@ public class DinoHelper {
         return min;
     }
 
+    /**
+     * @return copy of array with contents multiplied by a scale factor
+     */
     /* package-private */
     static double[] arrayScale(double[] arr, double scale) {
         if (arr == null) {
@@ -48,22 +57,9 @@ public class DinoHelper {
         return scaled;
     }
 
-    /* package-private */
-    static void invertY(Pane p) {
-        Scale scale = new Scale(1, -1);
-
-        scale.pivotYProperty().bind(
-                Bindings.createDoubleBinding(() -> p.getBoundsInLocal().getMinY() + p.getBoundsInLocal().getHeight() / 2,
-                        p.boundsInLocalProperty())
-        );
-        p.getTransforms().add(scale);
-    }
-
-    /* package-private */
-    static double metersPerSecToPixelsPerSec(double meters) {
-        return meters * 10;
-    }
-
+    /**
+     * @return copy of array with contents rounded to integers
+     */
     /* package-private */
     static int[] roundArray(double[] arr) {
         if (arr == null) {
@@ -76,6 +72,9 @@ public class DinoHelper {
         return rounded;
     }
 
+    /**
+     * @return an array containing an element from arr1, then arr2, then arr1, then arr2, ...
+     */
     /* package-private */
     static double[] zipArrays(double[] arr1, double[] arr2) {
         if (arr1 == null || arr2 == null) {
@@ -93,6 +92,9 @@ public class DinoHelper {
         return zipped;
     }
 
+    /**
+     * @return val, normalized into the range min <= val <= max
+     */
     /* package-private */
     static float clamp(float val, float min, float max) {
         return Math.max(min, Math.min(max, val));

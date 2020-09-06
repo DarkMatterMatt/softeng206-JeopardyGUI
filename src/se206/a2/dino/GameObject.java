@@ -27,6 +27,10 @@ public abstract class GameObject {
         _height = bounds.getBounds().getHeight();
     }
 
+    /**
+     * Checks for collisions between the two GameObjects, fire events on collision
+     * @return true if the two objects collide
+     */
     public final boolean collidesWith(GameObject obj) {
         if (_bounds == null || obj._bounds == null) {
             return false;
@@ -36,9 +40,11 @@ public abstract class GameObject {
         if (_x + _width < obj._x || obj._x + obj._width < _x) return false;
         if (_y + _height < obj._y || obj._y + obj._height < _y) return false;
 
+        // map bounds into the same x/y space
         AffineTransform transform = new AffineTransform();
         transform.translate(_x - obj._x, _y - obj._y);
 
+        // check if any area overlaps (if there is overlap then objects are colliding)
         Area area = new Area(_bounds);
         area.transform(transform);
         area.intersect(new Area(obj._bounds));
@@ -156,10 +162,16 @@ public abstract class GameObject {
     protected void onTick(double secs, double runningSpeed) {
     }
 
+    /**
+     * If true, then the object will move across the screen at the same speed as the ground
+     */
     public void setMovesWithGround(boolean movesWithGround) {
         _movesWithGround = movesWithGround;
     }
 
+    /**
+     * Called on every tick (~60Hz)
+     */
     public final void tick(double secs, double runningSpeed) {
         _x += secs * _speedX;
         _y += secs * _speedY;

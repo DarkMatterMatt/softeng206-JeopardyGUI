@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+/**
+ * Tracks key presses, durations
+ */
 public class KeyDownTracker {
     private static final KeyDownTracker _instance = new KeyDownTracker();
     private final HashMap<KeyCode, Long> _keyDownSince = new HashMap<>();
@@ -28,26 +31,24 @@ public class KeyDownTracker {
         if (!consumers.contains(consumer)) consumers.add(consumer);
     }
 
-    private void removeListener(HashMap<KeyCode, ArrayList<Consumer<KeyEvent>>> map, Consumer<KeyEvent> consumer, KeyCode key) {
-        ArrayList<Consumer<KeyEvent>> consumers = map.get(key);
-        if (consumers == null) return;
-        consumers.remove(consumer);
-    }
-
-    public void addPressListener(Consumer<KeyEvent> consumer, KeyCode ...keys) {
+    /**
+     * Add key press listener for one or more keys
+     *
+     * @param consumer the listener function to call
+     * @param keys     one or more keys to listen for
+     */
+    public void addPressListener(Consumer<KeyEvent> consumer, KeyCode... keys) {
         Arrays.stream(keys).forEach(k -> addListener(_pressConsumers, consumer, k));
     }
 
-    public void removePressListener(Consumer<KeyEvent> consumer, KeyCode ...keys) {
-        Arrays.stream(keys).forEach(k -> removeListener(_pressConsumers, consumer, k));
-    }
-
-    public void addReleaseListener(Consumer<KeyEvent> consumer, KeyCode ...keys) {
+    /**
+     * Add key release listener for one or more keys
+     *
+     * @param consumer the listener function to call
+     * @param keys     one or more keys to listen for
+     */
+    public void addReleaseListener(Consumer<KeyEvent> consumer, KeyCode... keys) {
         Arrays.stream(keys).forEach(k -> addListener(_releaseConsumers, consumer, k));
-    }
-
-    public void removeReleaseListener(Consumer<KeyEvent> consumer, KeyCode ...keys) {
-        Arrays.stream(keys).forEach(k -> removeListener(_releaseConsumers, consumer, k));
     }
 
     public boolean isKeyDown(KeyCode key) {
@@ -81,5 +82,31 @@ public class KeyDownTracker {
 
         consumers = _releaseConsumers.get(null);
         if (consumers != null) consumers.forEach(c -> c.accept(ev));
+    }
+
+    private void removeListener(HashMap<KeyCode, ArrayList<Consumer<KeyEvent>>> map, Consumer<KeyEvent> consumer, KeyCode key) {
+        ArrayList<Consumer<KeyEvent>> consumers = map.get(key);
+        if (consumers == null) return;
+        consumers.remove(consumer);
+    }
+
+    /**
+     * Remove key press listener for one or more keys
+     *
+     * @param consumer the listener function to call
+     * @param keys     one or more keys to listen for
+     */
+    public void removePressListener(Consumer<KeyEvent> consumer, KeyCode... keys) {
+        Arrays.stream(keys).forEach(k -> removeListener(_pressConsumers, consumer, k));
+    }
+
+    /**
+     * Remove key release listener for one or more keys
+     *
+     * @param consumer the listener function to call
+     * @param keys     one or more keys to listen for
+     */
+    public void removeReleaseListener(Consumer<KeyEvent> consumer, KeyCode... keys) {
+        Arrays.stream(keys).forEach(k -> removeListener(_releaseConsumers, consumer, k));
     }
 }

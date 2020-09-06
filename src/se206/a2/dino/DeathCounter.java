@@ -5,17 +5,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+/**
+ * View that displays the current number of deaths
+ */
 public class DeathCounter {
     private final HBox _container = new HBox();
     private final Label _deathsLabel = new Label();
 
     public DeathCounter(DinoModel model) {
+        // deaths icon
         ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("assets/skull.png")));
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
         imageView.setCache(true);
         imageView.setFitWidth(32);
 
+        // listen for changes to the death count
         updateDeaths(model.getDeaths());
         model.getDeathsProperty().addListener((obs, oldVal, newVal) -> updateDeaths(newVal.intValue()));
 
