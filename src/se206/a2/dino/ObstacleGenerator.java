@@ -23,7 +23,7 @@ public class ObstacleGenerator {
             return null;
         }
         _nextSpawn = _lastUpdate + 1 / (_spawnSpeed * (1 + 0.5 * Math.random()));
-        Obstacle o = getRandomObstacle(60 * (1 + 0.5 * Math.random()));
+        Obstacle o = getRandomObstacle(75 * (1 + 0.5 * Math.random()));
         o.setY(5);
         if (_obstacleSpeed < MAX_SPEED) _obstacleSpeed += 20;
         if (_spawnSpeed < MAX_SPAWN_SPEED) _spawnSpeed += 1.0 / 80;
@@ -33,9 +33,9 @@ public class ObstacleGenerator {
     private Obstacle getRandomObstacle(double height) {
         switch ((int) (Math.random() * 2)) {
             case 0:
-                return GameObjectFactory.createObstacle(GameObjectFactory.Type.FIRE, 0, height);
+                return GameObjectFactory.createObstacle(GameObjectFactory.Type.FIRE, 0, height * 1.2);
             case 1:
-                return GameObjectFactory.createObstacle(GameObjectFactory.Type.INVERTED_TEE, 0, height);
+                return GameObjectFactory.createObstacle(GameObjectFactory.Type.SPIKES, 0, height);
             default:
                 throw new IllegalStateException("Random int out of bounds");
         }

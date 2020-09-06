@@ -165,6 +165,12 @@ public class GameObjectFactory {
                         new javafx.scene.shape.Rectangle(width, height)
                 );
 
+            case SPIKES:
+                polyX = new double[]{103.3, 165.3, 377.8, 421.1, 0, 43.3, 67.8};
+                polyY = new double[]{0, 64, 40, 182, 182, 107, 149.4};
+                imageFile = "assets/spikes.png";
+                break;
+
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -217,6 +223,7 @@ public class GameObjectFactory {
         INVERTED_TEE,
         PIG,
         RECTANGLE,
+        SPIKES,
         TEE,
     }
 }
