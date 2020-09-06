@@ -79,7 +79,7 @@ public class GameModel implements Serializable, IGameComplete {
             throw new IllegalStateException("Previous state should be CORRECT_ANSWER or INCORRECT_ANSWER, found " + _state.get());
         }
         _currentQuestion.set(null);
-        _state.set(hasUnattemptedQuestions() ? State.SELECT_QUESTION : State.GAME_OVER);
+        _state.set(hasUnattemptedQuestions() ? State.SELECT_QUESTION : State.DINO_GAME);
         save();
     }
 
@@ -166,7 +166,7 @@ public class GameModel implements Serializable, IGameComplete {
                 _textToSpeech = old._textToSpeech;
 
                 // don't restore dino-game state
-                if (old._state.get() == State.GAME_OVER) {
+                if (old._state.get() == State.DINO_GAME) {
                     reset();
                 }
                 else {
@@ -187,7 +187,7 @@ public class GameModel implements Serializable, IGameComplete {
             case INCORRECT_ANSWER:
                 finishQuestion();
                 break;
-            case GAME_OVER:
+            case DINO_GAME:
                 _dinoModel.onKeyPress(ev);
                 break;
         }
@@ -198,7 +198,7 @@ public class GameModel implements Serializable, IGameComplete {
      */
     public void onKeyRelease(KeyEvent ev) {
         switch (getState()) {
-            case GAME_OVER:
+            case DINO_GAME:
                 _dinoModel.onKeyRelease(ev);
                 break;
         }
@@ -253,6 +253,6 @@ public class GameModel implements Serializable, IGameComplete {
         ANSWER_QUESTION,
         CORRECT_ANSWER,
         INCORRECT_ANSWER,
-        GAME_OVER,
+        DINO_GAME,
     }
 }

@@ -51,7 +51,7 @@ public class GameContentView {
     private void showCorrectView(GameModel.State currentState) {
         // stop dino game if it isn't being displayed
         DinoModel dinoModel = _model.getDinoModel();
-        if (currentState != GameModel.State.GAME_OVER && dinoModel.isRunning()) {
+        if (currentState != GameModel.State.DINO_GAME && dinoModel.isRunning()) {
             dinoModel.stopGame();
         }
 
@@ -68,7 +68,7 @@ public class GameContentView {
             case INCORRECT_ANSWER:
                 showView(_incorrectView.getView());
                 break;
-            case GAME_OVER:
+            case DINO_GAME:
                 showView(_dinoView.getView());
                 if (!dinoModel.isRunning()) {
                     dinoModel.startGame();
