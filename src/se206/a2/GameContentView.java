@@ -16,6 +16,7 @@ public class GameContentView {
     private final CorrectView _correctView;
     private final DinoView _dinoView;
     private final IncorrectView _incorrectView;
+    private final GameOverView _gameOverView;
     private final GameModel _model;
 
     public GameContentView(GameModel model) {
@@ -26,12 +27,14 @@ public class GameContentView {
         _answerView = new AnswerView(_model);
         _correctView = new CorrectView(_model);
         _incorrectView = new IncorrectView(_model);
+        _gameOverView = new GameOverView(_model);
         _dinoView = new DinoView(_model.getDinoModel());
         _container.getChildren().addAll(
                 _categoriesListView.getView(),
                 _answerView.getView(),
                 _correctView.getView(),
                 _incorrectView.getView(),
+                _gameOverView.getView(),
                 _dinoView.getView()
         );
         _container.getStyleClass().add("content");
@@ -67,6 +70,9 @@ public class GameContentView {
                 break;
             case INCORRECT_ANSWER:
                 showView(_incorrectView.getView());
+                break;
+            case GAME_OVER:
+                showView(_gameOverView.getView());
                 break;
             case DINO_GAME:
                 showView(_dinoView.getView());

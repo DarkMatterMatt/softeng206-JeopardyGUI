@@ -79,7 +79,7 @@ public class GameModel implements Serializable, IGameComplete {
             throw new IllegalStateException("Previous state should be CORRECT_ANSWER or INCORRECT_ANSWER, found " + _state.get());
         }
         _currentQuestion.set(null);
-        _state.set(hasUnattemptedQuestions() ? State.SELECT_QUESTION : State.DINO_GAME);
+        _state.set(hasUnattemptedQuestions() ? State.SELECT_QUESTION : State.GAME_OVER);
         save();
     }
 
@@ -113,6 +113,13 @@ public class GameModel implements Serializable, IGameComplete {
 
     public DinoModel getDinoModel() {
         return _dinoModel;
+    }
+
+    public void startDinoGame() {
+        if (_state.get() != State.GAME_OVER) {
+            throw new IllegalStateException("Previous state should be GAME_OVER, found " + _state.get());
+        }
+        _state.set(State.DINO_GAME);
     }
 
     /**
@@ -253,6 +260,7 @@ public class GameModel implements Serializable, IGameComplete {
         ANSWER_QUESTION,
         CORRECT_ANSWER,
         INCORRECT_ANSWER,
+        GAME_OVER,
         DINO_GAME,
     }
 }

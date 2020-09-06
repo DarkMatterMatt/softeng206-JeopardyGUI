@@ -151,7 +151,7 @@
     -fx-alignment: center;
 }
 
-.correct-view, .incorrect-view {
+.correct-view, .incorrect-view, .game-over-view {
     -fx-background-color: -c-grey-01;
     -fx-alignment: top-center;
     -fx-padding: 48;
@@ -187,4 +187,29 @@
 .correct-view .progress-bar, .incorrect-view .progress-bar {
     -fx-pref-height: 12;
     -fx-max-width: 480;
+}
+
+.game-over-view .title {
+    -fx-text-fill: -c-gold;
+    -fx-font-size: 48;
+    -fx-padding: 24;
+}
+
+.game-over-view .subtitle {
+    -fx-text-fill: -c-off-white;
+    -fx-font-size: 24;
+    -fx-padding: 0 12 36 12;
+}
+
+.game-over-view .btn-container {
+    -fx-alignment: center;
+    -fx-spacing: 16;
+}
+
+.game-over-view .btn-container .label {
+    -fx-background-color: -c-gold;
+    -fx-background-radius: 4;
+    -fx-padding: 8 16 8 16;
+    -fx-text-fill: -c-grey-03;
+    -fx-font-size: 24;
 }
